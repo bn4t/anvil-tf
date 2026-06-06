@@ -1,0 +1,13 @@
+# Tribute spawn pedestal: a polished blackstone slab with obsidian core,
+# magma-block corners, and a soul lantern beacon so pads read at night.
+component "spawn-pad" {
+  bounds 0 0 0 to 4 2 4
+  fill 0 0 0 to 4 0 4 minecraft:polished_blackstone
+  set 0 0 0 minecraft:magma_block
+  set 4 0 0 minecraft:magma_block
+  set 0 0 4 minecraft:magma_block
+  set 4 0 4 minecraft:magma_block
+  fill 1 1 1 to 3 1 3 minecraft:obsidian
+  set 2 1 2 minecraft:crying_obsidian
+  set 2 2 2 minecraft:soul_lantern[hanging=false,waterlogged=false]
+}

@@ -1,0 +1,35 @@
+version 4790
+version_name "26.1.2"
+min_y 0
+height 128
+spawn 0 67 25
+time 18000
+day_time 18000
+game_mode adventure
+difficulty normal
+allow_commands true
+game_rule doDaylightCycle false
+game_rule doWeatherCycle false
+game_rule doMobSpawning false
+game_rule doFireTick false
+game_rule keepInventory false
+game_rule fallDamage true
+game_rule fireDamage true
+default_biome minecraft:basalt_deltas
+weather {
+  raining false
+  rain_time 0
+  thundering false
+  thunder_time 0
+  clear_weather_time 0
+}
+world_border {
+  center 0.0 0.0
+  size 300.0
+  size_lerp_target 300.0
+  size_lerp_time 0
+  warning_blocks 6
+  warning_time 10
+  damage_buffer 2.0
+  damage_per_block 0.8
+}

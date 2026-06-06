@@ -1,0 +1,6 @@
+component "fountain-jet" {
+  bounds 0 0 0 to 2 2 2
+  hollow_cylinder 1 0 1 1 0 minecraft:polished_andesite minecraft:air
+  set 1 1 1 minecraft:water[level=0]
+  set 1 2 1 minecraft:sea_lantern
+}

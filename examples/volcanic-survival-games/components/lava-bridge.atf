@@ -1,0 +1,14 @@
+# Blackstone crossing over a lava channel. Place at ground level so the deck
+# sits flush with the ring road. Basalt rails and soul lanterns.
+component "lava-bridge" {
+  bounds 0 0 0 to 10 2 4
+  fill 0 0 1 to 10 0 3 minecraft:polished_blackstone
+  fill 0 1 0 to 10 1 0 minecraft:basalt
+  fill 0 1 4 to 10 1 4 minecraft:basalt
+  set 0 1 0 minecraft:blackstone
+  set 10 1 0 minecraft:blackstone
+  set 0 1 4 minecraft:blackstone
+  set 10 1 4 minecraft:blackstone
+  set 2 2 0 minecraft:soul_lantern[hanging=false,waterlogged=false]
+  set 8 2 4 minecraft:soul_lantern[hanging=false,waterlogged=false]
+}

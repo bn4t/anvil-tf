@@ -1,0 +1,31 @@
+# Half-collapsed blackstone forge: lit blast furnace, anvil, smithing table,
+# a barred lava pit, and gilded accents. Loot chests are placed beside it in
+# the arena group, not inside this component.
+component "ruined-forge" {
+  bounds 0 0 0 to 8 6 8
+  fill 0 0 0 to 8 0 8 minecraft:polished_blackstone
+  fill 0 1 0 to 0 4 8 minecraft:blackstone
+  fill 8 1 0 to 8 4 8 minecraft:blackstone
+  fill 0 1 0 to 8 4 0 minecraft:blackstone
+  fill 1 1 8 to 7 3 8 minecraft:blackstone
+  # battle damage
+  fill 0 3 3 to 0 4 5 minecraft:air
+  fill 3 3 0 to 5 4 0 minecraft:air
+  set 8 4 6 minecraft:air
+  set 8 4 2 minecraft:air
+  # partial collapsed roof
+  fill 0 5 0 to 8 5 3 minecraft:cracked_polished_blackstone_bricks
+  set 4 5 4 minecraft:gilded_blackstone
+  # work stations
+  set 2 1 2 minecraft:blast_furnace[facing=south,lit=true]
+  set 4 1 2 minecraft:smithing_table
+  set 6 1 2 minecraft:anvil[facing=west]
+  set 6 1 5 minecraft:barrel[facing=up,open=false]
+  # barred lava pit
+  fill 5 1 6 to 7 1 7 minecraft:lava[level=0]
+  fill 5 0 6 to 7 0 7 minecraft:magma_block
+  fill 4 1 6 to 4 3 7 minecraft:iron_bars
+  # gilded accents
+  set 1 1 1 minecraft:gilded_blackstone
+  set 7 1 1 minecraft:gilded_blackstone
+}

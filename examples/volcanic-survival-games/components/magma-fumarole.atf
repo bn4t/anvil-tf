@@ -1,0 +1,12 @@
+# Small ground vent: an obsidian basin with a magma ring around a single
+# contained lava source so it glows without flooding the arena.
+component "magma-fumarole" {
+  bounds 0 0 0 to 4 2 4
+  fill 0 0 0 to 4 0 4 minecraft:obsidian
+  fill 1 1 1 to 3 1 3 minecraft:magma_block
+  set 2 1 2 minecraft:lava[level=0]
+  set 0 0 2 minecraft:basalt
+  set 4 0 2 minecraft:basalt
+  set 2 0 0 minecraft:basalt
+  set 2 0 4 minecraft:basalt
+}

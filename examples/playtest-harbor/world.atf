@@ -1,0 +1,8 @@
+world "ATF Playtest Harbor" {
+  include "meta.atf"
+  include "components/harbor-lamp.atf"
+  include "components/lighthouse.atf"
+  include "components/market-awning.atf"
+  include "components/sail-marker.atf"
+  include "groups/harbor-front.atf"
+}

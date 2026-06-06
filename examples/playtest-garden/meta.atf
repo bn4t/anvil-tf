@@ -1,0 +1,11 @@
+version 4790
+min_y 0
+height 96
+spawn 0 19 0
+time 6000
+day_time 6000
+game_mode creative
+difficulty peaceful
+allow_commands true
+game_rule doMobSpawning false
+default_biome minecraft:meadow

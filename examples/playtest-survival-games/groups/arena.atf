@@ -1,0 +1,272 @@
+group "survival games arena" {
+  origin -192 0 -192
+  bounds 0 0 0 to 384 112 384
+
+  block path = minecraft:dirt_path
+  block curb = minecraft:stone_bricks
+  block water = minecraft:water[level=0]
+  let ground_y = 64
+  let floor_y = $ground_y+1
+  let loot_y = $floor_y+1
+  let quarry_mid_y = $floor_y+1
+  let quarry_top_y = $ground_y+3
+  let quarry_loot_y = $quarry_top_y+1
+
+  block_palette path_mix {
+    block minecraft:dirt_path weight 10
+    block minecraft:coarse_dirt weight 3
+    block minecraft:rooted_dirt weight 1
+    block minecraft:mossy_cobblestone weight 1
+  }
+
+  block_palette ruin_floor {
+    block minecraft:stone_bricks weight 8
+    block minecraft:mossy_stone_bricks weight 4
+    block minecraft:cracked_stone_bricks weight 2
+    block minecraft:cobblestone weight 1
+  }
+
+  block_palette quarry_mix {
+    block minecraft:stone weight 7
+    block minecraft:andesite weight 4
+    block minecraft:tuff weight 3
+    block minecraft:gravel weight 2
+    block minecraft:iron_ore weight 1
+  }
+
+  fill 0 0 0 to 384 0 384 minecraft:bedrock
+  fill 0 1 0 to 384 60 384 minecraft:stone
+  fill 0 61 0 to 384 63 384 minecraft:dirt
+  fill 0 $ground_y 0 to 384 $ground_y 384 minecraft:grass_block[snowy=false]
+
+  fill_biome 0 56 0 192 92 192 minecraft:plains
+  fill_biome 193 56 0 384 92 192 minecraft:stony_peaks
+  fill_biome 0 56 193 192 92 384 minecraft:swamp
+  fill_biome 193 56 193 384 92 384 minecraft:old_growth_pine_taiga
+  fill_biome 146 56 146 238 92 238 minecraft:meadow
+
+  surface_scatter 24 24 360 360 from $ground_y to 72 chance 1 11 seed 1501 step 5 {
+    choose seed 1502 {
+      weight 5 {
+        set 0 0 0 minecraft:short_grass
+      }
+      weight 3 {
+        set 0 0 0 minecraft:fern
+      }
+      weight 2 {
+        set 0 0 0 minecraft:poppy
+      }
+      weight 2 {
+        set 0 0 0 minecraft:dandelion
+      }
+      weight 1 {
+        set 0 0 0 minecraft:cornflower
+      }
+    }
+  }
+
+  fill 6 $floor_y 6 to 378 $floor_y 6 minecraft:spruce_fence
+  fill 6 $floor_y 378 to 378 $floor_y 378 minecraft:spruce_fence
+  fill 6 $floor_y 6 to 6 $floor_y 378 minecraft:spruce_fence
+  fill 378 $floor_y 6 to 378 $floor_y 378 minecraft:spruce_fence
+  place watchtower at 24 $floor_y 24
+  place watchtower at 352 $floor_y 24 rotate 90
+  place watchtower at 24 $floor_y 352 rotate 270
+  place watchtower at 352 $floor_y 352 rotate 180
+
+  fill_palette 56 $ground_y 188 328 $ground_y 196 path_mix seed 1001
+  fill_palette 188 $ground_y 56 196 $ground_y 328 path_mix seed 1002
+  fill_palette 96 $ground_y 96 288 $ground_y 102 path_mix seed 1010
+  fill_palette 96 $ground_y 282 288 $ground_y 288 path_mix seed 1011
+  fill_palette 96 $ground_y 96 102 $ground_y 288 path_mix seed 1012
+  fill_palette 282 $ground_y 96 288 $ground_y 288 path_mix seed 1013
+  fill_palette 72 $ground_y 120 160 $ground_y 126 path_mix seed 1020
+  fill_palette 226 $ground_y 112 308 $ground_y 118 path_mix seed 1021
+  fill_palette 76 $ground_y 258 156 $ground_y 264 path_mix seed 1022
+  fill_palette 230 $ground_y 268 318 $ground_y 274 path_mix seed 1023
+
+  cylinder 192 $ground_y 192 76 $ground_y minecraft:coarse_dirt
+  cylinder 192 $ground_y 192 68 $ground_y minecraft:smooth_stone
+  cylinder 192 $floor_y 192 48 $floor_y minecraft:polished_andesite
+  place cornucopia-frame at 178 $loot_y 178
+
+  place spawn-pedestal at 190 $floor_y 124
+  place spawn-pedestal at 190 $floor_y 256
+  place spawn-pedestal at 124 $floor_y 190
+  place spawn-pedestal at 256 $floor_y 190
+  place spawn-pedestal at 146 $floor_y 146
+  place spawn-pedestal at 234 $floor_y 146
+  place spawn-pedestal at 146 $floor_y 234
+  place spawn-pedestal at 234 $floor_y 234
+  place spawn-pedestal at 164 $floor_y 132
+  place spawn-pedestal at 216 $floor_y 132
+  place spawn-pedestal at 164 $floor_y 248
+  place spawn-pedestal at 216 $floor_y 248
+  place spawn-pedestal at 132 $floor_y 164
+  place spawn-pedestal at 132 $floor_y 216
+  place spawn-pedestal at 248 $floor_y 164
+  place spawn-pedestal at 248 $floor_y 216
+
+  set 192 $loot_y 154 minecraft:chest[facing=south,type=single,waterlogged=false]
+  block_entity 192 $loot_y 154 minecraft:chest {
+    string CustomName "Cornucopia North"
+    item Items slot 0 minecraft:iron_sword count 1
+    item Items slot 1 minecraft:bread count 8
+    item Items slot 2 minecraft:arrow count 12
+  }
+  set 192 $loot_y 230 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 192 $loot_y 230 minecraft:chest {
+    string CustomName "Cornucopia South"
+    item Items slot 0 minecraft:bow count 1
+    item Items slot 1 minecraft:cooked_beef count 6
+    item Items slot 2 minecraft:leather_chestplate count 1
+  }
+  set 154 $loot_y 192 minecraft:chest[facing=east,type=single,waterlogged=false]
+  block_entity 154 $loot_y 192 minecraft:chest {
+    string CustomName "Cornucopia West"
+    item Items slot 0 minecraft:stone_axe count 1
+    item Items slot 1 minecraft:apple count 6
+    item Items slot 2 minecraft:shield count 1
+  }
+  set 230 $loot_y 192 minecraft:chest[facing=west,type=single,waterlogged=false]
+  block_entity 230 $loot_y 192 minecraft:chest {
+    string CustomName "Cornucopia East"
+    item Items slot 0 minecraft:crossbow count 1
+    item Items slot 1 minecraft:arrow count 16
+    item Items slot 2 minecraft:chainmail_boots count 1
+  }
+
+  cylinder 104 $ground_y 104 66 $ground_y minecraft:coarse_dirt
+  cylinder 104 $ground_y 104 54 $ground_y minecraft:mossy_cobblestone
+  cylinder 104 $floor_y 104 42 $floor_y minecraft:stone_bricks
+  fill_palette 68 $floor_y 68 140 $floor_y 140 ruin_floor seed 1100
+  fill 66 $floor_y 68 to 70 69 122 minecraft:mossy_stone_bricks
+  fill 70 $floor_y 68 to 126 67 72 minecraft:cracked_stone_bricks
+  fill 126 $floor_y 86 to 130 67 128 minecraft:stone_bricks
+  fill 88 $floor_y 128 to 124 66 132 minecraft:mossy_stone_bricks
+  fill 78 66 78 to 96 70 80 minecraft:air
+  fill 110 66 68 to 122 69 72 minecraft:air
+  fill 126 66 104 to 130 69 120 minecraft:air
+  place ruined-arch at 72 $floor_y 80
+  place ruined-arch at 128 $floor_y 92 rotate 90
+  place market-stall at 86 $floor_y 92
+  place market-stall at 108 $floor_y 110 rotate 180
+  place well at 118 $floor_y 126
+  place supply-tent at 64 $floor_y 128
+  fill 64 $ground_y 150 to 142 $ground_y 174 minecraft:farmland[moisture=7]
+  fill 64 $floor_y 150 to 142 $floor_y 174 minecraft:wheat[age=7]
+  fill 100 $ground_y 160 to 108 $ground_y 164 $water
+  fill 62 $floor_y 148 to 144 $floor_y 148 minecraft:oak_fence
+  fill 62 $floor_y 176 to 144 $floor_y 176 minecraft:oak_fence
+  fill 62 $floor_y 148 to 62 $floor_y 176 minecraft:oak_fence
+  fill 144 $floor_y 148 to 144 $floor_y 176 minecraft:oak_fence
+  set 112 $loot_y 104 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 112 $loot_y 104 minecraft:chest {
+    string CustomName "Ruined Market Cache"
+    item Items slot 0 minecraft:stone_sword count 1
+    item Items slot 1 minecraft:torch count 16
+    item Items slot 2 minecraft:bread count 5
+  }
+
+  cylinder 292 $ground_y 104 72 $ground_y minecraft:stone
+  cylinder 292 $floor_y 104 56 $floor_y minecraft:gravel
+  cylinder 292 $quarry_mid_y 104 40 $quarry_mid_y minecraft:andesite
+  cylinder 292 $quarry_top_y 104 24 $quarry_top_y minecraft:tuff
+  fill_palette 254 $ground_y 78 330 $ground_y 132 quarry_mix seed 1200
+  fill_palette 268 $floor_y 86 320 $floor_y 126 quarry_mix seed 1201
+  fill 260 $floor_y 126 to 320 $floor_y 132 minecraft:spruce_planks
+  fill 260 $floor_y 126 to 260 $loot_y 132 minecraft:spruce_fence
+  fill 320 $floor_y 126 to 320 $loot_y 132 minecraft:spruce_fence
+  place timber-crane at 306 $quarry_loot_y 88
+  place watchtower at 246 $floor_y 70
+  place ruined-arch at 296 $quarry_loot_y 126 rotate 90
+  line 276 $quarry_top_y 88 320 $quarry_top_y 100 minecraft:iron_ore
+  line 262 $quarry_mid_y 122 318 $quarry_mid_y 122 minecraft:copper_ore
+  set 324 $quarry_loot_y 118 minecraft:chest[facing=west,type=single,waterlogged=false]
+  block_entity 324 $quarry_loot_y 118 minecraft:chest {
+    string CustomName "Quarry Cache"
+    item Items slot 0 minecraft:iron_pickaxe count 1
+    item Items slot 1 minecraft:cooked_mutton count 4
+    item Items slot 2 minecraft:chainmail_helmet count 1
+  }
+
+  cylinder 96 63 292 82 63 minecraft:clay
+  cylinder 96 $ground_y 292 76 $ground_y minecraft:mud
+  cylinder 96 $floor_y 292 58 $floor_y $water
+  fill 42 $floor_y 286 to 150 $floor_y 292 minecraft:mangrove_planks
+  fill 90 $floor_y 238 to 96 $floor_y 346 minecraft:mangrove_planks
+  fill 58 $floor_y 252 to 80 $floor_y 258 minecraft:mangrove_planks
+  fill 114 $floor_y 326 to 140 $floor_y 332 minecraft:mangrove_planks
+  place stone-bridge at 70 $ground_y 288
+  place stone-bridge at 120 $ground_y 260 rotate 90
+  place canopy-tree at 28 $floor_y 226
+  place canopy-tree at 148 $floor_y 230
+  place canopy-tree at 34 $floor_y 346
+  place canopy-tree at 150 $floor_y 344
+  place fallen-log at 52 $floor_y 224 rotate 90
+  place fallen-log at 132 $floor_y 318
+  set 58 $loot_y 270 minecraft:lily_pad
+  set 92 $loot_y 312 minecraft:lily_pad
+  set 136 $loot_y 292 minecraft:lily_pad
+  set 40 $floor_y 244 minecraft:sugar_cane[age=0]
+  set 41 $floor_y 246 minecraft:sugar_cane[age=0]
+  set 152 $floor_y 340 minecraft:sugar_cane[age=0]
+  set 153 $floor_y 338 minecraft:sugar_cane[age=0]
+  set 122 $loot_y 330 minecraft:chest[facing=west,type=single,waterlogged=false]
+  block_entity 122 $loot_y 330 minecraft:chest {
+    string CustomName "Marsh Boardwalk Cache"
+    item Items slot 0 minecraft:fishing_rod count 1
+    item Items slot 1 minecraft:cooked_cod count 5
+    item Items slot 2 minecraft:leather_leggings count 1
+  }
+
+  cylinder 292 $ground_y 292 82 $ground_y minecraft:podzol[snowy=false]
+  cylinder 292 $ground_y 292 58 $ground_y minecraft:grass_block[snowy=false]
+  fill_palette 230 $ground_y 266 338 $ground_y 272 path_mix seed 1301
+  fill_palette 266 $ground_y 230 272 $ground_y 338 path_mix seed 1302
+  place ranger-cabin at 276 $floor_y 306
+  place campfire-ring at 294 $floor_y 270
+  place supply-tent at 236 $floor_y 254 rotate 90
+  place supply-tent at 326 $floor_y 250 rotate 180
+  place pine-tree at 224 $floor_y 224
+  place pine-tree at 250 $floor_y 232
+  place pine-tree at 314 $floor_y 226
+  place pine-tree at 344 $floor_y 244
+  place pine-tree at 224 $floor_y 318
+  place pine-tree at 246 $floor_y 346
+  place pine-tree at 318 $floor_y 354
+  place pine-tree at 354 $floor_y 306
+  place pine-tree at 278 $floor_y 350
+  place fallen-log at 226 $floor_y 286
+  place fallen-log at 336 $floor_y 282 rotate 90
+  set 306 $floor_y 278 minecraft:chest[facing=south,type=single,waterlogged=false]
+  block_entity 306 $floor_y 278 minecraft:chest {
+    string CustomName "Forest Camp Cache"
+    item Items slot 0 minecraft:wooden_axe count 1
+    item Items slot 1 minecraft:bread count 4
+    item Items slot 2 minecraft:leather_boots count 1
+  }
+  set 286 $loot_y 318 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 286 $loot_y 318 minecraft:chest {
+    string CustomName "Cabin Cache"
+    item Items slot 0 minecraft:iron_sword count 1
+    item Items slot 1 minecraft:cooked_beef count 4
+    item Items slot 2 minecraft:shield count 1
+  }
+
+  cylinder 188 $ground_y 340 34 $ground_y minecraft:podzol[snowy=false]
+  place pine-tree at 172 $floor_y 322
+  place pine-tree at 204 $floor_y 326
+  place fallen-log at 180 $floor_y 348
+  place campfire-ring at 202 $floor_y 336
+  set 208 $floor_y 350 minecraft:chest[facing=west,type=single,waterlogged=false]
+  block_entity 208 $floor_y 350 minecraft:chest {
+    string CustomName "Outer Grove Cache"
+    item Items slot 0 minecraft:stone_sword count 1
+    item Items slot 1 minecraft:apple count 5
+    item Items slot 2 minecraft:leather_chestplate count 1
+  }
+
+  set 192 $floor_y 126 minecraft:oak_sign[rotation=0,waterlogged=false]
+  sign_text 192 $floor_y 126 front "Survival Games" "cleaner test arena" "4 routes" "less overlap"
+}

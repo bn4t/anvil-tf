@@ -1,0 +1,18 @@
+component "observatory-dome" {
+  bounds 0 0 0 to 30 28 30
+
+  fill 4 0 4 to 26 1 26 minecraft:polished_deepslate
+  hollow_cylinder 15 2 15 11 12 minecraft:deepslate_tiles minecraft:air
+  fill 6 2 6 to 24 2 24 minecraft:smooth_quartz
+  fill 9 13 9 to 21 13 21 minecraft:smooth_quartz
+  hollow_sphere 15 16 15 9 minecraft:tinted_glass minecraft:air
+  fill 13 15 5 to 17 18 25 minecraft:air
+  fill 14 16 3 to 16 17 5 minecraft:copper_block
+  line 15 17 3 15 23 0 minecraft:lightning_rod[facing=north,powered=false,waterlogged=false]
+
+  fill 14 2 4 to 16 5 4 minecraft:air
+  set 15 2 4 minecraft:oak_door[facing=south,half=lower,hinge=left,open=false,powered=false]
+  set 15 3 4 minecraft:oak_door[facing=south,half=upper,hinge=left,open=false,powered=false]
+  set 15 6 4 minecraft:oak_wall_sign[facing=south,waterlogged=false]
+  sign_text 15 6 4 front "ATF" "Observatory" "component" ""
+}

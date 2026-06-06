@@ -1,0 +1,14 @@
+component "supply-tent" {
+  bounds 0 0 0 to 10 6 8
+  fill 0 0 0 to 10 0 8 minecraft:spruce_planks
+  fill 0 1 0 to 0 4 0 minecraft:spruce_fence
+  fill 10 1 0 to 10 4 0 minecraft:spruce_fence
+  fill 0 1 8 to 0 4 8 minecraft:spruce_fence
+  fill 10 1 8 to 10 4 8 minecraft:spruce_fence
+  fill 0 5 0 to 10 5 8 minecraft:green_wool
+  fill 2 5 0 to 2 5 8 minecraft:white_wool
+  fill 5 6 0 to 5 6 8 minecraft:green_wool
+  fill 8 5 0 to 8 5 8 minecraft:white_wool
+  set 2 1 4 minecraft:barrel[facing=north,open=false]
+  set 8 1 4 minecraft:crafting_table
+}

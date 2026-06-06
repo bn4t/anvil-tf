@@ -1,0 +1,21 @@
+component "ranger-cabin" {
+  bounds 0 0 0 to 18 9 14
+  fill 0 0 0 to 18 0 14 minecraft:spruce_planks
+  hollow_box 0 1 0 18 5 14 minecraft:stripped_spruce_log[axis=y] minecraft:air
+  fill 1 1 1 to 17 4 13 minecraft:air
+  fill 1 1 0 to 7 4 0 minecraft:spruce_planks
+  fill 11 1 0 to 17 4 0 minecraft:spruce_planks
+  fill 0 1 1 to 0 4 13 minecraft:spruce_planks
+  fill 18 1 1 to 18 4 13 minecraft:spruce_planks
+  fill 1 1 14 to 17 4 14 minecraft:spruce_planks
+  door 9 1 0 south left closed minecraft:spruce_door
+  fill 3 2 0 to 5 3 0 minecraft:glass_pane
+  fill 13 2 0 to 15 3 0 minecraft:glass_pane
+  fill 0 2 5 to 0 3 7 minecraft:glass_pane
+  fill 18 2 5 to 18 3 7 minecraft:glass_pane
+  fill 0 6 0 to 18 6 14 minecraft:dark_oak_planks
+  fill 1 7 1 to 17 7 13 minecraft:dark_oak_slab[type=bottom,waterlogged=false]
+  fill 2 1 11 to 5 1 13 minecraft:barrel[facing=north,open=false]
+  set 9 1 10 minecraft:crafting_table
+  set 9 5 7 minecraft:lantern[hanging=true,waterlogged=false]
+}

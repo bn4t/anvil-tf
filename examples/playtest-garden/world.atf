@@ -1,0 +1,5 @@
+world "ATF Playtest Garden" {
+  include "meta.atf"
+  include "components/tree-marker.atf"
+  include "groups/terrain-garden.atf"
+}

@@ -1,0 +1,431 @@
+# Volcanic Island Survival Games — radial cornucopia arena.
+#
+# Local origin is -160 0 -160, so local (160,*,160) is world (0,*,0). The island
+# is a ~320x320 basalt plate ringed by a lava sea. A stepped crater cornucopia
+# sits dead centre with 16 spawn pads around it; four cardinal lava channels
+# radiate out as hazards, a square ring road loops the four diagonal zones, and
+# four crossings bridge the channels.
+group "volcanic island arena" {
+  origin -160 0 -160
+  bounds 0 0 0 to 320 96 320
+
+  block lava = minecraft:lava[level=0]
+  block road = minecraft:cobbled_deepslate
+
+  let ground_y = 64        # island surface
+  let floor_y  = $ground_y+1
+  let loot_y   = $floor_y+1
+  let rim_y    = $ground_y+6   # cornucopia disc top
+  let corn_y   = $rim_y+1      # cornucopia loot/walkway level
+
+  block_palette basalt_ground {
+    block minecraft:basalt weight 8
+    block minecraft:smooth_basalt weight 3
+    block minecraft:blackstone weight 3
+    block minecraft:gravel weight 2
+  }
+  block_palette ash_ground {
+    block minecraft:coarse_dirt weight 6
+    block minecraft:gravel weight 4
+    block minecraft:basalt weight 3
+    block minecraft:gray_concrete_powder weight 2
+    block minecraft:magma_block weight 1
+  }
+  block_palette forge_floor {
+    block minecraft:polished_blackstone weight 8
+    block minecraft:cracked_polished_blackstone_bricks weight 4
+    block minecraft:gilded_blackstone weight 2
+    block minecraft:blackstone weight 2
+  }
+  block_palette path_mix {
+    block minecraft:gravel weight 6
+    block minecraft:cobbled_deepslate weight 4
+    block minecraft:basalt weight 3
+    block minecraft:coarse_dirt weight 2
+  }
+
+  # --- substrate + island surface ---------------------------------------------
+  fill 0 0 0 to 320 0 320 minecraft:bedrock
+  fill 0 1 0 to 320 60 320 minecraft:deepslate
+  fill 0 61 0 to 320 63 320 minecraft:basalt
+  fill 0 $ground_y 0 to 320 $ground_y 320 minecraft:basalt
+  fill_palette 0 $ground_y 0 320 $ground_y 320 basalt_ground seed 2001
+
+  # --- lava-sea moat (20-wide death border, carved 4 deep) ---------------------
+  fill 0 60 0 to 320 60 20 minecraft:magma_block
+  fill 0 61 0 to 320 $ground_y 20 $lava
+  fill 0 60 300 to 320 60 320 minecraft:magma_block
+  fill 0 61 300 to 320 $ground_y 320 $lava
+  fill 0 60 0 to 20 60 320 minecraft:magma_block
+  fill 0 61 0 to 20 $ground_y 320 $lava
+  fill 300 60 0 to 320 60 320 minecraft:magma_block
+  fill 300 61 0 to 320 $ground_y 320 $lava
+
+  # --- biomes (centre + four diagonal zones) ----------------------------------
+  fill_biome 0 56 0 320 92 320 minecraft:basalt_deltas
+  fill_biome 0 56 0 158 92 158 minecraft:eroded_badlands
+  fill_biome 162 56 0 320 92 158 minecraft:windswept_gravelly_hills
+  fill_biome 0 56 162 158 92 320 minecraft:stony_peaks
+  fill_biome 162 56 162 320 92 320 minecraft:stony_shore
+
+  # --- central crater cornucopia ----------------------------------------------
+  # spawn plaza (raised one block over the island surface)
+  cylinder 160 $floor_y 160 40 $floor_y minecraft:polished_blackstone
+  # stepped cone: each ring rises one block, three-block tread = climbable
+  cylinder 160 $ground_y 160 22 $ground_y+1 minecraft:basalt
+  cylinder 160 $ground_y 160 19 $ground_y+2 minecraft:blackstone
+  cylinder 160 $ground_y 160 16 $ground_y+3 minecraft:polished_blackstone
+  cylinder 160 $ground_y 160 13 $ground_y+4 minecraft:blackstone
+  cylinder 160 $ground_y 160 10 $ground_y+5 minecraft:polished_blackstone
+  cylinder 160 $ground_y 160 7 $rim_y minecraft:obsidian
+  # bore the vent and raise a contained lava column to the rim
+  cylinder 160 $ground_y 160 3 $rim_y+3 minecraft:air
+  cylinder 160 1 160 3 $rim_y $lava
+  # rim spires at the four diagonals
+  place crater-spire at 156 $corn_y 156
+  place crater-spire at 162 $corn_y 156
+  place crater-spire at 156 $corn_y 162
+  place crater-spire at 162 $corn_y 162
+
+  # cornucopia loot (high tier), facing the vent
+  set 160 $corn_y 165 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 160 $corn_y 165 minecraft:chest {
+    string CustomName "Cornucopia — North Vent"
+    item Items slot 0 minecraft:iron_sword count 1
+    item Items slot 1 minecraft:golden_apple count 1
+    item Items slot 2 minecraft:ender_pearl count 2
+    item Items slot 3 minecraft:cooked_beef count 6
+    item Items slot 4 minecraft:obsidian count 4
+  }
+  set 160 $corn_y 155 minecraft:chest[facing=south,type=single,waterlogged=false]
+  block_entity 160 $corn_y 155 minecraft:chest {
+    string CustomName "Cornucopia — South Vent"
+    item Items slot 0 minecraft:bow count 1
+    item Items slot 1 minecraft:arrow count 16
+    item Items slot 2 minecraft:iron_chestplate count 1
+    item Items slot 3 minecraft:water_bucket count 1
+    item Items slot 4 minecraft:cooked_beef count 4
+  }
+  set 165 $corn_y 160 minecraft:chest[facing=west,type=single,waterlogged=false]
+  block_entity 165 $corn_y 160 minecraft:chest {
+    string CustomName "Cornucopia — East Vent"
+    item Items slot 0 minecraft:crossbow count 1
+    item Items slot 1 minecraft:arrow count 16
+    item Items slot 2 minecraft:iron_helmet count 1
+    item Items slot 3 minecraft:flint_and_steel count 1
+    item Items slot 4 minecraft:shield count 1
+  }
+  set 155 $corn_y 160 minecraft:chest[facing=east,type=single,waterlogged=false]
+  block_entity 155 $corn_y 160 minecraft:chest {
+    string CustomName "Cornucopia — West Vent"
+    item Items slot 0 minecraft:iron_axe count 1
+    item Items slot 1 minecraft:golden_apple count 1
+    item Items slot 2 minecraft:water_bucket count 1
+    item Items slot 3 minecraft:cobblestone count 16
+    item Items slot 4 minecraft:cooked_porkchop count 4
+  }
+
+  # --- 16 spawn pads ringing the plaza (radius ~30) ---------------------------
+  place spawn-pad at 188 $floor_y 158
+  place spawn-pad at 186 $floor_y 170
+  place spawn-pad at 179 $floor_y 179
+  place spawn-pad at 170 $floor_y 186
+  place spawn-pad at 158 $floor_y 188
+  place spawn-pad at 146 $floor_y 186
+  place spawn-pad at 137 $floor_y 179
+  place spawn-pad at 130 $floor_y 170
+  place spawn-pad at 128 $floor_y 158
+  place spawn-pad at 130 $floor_y 146
+  place spawn-pad at 137 $floor_y 137
+  place spawn-pad at 146 $floor_y 130
+  place spawn-pad at 158 $floor_y 128
+  place spawn-pad at 170 $floor_y 130
+  place spawn-pad at 179 $floor_y 137
+  place spawn-pad at 186 $floor_y 146
+
+  # welcome sign on the south plaza edge
+  set 160 $loot_y 121 minecraft:oak_sign[rotation=0,waterlogged=false]
+  sign_text 160 $loot_y 121 front "Volcanic Island" "Survival Games" "16 tributes" "mind the lava"
+
+  # --- four cardinal lava channels (hazard spokes) ----------------------------
+  # north (x=160, z 20..116)
+  fill 158 62 20 to 162 $ground_y 116 minecraft:obsidian
+  fill 159 61 20 to 161 61 116 minecraft:magma_block
+  fill 159 62 20 to 161 $ground_y 116 $lava
+  # south (x=160, z 204..300)
+  fill 158 62 204 to 162 $ground_y 300 minecraft:obsidian
+  fill 159 61 204 to 161 61 300 minecraft:magma_block
+  fill 159 62 204 to 161 $ground_y 300 $lava
+  # west (z=160, x 20..116)
+  fill 20 62 158 to 116 $ground_y 162 minecraft:obsidian
+  fill 20 61 159 to 116 61 161 minecraft:magma_block
+  fill 20 62 159 to 116 $ground_y 161 $lava
+  # east (z=160, x 204..300)
+  fill 204 62 158 to 300 $ground_y 162 minecraft:obsidian
+  fill 204 61 159 to 300 61 161 minecraft:magma_block
+  fill 204 62 159 to 300 $ground_y 161 $lava
+
+  # --- square ring road (radius 95 -> sides at 65 / 255) -----------------------
+  fill_palette 65 $ground_y 64 255 $ground_y 66 path_mix seed 1401
+  fill_palette 65 $ground_y 254 255 $ground_y 256 path_mix seed 1402
+  fill_palette 64 $ground_y 65 66 $ground_y 255 path_mix seed 1403
+  fill_palette 254 $ground_y 65 256 $ground_y 255 path_mix seed 1404
+
+  # --- channel crossings: solid culvert decks + bridges -----------------------
+  # north & south use the lava-bridge component (no rotation needed)
+  fill 158 $ground_y 63 to 162 $ground_y 67 minecraft:polished_blackstone
+  place lava-bridge at 155 $ground_y 63
+  fill 158 $ground_y 253 to 162 $ground_y 257 minecraft:polished_blackstone
+  place lava-bridge at 155 $ground_y 253
+  # west & east built inline along the z-running road
+  fill 63 $ground_y 158 to 67 $ground_y 162 minecraft:polished_blackstone
+  fill 63 $floor_y 157 to 63 $floor_y 163 minecraft:basalt
+  fill 67 $floor_y 157 to 67 $floor_y 163 minecraft:basalt
+  set 63 $loot_y 158 minecraft:soul_lantern[hanging=false,waterlogged=false]
+  set 67 $loot_y 162 minecraft:soul_lantern[hanging=false,waterlogged=false]
+  fill 253 $ground_y 158 to 257 $ground_y 162 minecraft:polished_blackstone
+  fill 253 $floor_y 157 to 253 $floor_y 163 minecraft:basalt
+  fill 257 $floor_y 157 to 257 $floor_y 163 minecraft:basalt
+  set 253 $loot_y 158 minecraft:soul_lantern[hanging=false,waterlogged=false]
+  set 257 $loot_y 162 minecraft:soul_lantern[hanging=false,waterlogged=false]
+
+  # --- diagonal approach paths (plaza edge -> each zone) -----------------------
+  line 134 $ground_y 134 80 $ground_y 80 $road
+  line 133 $ground_y 135 79 $ground_y 81 $road
+  line 135 $ground_y 133 81 $ground_y 79 $road
+  line 186 $ground_y 134 240 $ground_y 80 $road
+  line 185 $ground_y 135 239 $ground_y 81 $road
+  line 187 $ground_y 133 241 $ground_y 79 $road
+  line 134 $ground_y 186 80 $ground_y 240 $road
+  line 133 $ground_y 185 79 $ground_y 239 $road
+  line 135 $ground_y 187 81 $ground_y 241 $road
+  line 186 $ground_y 186 240 $ground_y 240 $road
+  line 185 $ground_y 185 239 $ground_y 239 $road
+  line 187 $ground_y 187 241 $ground_y 241 $road
+
+  # ===========================================================================
+  # ZONE A — Ashen Dead Forest (low x, low z)
+  # ===========================================================================
+  cylinder 80 $ground_y 80 26 $ground_y minecraft:coarse_dirt
+  fill_palette 56 $ground_y 56 104 $ground_y 104 ash_ground seed 1501
+  place obsidian-watchtower at 76 $floor_y 76
+  place charred-pine at 60 $floor_y 60
+  place charred-pine at 92 $floor_y 64
+  place charred-pine at 62 $floor_y 96
+  place charred-pine at 96 $floor_y 92
+  place charred-pine at 78 $floor_y 100
+  place charred-pine at 100 $floor_y 74
+  place magma-fumarole at 84 $floor_y 88
+  place obsidian-arch at 96 $floor_y 98
+  place supply-crate at 60 $floor_y 100
+  set 80 $floor_y 82 minecraft:chest[facing=south,type=single,waterlogged=false]
+  block_entity 80 $floor_y 82 minecraft:chest {
+    string CustomName "Ashwood Cache"
+    item Items slot 0 minecraft:stone_axe count 1
+    item Items slot 1 minecraft:leather_chestplate count 1
+    item Items slot 2 minecraft:bread count 4
+    item Items slot 3 minecraft:arrow count 8
+    item Items slot 4 minecraft:torch count 16
+  }
+  set 62 $floor_y 62 minecraft:chest[facing=south,type=single,waterlogged=false]
+  block_entity 62 $floor_y 62 minecraft:chest {
+    string CustomName "Charred Stash"
+    item Items slot 0 minecraft:stone_sword count 1
+    item Items slot 1 minecraft:leather_helmet count 1
+    item Items slot 2 minecraft:cooked_porkchop count 4
+    item Items slot 3 minecraft:water_bucket count 1
+    item Items slot 4 minecraft:flint_and_steel count 1
+  }
+  set 62 $floor_y 100 minecraft:chest[facing=east,type=single,waterlogged=false]
+  block_entity 62 $floor_y 100 minecraft:chest {
+    string CustomName "Ash Cache"
+    item Items slot 0 minecraft:wooden_axe count 1
+    item Items slot 1 minecraft:apple count 4
+    item Items slot 2 minecraft:leather_boots count 1
+    item Items slot 3 minecraft:arrow count 4
+    item Items slot 4 minecraft:torch count 8
+  }
+  set 88 $floor_y 80 minecraft:oak_sign[rotation=12,waterlogged=false]
+  sign_text 88 $floor_y 80 front "Ashen" "Dead Forest" "" "watch the embers"
+
+  # ===========================================================================
+  # ZONE B — Ruined Forges (high x, low z)
+  # ===========================================================================
+  cylinder 240 $ground_y 80 26 $ground_y minecraft:blackstone
+  fill_palette 216 $ground_y 56 264 $ground_y 104 forge_floor seed 1502
+  place ruined-forge at 236 $floor_y 64
+  place ruined-forge at 250 $floor_y 86
+  place obsidian-watchtower at 224 $floor_y 88
+  place obsidian-arch at 238 $floor_y 100
+  place basalt-column at 258 $floor_y 62
+  set 240 $floor_y 80 minecraft:anvil[facing=north]
+  set 244 $floor_y 78 minecraft:smithing_table
+  entity 246.5 65.0 96.5 minecraft:armor_stand {
+    byte NoGravity 1
+    byte Invisible 0
+  }
+  set 240 $floor_y 82 minecraft:chest[facing=south,type=single,waterlogged=false]
+  block_entity 240 $floor_y 82 minecraft:chest {
+    string CustomName "Forge Cache"
+    item Items slot 0 minecraft:iron_sword count 1
+    item Items slot 1 minecraft:chainmail_leggings count 1
+    item Items slot 2 minecraft:flint_and_steel count 1
+    item Items slot 3 minecraft:cooked_beef count 6
+    item Items slot 4 minecraft:torch count 16
+  }
+  set 252 $floor_y 90 minecraft:chest[facing=west,type=single,waterlogged=false]
+  block_entity 252 $floor_y 90 minecraft:chest {
+    string CustomName "Smith's Stash"
+    item Items slot 0 minecraft:crossbow count 1
+    item Items slot 1 minecraft:arrow count 12
+    item Items slot 2 minecraft:iron_boots count 1
+    item Items slot 3 minecraft:shield count 1
+    item Items slot 4 minecraft:bread count 4
+  }
+  set 248 $floor_y 78 minecraft:oak_sign[rotation=4,waterlogged=false]
+  sign_text 248 $floor_y 78 front "Ruined" "Forges" "" "anvils & lava"
+
+  # ===========================================================================
+  # ZONE C — Basalt Spire Fields (low x, high z)
+  # ===========================================================================
+  cylinder 80 $ground_y 240 26 $ground_y minecraft:smooth_basalt
+  fill_palette 56 $ground_y 216 104 $ground_y 264 basalt_ground seed 1503
+  place obsidian-watchtower at 76 $floor_y 236
+  place basalt-column at 62 $floor_y 222
+  place basalt-column at 96 $floor_y 224 rotate 90
+  place basalt-column at 60 $floor_y 256 rotate 180
+  place basalt-column at 98 $floor_y 258 rotate 270
+  place basalt-column at 80 $floor_y 262
+  place basalt-column at 100 $floor_y 244 rotate 90
+  place magma-fumarole at 86 $floor_y 248
+  place obsidian-arch at 96 $floor_y 250
+  place supply-crate at 60 $floor_y 262
+  set 80 $floor_y 242 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 80 $floor_y 242 minecraft:chest {
+    string CustomName "Spire Lookout Cache"
+    item Items slot 0 minecraft:bow count 1
+    item Items slot 1 minecraft:arrow count 12
+    item Items slot 2 minecraft:chainmail_helmet count 1
+    item Items slot 3 minecraft:cooked_porkchop count 4
+    item Items slot 4 minecraft:water_bucket count 1
+  }
+  set 94 $floor_y 228 minecraft:chest[facing=south,type=single,waterlogged=false]
+  block_entity 94 $floor_y 228 minecraft:chest {
+    string CustomName "Basalt Stash"
+    item Items slot 0 minecraft:stone_sword count 1
+    item Items slot 1 minecraft:leather_leggings count 1
+    item Items slot 2 minecraft:apple count 4
+    item Items slot 3 minecraft:torch count 16
+    item Items slot 4 minecraft:flint_and_steel count 1
+  }
+  set 62 $floor_y 262 minecraft:chest[facing=east,type=single,waterlogged=false]
+  block_entity 62 $floor_y 262 minecraft:chest {
+    string CustomName "Drift Cache"
+    item Items slot 0 minecraft:wooden_sword count 1
+    item Items slot 1 minecraft:apple count 4
+    item Items slot 2 minecraft:cobblestone count 8
+    item Items slot 3 minecraft:arrow count 4
+    item Items slot 4 minecraft:torch count 8
+  }
+  set 88 $floor_y 240 minecraft:oak_sign[rotation=0,waterlogged=false]
+  sign_text 88 $floor_y 240 front "Basalt" "Spire Fields" "" "high ground"
+
+  # ===========================================================================
+  # ZONE D — Obsidian Tide Pools (high x, high z)
+  # ===========================================================================
+  cylinder 240 $ground_y 240 26 $ground_y minecraft:obsidian
+  cylinder 230 63 230 5 $ground_y $lava
+  cylinder 252 63 248 6 $ground_y $lava
+  cylinder 234 63 254 4 $ground_y $lava
+  place obsidian-watchtower at 236 $floor_y 236
+  place magma-fumarole at 246 $floor_y 224
+  place magma-fumarole at 224 $floor_y 250
+  place obsidian-arch at 222 $floor_y 250
+  place supply-crate at 258 $floor_y 222
+  place basalt-column at 260 $floor_y 260
+  set 240 $floor_y 236 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 240 $floor_y 236 minecraft:chest {
+    string CustomName "Obsidian Cache"
+    item Items slot 0 minecraft:crossbow count 1
+    item Items slot 1 minecraft:arrow count 12
+    item Items slot 2 minecraft:leather_chestplate count 1
+    item Items slot 3 minecraft:golden_apple count 1
+    item Items slot 4 minecraft:flint_and_steel count 1
+  }
+  set 248 $floor_y 238 minecraft:chest[facing=west,type=single,waterlogged=false]
+  block_entity 248 $floor_y 238 minecraft:chest {
+    string CustomName "Tide Pool Stash"
+    item Items slot 0 minecraft:stone_axe count 1
+    item Items slot 1 minecraft:chainmail_boots count 1
+    item Items slot 2 minecraft:cooked_cod count 4
+    item Items slot 3 minecraft:water_bucket count 1
+    item Items slot 4 minecraft:arrow count 8
+  }
+  set 256 $floor_y 224 minecraft:chest[facing=west,type=single,waterlogged=false]
+  block_entity 256 $floor_y 224 minecraft:chest {
+    string CustomName "Castaway Cache"
+    item Items slot 0 minecraft:wooden_axe count 1
+    item Items slot 1 minecraft:bread count 4
+    item Items slot 2 minecraft:leather_helmet count 1
+    item Items slot 3 minecraft:cobblestone count 8
+    item Items slot 4 minecraft:torch count 8
+  }
+  set 232 $floor_y 240 minecraft:oak_sign[rotation=8,waterlogged=false]
+  sign_text 232 $floor_y 240 front "Obsidian" "Tide Pools" "" "molten footing"
+
+  # --- ring-road outpost caches (low tier, mid-side of each straight) ----------
+  place supply-crate at 116 $floor_y 68
+  set 120 $floor_y 68 minecraft:chest[facing=south,type=single,waterlogged=false]
+  block_entity 120 $floor_y 68 minecraft:chest {
+    string CustomName "North Road Cache"
+    item Items slot 0 minecraft:wooden_sword count 1
+    item Items slot 1 minecraft:apple count 4
+    item Items slot 2 minecraft:arrow count 4
+    item Items slot 3 minecraft:torch count 8
+  }
+  place supply-crate at 196 $floor_y 68
+  set 200 $floor_y 68 minecraft:chest[facing=south,type=single,waterlogged=false]
+  block_entity 200 $floor_y 68 minecraft:chest {
+    string CustomName "Forge Road Cache"
+    item Items slot 0 minecraft:stone_sword count 1
+    item Items slot 1 minecraft:bread count 4
+    item Items slot 2 minecraft:arrow count 6
+    item Items slot 3 minecraft:torch count 8
+  }
+  place supply-crate at 116 $floor_y 252
+  set 120 $floor_y 252 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 120 $floor_y 252 minecraft:chest {
+    string CustomName "Spire Road Cache"
+    item Items slot 0 minecraft:stone_axe count 1
+    item Items slot 1 minecraft:apple count 4
+    item Items slot 2 minecraft:arrow count 6
+    item Items slot 3 minecraft:torch count 8
+  }
+  place supply-crate at 196 $floor_y 252
+  set 200 $floor_y 252 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 200 $floor_y 252 minecraft:chest {
+    string CustomName "Tide Road Cache"
+    item Items slot 0 minecraft:wooden_axe count 1
+    item Items slot 1 minecraft:bread count 4
+    item Items slot 2 minecraft:cobblestone count 8
+    item Items slot 3 minecraft:torch count 8
+  }
+
+  # --- ambient ash & ember scatter across the playable island -----------------
+  surface_scatter 24 24 296 296 from $ground_y to 80 chance 1 12 seed 3001 step 5 {
+    choose seed 3002 {
+      weight 6 {
+        set 0 0 0 minecraft:dead_bush
+      }
+      weight 3 {
+        set 0 0 0 minecraft:gray_concrete_powder
+      }
+      weight 2 {
+        set 0 0 0 minecraft:basalt
+      }
+      weight 1 {
+        set 0 0 0 minecraft:magma_block
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+version 4790
+min_y 0
+height 96
+spawn 0 67 0
+time 6000
+day_time 6000
+game_mode creative
+difficulty peaceful
+allow_commands true
+game_rule doDaylightCycle false
+default_biome minecraft:plains

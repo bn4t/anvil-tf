@@ -1,0 +1,19 @@
+# Sightline tower in volcanic stone: polished blackstone posts, basalt rail,
+# ladder climb, soul-lantern beacon at the top. Reskin of the classic tower.
+component "obsidian-watchtower" {
+  bounds 0 0 0 to 8 14 8
+  fill 1 0 1 to 1 10 1 minecraft:polished_blackstone
+  fill 7 0 1 to 7 10 1 minecraft:polished_blackstone
+  fill 1 0 7 to 1 10 7 minecraft:polished_blackstone
+  fill 7 0 7 to 7 10 7 minecraft:polished_blackstone
+  fill 0 8 0 to 8 8 8 minecraft:blackstone
+  fill 0 9 0 to 8 9 0 minecraft:basalt
+  fill 0 9 8 to 8 9 8 minecraft:basalt
+  fill 0 9 0 to 0 9 8 minecraft:basalt
+  fill 8 9 0 to 8 9 8 minecraft:basalt
+  fill 0 11 0 to 8 11 8 minecraft:polished_blackstone
+  fill 1 12 1 to 7 12 7 minecraft:blackstone_slab[type=bottom,waterlogged=false]
+  fill 4 0 0 to 4 8 0 minecraft:obsidian
+  fill 4 0 1 to 4 8 1 minecraft:ladder[facing=south,waterlogged=false]
+  set 4 10 4 minecraft:soul_lantern[hanging=true,waterlogged=false]
+}

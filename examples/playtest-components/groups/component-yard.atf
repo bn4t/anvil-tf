@@ -1,0 +1,42 @@
+group "component yard" {
+  origin -32 0 -32
+  bounds 0 0 0 to 64 76 64
+
+  fill 0 0 0 to 64 0 64 minecraft:bedrock
+  fill 0 1 0 to 64 63 64 minecraft:stone
+  fill 0 64 0 to 64 64 64 minecraft:moss_block
+  fill_biome 0 64 0 64 80 64 minecraft:desert
+
+  fill 8 65 8 to 56 65 56 minecraft:smooth_sandstone
+  fill 10 65 10 to 54 65 54 minecraft:sandstone
+
+  place arch at 29 66 8
+  place arch at 56 66 29 rotate 90
+  place arch at 35 66 56 rotate 180
+  place arch at 8 66 35 rotate 270
+
+  place marker-tower at 11 66 11
+  place marker-tower at 51 66 11
+  place marker-tower at 11 66 51
+  place marker-tower at 51 66 51
+
+  place market-stall at 16 66 18
+  place market-stall at 39 66 18
+  place market-stall at 16 66 41 rotate 180
+  place market-stall at 39 66 41 rotate 180
+
+  repeat x 12 52 {
+    if $x%8 == 4 {
+      set $x 66 32 minecraft:orange_carpet
+      set 32 66 $x minecraft:cyan_carpet
+    }
+  }
+
+  set 31 66 31 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 31 66 31 minecraft:chest {
+    string CustomName "Component Yard"
+    item Items slot 0 minecraft:cut_sandstone count 64
+    item Items slot 1 minecraft:red_wool count 16
+    item Items slot 2 minecraft:sea_lantern count 8
+  }
+}

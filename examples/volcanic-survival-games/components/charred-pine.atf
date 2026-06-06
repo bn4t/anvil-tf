@@ -1,0 +1,14 @@
+# Burnt-out conifer for the ashen dead forest: stripped logs, no leaves,
+# smouldering magma root and a little cobweb decay.
+component "charred-pine" {
+  bounds 0 0 0 to 4 9 4
+  set 2 0 2 minecraft:magma_block
+  fill 2 1 2 to 2 8 2 minecraft:stripped_spruce_log[axis=y]
+  set 2 4 1 minecraft:stripped_oak_log[axis=z]
+  set 2 4 3 minecraft:stripped_oak_log[axis=z]
+  set 1 5 2 minecraft:stripped_oak_log[axis=x]
+  set 3 6 2 minecraft:stripped_oak_log[axis=x]
+  set 2 7 1 minecraft:stripped_oak_log[axis=z]
+  set 1 5 1 minecraft:cobweb
+  set 3 6 3 minecraft:cobweb
+}

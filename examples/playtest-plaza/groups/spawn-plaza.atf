@@ -1,0 +1,52 @@
+group "spawn plaza" {
+  origin -24 0 -24
+  bounds 0 0 0 to 48 72 48
+
+  fill 0 0 0 to 48 0 48 minecraft:bedrock
+  fill 0 1 0 to 48 63 48 minecraft:dirt
+  fill 0 64 0 to 48 64 48 minecraft:grass_block[snowy=false]
+
+  fill_biome 0 64 0 48 80 48 minecraft:sunflower_plains
+
+  fill 8 65 8 to 40 65 40 minecraft:stone_bricks
+  fill 10 65 10 to 38 65 38 minecraft:polished_andesite
+  fill 21 65 8 to 27 65 40 minecraft:smooth_stone
+  fill 8 65 21 to 40 65 27 minecraft:smooth_stone
+
+  hollow_cylinder 24 65 24 6 66 minecraft:stone_bricks minecraft:air
+  cylinder 24 65 24 4 65 minecraft:water[level=0]
+  place fountain-jet at 23 66 23
+
+  place lamp-post at 9 66 9
+  place lamp-post at 37 66 9
+  place lamp-post at 9 66 37
+  place lamp-post at 37 66 37
+
+  place bench at 14 66 11
+  place bench at 29 66 11
+  place bench at 14 66 36 rotate 180
+  place bench at 29 66 36 rotate 180
+
+  repeat x 12 36 {
+    if $x%4 == 0 {
+      set $x 66 24 minecraft:red_carpet
+    }
+  }
+  repeat z 12 36 {
+    if $z%4 == 0 {
+      set 24 66 $z minecraft:blue_carpet
+    }
+  }
+
+  set 24 66 24 minecraft:beacon
+  set 24 67 20 minecraft:oak_wall_sign[facing=south,waterlogged=false]
+  sign_text 24 67 20 front "ATF" "playtest" "plaza" ""
+
+  set 20 66 29 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 20 66 29 minecraft:chest {
+    string CustomName "ATF Plaza Supplies"
+    item Items slot 0 minecraft:bread count 16
+    item Items slot 1 minecraft:lantern count 8
+    item Items slot 2 minecraft:stone_bricks count 64
+  }
+}

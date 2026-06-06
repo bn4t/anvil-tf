@@ -1,0 +1,12 @@
+# Broken gateway arch in blackstone and obsidian with a dangling crying-
+# obsidian keystone. Marks zone entrances.
+component "obsidian-arch" {
+  bounds 0 0 0 to 6 6 2
+  fill 0 0 0 to 1 4 1 minecraft:blackstone
+  fill 5 0 0 to 6 3 1 minecraft:obsidian
+  fill 2 4 0 to 4 5 1 minecraft:cracked_polished_blackstone_bricks
+  set 3 5 0 minecraft:crying_obsidian
+  set 3 5 1 minecraft:polished_blackstone_slab[type=bottom,waterlogged=false]
+  set 1 0 2 minecraft:magma_block
+  set 5 0 2 minecraft:basalt
+}

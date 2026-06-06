@@ -1,0 +1,11 @@
+component "stone-bridge" {
+  bounds 0 0 0 to 18 3 8
+  fill 2 0 2 to 2 1 6 minecraft:stripped_spruce_log[axis=y]
+  fill 8 0 2 to 8 1 6 minecraft:stripped_spruce_log[axis=y]
+  fill 16 0 2 to 16 1 6 minecraft:stripped_spruce_log[axis=y]
+  fill 0 1 2 to 18 1 6 minecraft:spruce_planks
+  fill 0 2 1 to 18 2 1 minecraft:spruce_fence
+  fill 0 2 7 to 18 2 7 minecraft:spruce_fence
+  set 3 3 1 minecraft:lantern[hanging=false,waterlogged=false]
+  set 15 3 7 minecraft:lantern[hanging=false,waterlogged=false]
+}

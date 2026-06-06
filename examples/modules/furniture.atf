@@ -1,0 +1,23 @@
+block chair_seat = minecraft:oak_stairs[facing=north,half=bottom,shape=straight,waterlogged=false]
+block chair_back = minecraft:oak_sign[rotation=0,waterlogged=false]
+block table_leg = minecraft:oak_fence
+block table_top = minecraft:oak_pressure_plate[powered=false]
+
+template "chair" {
+  set 0 0 0 $chair_seat
+  set 0 1 1 $chair_back
+}
+
+template "table" {
+  set 0 0 0 $table_leg
+  set 0 1 0 $table_top
+}
+
+pattern_template "runner_rug" {
+  block R = $rug_primary
+  row ".RRRR."
+  row "R....R"
+  row "R.RR.R"
+  row "R....R"
+  row ".RRRR."
+}

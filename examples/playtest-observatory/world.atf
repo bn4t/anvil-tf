@@ -1,0 +1,7 @@
+world "ATF Playtest Observatory" {
+  include "meta.atf"
+  include "components/observatory-dome.atf"
+  include "components/path-lamp.atf"
+  include "components/spruce-tree.atf"
+  include "groups/mountain-observatory.atf"
+}

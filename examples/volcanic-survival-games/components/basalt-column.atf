@@ -1,0 +1,12 @@
+# Basalt-delta style column with a polished cap, blackstone flaking, and a
+# magma base. Rotate at call sites for variety in the spire field.
+component "basalt-column" {
+  bounds 0 0 0 to 2 7 2
+  set 1 0 1 minecraft:magma_block
+  fill 1 1 1 to 1 5 1 minecraft:basalt[axis=y]
+  set 1 6 1 minecraft:polished_basalt[axis=y]
+  set 0 1 1 minecraft:blackstone
+  set 2 2 1 minecraft:blackstone
+  set 1 3 0 minecraft:blackstone
+  set 1 4 2 minecraft:smooth_basalt
+}

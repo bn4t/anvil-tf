@@ -1,0 +1,7 @@
+component "pine-tree" {
+  bounds 0 0 0 to 6 12 6
+  fill 3 0 3 to 3 9 3 minecraft:spruce_log[axis=y]
+  hollow_sphere 3 5 3 3 minecraft:spruce_leaves[persistent=true,distance=1] minecraft:air
+  hollow_sphere 3 8 3 2 minecraft:spruce_leaves[persistent=true,distance=1] minecraft:air
+  set 3 11 3 minecraft:spruce_leaves[persistent=true,distance=1]
+}

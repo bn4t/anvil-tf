@@ -1,0 +1,11 @@
+component "cornucopia-frame" {
+  bounds 0 0 0 to 28 10 28
+  fill 2 0 2 to 26 0 26 minecraft:polished_deepslate
+  hollow_cylinder 14 1 14 12 1 minecraft:chiseled_stone_bricks minecraft:smooth_stone
+  hollow_cylinder 14 2 14 10 2 minecraft:gold_block minecraft:air
+  fill 12 1 0 to 16 3 28 minecraft:smooth_quartz
+  fill 0 1 12 to 28 3 16 minecraft:smooth_quartz
+  fill 11 4 11 to 17 4 17 minecraft:cut_copper
+  fill 12 5 12 to 16 5 16 minecraft:sea_lantern
+  line 14 5 14 14 10 14 minecraft:lightning_rod[facing=up,powered=false,waterlogged=false]
+}

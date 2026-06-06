@@ -1,0 +1,76 @@
+world "Large District Demo" {
+  min_y 0
+  height 96
+  spawn 0 8 0
+  default_biome minecraft:plains
+
+  block base = minecraft:stone
+  block grass = minecraft:grass_block[snowy=false]
+  block curb = minecraft:smooth_stone_slab[type=top,waterlogged=false]
+  block lamp = minecraft:lantern[hanging=false,waterlogged=false]
+  block fountain_wall = minecraft:polished_andesite
+  block water = minecraft:water[level=0]
+  block light = minecraft:sea_lantern
+  block planter = minecraft:potted_azalea_bush
+  block bench = minecraft:oak_stairs[facing=north,half=bottom,shape=straight,waterlogged=false]
+  block shrub = minecraft:azalea
+  block flower_shrub = minecraft:flowering_azalea
+
+  block_palette road_mix {
+    block minecraft:black_concrete weight 8
+    block minecraft:gray_concrete
+    block minecraft:polished_blackstone
+  }
+
+  block_palette curb_mix {
+    block minecraft:smooth_stone_slab[type=top,waterlogged=false] weight 8
+    block minecraft:stone_brick_slab[type=top,waterlogged=false]
+    block minecraft:mossy_stone_brick_slab[type=top,waterlogged=false]
+  }
+
+  template "lamp_post" params height {
+    fill 0 0 0 0 $height 0 minecraft:dark_oak_fence
+    set 0 $height+1 0 $lamp
+  }
+
+  fill -128 4 -128 127 4 127 $base
+  fill -128 5 -128 127 5 127 $grass
+
+  repeat x -128 128 step 16 {
+    fill_palette $x 6 -128 $x+2 6 127 road_mix seed 17
+    fill $x-1 6 -128 $x-1 6 127 $curb
+    fill $x+3 6 -128 $x+3 6 127 $curb
+  }
+
+  repeat z -128 128 step 16 {
+    fill_palette -128 6 $z 127 6 $z+2 road_mix seed 23
+    fill -128 6 $z-1 127 6 $z-1 $curb
+    fill -128 6 $z+3 127 6 $z+3 $curb
+  }
+
+  replace_palette -128 6 -128 127 6 127 $curb curb_mix seed 31
+
+  repeat x -120 120 step 32 {
+    repeat z -120 120 step 32 {
+      if ($x/32+$z/32)%2 == 0 {
+        use "lamp_post" at $x 7 $z args 3
+        set $x+2 7 $z+2 $planter
+      } else {
+        use "lamp_post" at $x 7 $z args 4
+        set $x+2 7 $z+2 $bench
+      }
+    }
+  }
+
+  scatter -112 7 -112 112 7 112 chance 1 5 seed 44 step 16 {
+    if ($x+$z)%32 == 0 {
+      set 0 0 0 $flower_shrub
+    } else {
+      set 0 0 0 $shrub
+    }
+  }
+
+  hollow_cylinder 0 7 0 6 8 $fountain_wall minecraft:air
+  cylinder 0 7 0 5 7 $water
+  sphere 0 10 0 2 $light
+}

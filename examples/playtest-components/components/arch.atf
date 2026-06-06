@@ -1,0 +1,9 @@
+component "arch" {
+  bounds 0 0 0 to 6 5 1
+  fill 0 0 0 to 0 4 0 minecraft:cut_sandstone
+  fill 6 0 0 to 6 4 0 minecraft:cut_sandstone
+  fill 1 4 0 to 5 4 0 minecraft:smooth_sandstone
+  set 2 5 0 minecraft:chiseled_sandstone
+  set 4 5 0 minecraft:chiseled_sandstone
+  set 3 5 0 minecraft:lantern[hanging=true,waterlogged=false]
+}

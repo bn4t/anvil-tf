@@ -1,0 +1,8 @@
+component "canopy-tree" {
+  bounds 0 0 0 to 8 10 8
+  fill 4 0 4 to 4 6 4 minecraft:oak_log[axis=y]
+  fill 3 4 4 to 5 4 4 minecraft:oak_log[axis=x]
+  fill 4 4 3 to 4 4 5 minecraft:oak_log[axis=z]
+  hollow_sphere 4 7 4 4 minecraft:oak_leaves[persistent=true,distance=1] minecraft:air
+  hollow_sphere 4 9 4 2 minecraft:oak_leaves[persistent=true,distance=1] minecraft:air
+}

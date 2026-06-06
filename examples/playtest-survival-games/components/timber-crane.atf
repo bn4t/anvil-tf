@@ -1,0 +1,11 @@
+component "timber-crane" {
+  bounds 0 0 0 to 12 11 4
+  fill 1 0 2 to 1 10 2 minecraft:stripped_spruce_log[axis=y]
+  fill 1 10 2 to 11 10 2 minecraft:stripped_spruce_log[axis=x]
+  line 2 8 2 8 10 2 minecraft:chain[axis=y,waterlogged=false]
+  fill 10 6 2 to 10 9 2 minecraft:chain[axis=y,waterlogged=false]
+  set 10 5 2 minecraft:lantern[hanging=true,waterlogged=false]
+  fill 0 0 1 to 2 0 3 minecraft:stone_bricks
+  fill 7 0 1 to 11 0 3 minecraft:spruce_planks
+  set 8 1 2 minecraft:barrel[facing=north,open=false]
+}

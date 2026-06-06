@@ -1,0 +1,65 @@
+world "Cottage Demo" {
+  include "modules/furniture.atf"
+
+  version 3465
+  min_y -64
+  height 384
+  spawn 8 66 8
+
+  default_biome minecraft:forest
+  biome_alias yard = minecraft:flower_forest
+  block foundation = minecraft:stone
+  block wall = minecraft:oak_planks
+  block floor = minecraft:spruce_planks
+  block runner = minecraft:red_carpet
+
+  fill_biome 0 64 0 31 80 31 $yard
+  fill 0 0 0 31 0 31 minecraft:bedrock
+  fill 0 1 0 31 63 31 $foundation
+  fill 0 64 0 31 64 31 minecraft:grass_block[snowy=false]
+
+  hollow_box 4 65 4 12 70 12 $wall minecraft:air
+  fill 5 65 5 11 65 11 $floor
+  use_pattern "runner_rug" at 5 66 6 with {
+    block rug_primary = $runner
+  }
+  fill 5 70 5 11 70 11 minecraft:oak_slab[type=top,waterlogged=false]
+
+  door 8 66 4 south left closed minecraft:oak_door
+  set 7 66 4 minecraft:oak_wall_sign[facing=south,waterlogged=false]
+  sign_text 7 66 4 front "Welcome" "to" "anvil-tf" ""
+  set 6 66 5 minecraft:crafting_table
+  set 10 66 5 minecraft:furnace[facing=south,lit=false]
+  bed 5 66 10 east minecraft:red_bed
+  set 10 66 10 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 10 66 10 minecraft:chest {
+    string CustomName "{\"text\":\"Supplies\"}"
+    byte_array anvil_tf_flags { 1 0 1 }
+    int_array anvil_tf_color { 255 128 64 }
+    item Items slot 0 minecraft:bread count 8
+    item Items slot 1 minecraft:torch count 16
+  }
+  merge_block_entity 10 66 10 minecraft:chest {
+    item Items slot 4 minecraft:oak_planks count 24
+    item Items slot 8 minecraft:iron_pickaxe
+  }
+  set 8 67 8 minecraft:lantern[hanging=false,waterlogged=false]
+  entity 8.5 66 8.5 minecraft:armor_stand {
+    byte Invisible 1
+    byte Marker 1
+    byte NoGravity 1
+  }
+
+  at 7 66 8 {
+    use "table" at 0 0 0
+    use "chair" at -1 0 0
+    use "chair" at 1 0 0 rotate 180 with {
+      block chair_seat = minecraft:birch_stairs[facing=north,half=bottom,shape=straight,waterlogged=false]
+      block chair_back = minecraft:birch_sign[rotation=0,waterlogged=false]
+    }
+  }
+
+  repeat x 5 11 {
+    set $x 66 4 minecraft:glass_pane[east=false,north=true,south=true,waterlogged=false,west=false]
+  }
+}

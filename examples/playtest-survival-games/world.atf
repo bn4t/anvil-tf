@@ -1,0 +1,18 @@
+world "ATF Survival Games Arena" {
+  include "meta.atf"
+  include "components/cornucopia-frame.atf"
+  include "components/spawn-pedestal.atf"
+  include "components/pine-tree.atf"
+  include "components/canopy-tree.atf"
+  include "components/watchtower.atf"
+  include "components/ruined-arch.atf"
+  include "components/supply-tent.atf"
+  include "components/market-stall.atf"
+  include "components/campfire-ring.atf"
+  include "components/stone-bridge.atf"
+  include "components/well.atf"
+  include "components/fallen-log.atf"
+  include "components/ranger-cabin.atf"
+  include "components/timber-crane.atf"
+  include "groups/arena.atf"
+}

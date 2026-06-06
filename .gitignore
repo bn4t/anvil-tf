@@ -1,0 +1,9 @@
+target/
+.m2/
+.idea/
+.vscode/
+*.iml
+.DS_Store
+out/
+generated-worlds/
+logs/

@@ -1,0 +1,7 @@
+world "ATF Playtest Components" {
+  include "meta.atf"
+  include "components/arch.atf"
+  include "components/market-stall.atf"
+  include "components/marker-tower.atf"
+  include "groups/component-yard.atf"
+}

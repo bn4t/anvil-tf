@@ -1,0 +1,39 @@
+world "Copied Room Demo" {
+  min_y 0
+  height 64
+  spawn 8 8 8
+  default_biome minecraft:plains
+  biome_alias room_air = minecraft:lush_caves
+
+  block wall = minecraft:spruce_planks
+  block floor = minecraft:polished_andesite
+  block window = minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+
+  fill_biome 0 8 0 6 12 6 $room_air
+  hollow_box 0 8 0 6 12 6 $wall minecraft:air
+  fill 1 8 1 5 8 5 $floor
+  replace 2 10 0 4 11 0 $wall $window
+  wall 1 9 1 3 2 east minecraft:bookshelf
+  wall 5 9 1 3 2 west minecraft:barrel[facing=north,open=false]
+
+  set 2 9 2 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 2 9 2 minecraft:chest {
+    string CustomName "{\"text\":\"Room Supplies\"}"
+    item Items slot 0 minecraft:bread count 4
+    item Items slot 9 minecraft:lantern count 2
+    item Items slot 13 minecraft:emerald
+  }
+  set 4 9 2 minecraft:oak_stairs[facing=south,half=bottom,shape=straight,waterlogged=false]
+  set 4 10 1 minecraft:lantern[hanging=false,waterlogged=false]
+  entity 4.5 9 4.5 minecraft:armor_stand {
+    byte Invisible 1
+    byte Marker 1
+    byte NoGravity 1
+    list Rotation float { 180.0 0.0 }
+  }
+
+  copy 0 8 0 6 12 6 to 12 8 0 skip_air with_entities with_biomes
+  copy 0 8 0 6 12 6 to 0 8 12 rotate 90 skip_air with_entities with_biomes
+  copy 0 8 0 6 12 6 to 12 8 12 rotate 180 skip_air with_entities with_biomes
+  copy 0 8 0 6 12 6 to -12 8 0 mirror_x skip_air with_entities with_biomes
+}

@@ -1,0 +1,93 @@
+group "harbor front" {
+  origin -96 0 -96
+  bounds 0 0 0 to 192 90 192
+
+  fill 0 0 0 to 192 0 192 minecraft:bedrock
+  fill 0 1 0 to 192 61 192 minecraft:stone
+  fill 0 62 0 to 192 63 192 minecraft:dirt
+  fill 0 64 0 to 192 64 192 minecraft:grass_block[snowy=false]
+
+  fill_biome 0 60 0 192 80 96 minecraft:plains
+  fill_biome 0 60 97 192 80 192 minecraft:warm_ocean
+
+  fill 8 62 104 to 184 64 184 minecraft:sand
+  fill 8 65 104 to 184 66 104 minecraft:smooth_sandstone
+  fill 8 65 184 to 184 66 184 minecraft:smooth_sandstone
+  fill 8 65 104 to 8 66 184 minecraft:smooth_sandstone
+  fill 184 65 104 to 184 66 184 minecraft:smooth_sandstone
+  fill 12 65 108 to 180 65 180 minecraft:water[level=0]
+  fill 32 65 104 to 160 65 112 minecraft:spruce_planks
+  fill 92 65 72 to 100 65 150 minecraft:spruce_planks
+  fill 88 66 72 to 104 66 76 minecraft:stripped_spruce_log[axis=x]
+  fill 88 66 146 to 104 66 150 minecraft:stripped_spruce_log[axis=x]
+
+  fill 24 65 24 to 168 65 32 minecraft:stone_bricks
+  fill 92 65 32 to 100 65 72 minecraft:stone_bricks
+  fill 20 65 23 to 172 65 23 minecraft:smooth_stone
+  fill 20 65 33 to 172 65 33 minecraft:smooth_stone
+  fill 91 65 32 to 91 65 72 minecraft:smooth_stone
+  fill 101 65 32 to 101 65 72 minecraft:smooth_stone
+
+  fill 146 65 44 to 158 65 56 minecraft:stone_bricks
+  place lighthouse at 146 65 44
+  place sail-marker at 42 65 128
+  place sail-marker at 118 65 132 rotate 180
+
+  fill 42 65 42 to 50 65 48 minecraft:stone_bricks
+  fill 62 65 42 to 70 65 48 minecraft:stone_bricks
+  fill 122 65 42 to 130 65 48 minecraft:stone_bricks
+  fill 142 65 42 to 150 65 48 minecraft:stone_bricks
+  place market-awning at 42 65 42
+  place market-awning at 62 65 42
+  place market-awning at 122 65 42 rotate 180
+  place market-awning at 142 65 42 rotate 180
+
+  repeat x 28 164 step 16 {
+    place harbor-lamp at $x 66 22
+    place harbor-lamp at $x 66 34 rotate 180
+  }
+  repeat z 80 144 step 16 {
+    place harbor-lamp at 90 66 $z rotate 90
+    place harbor-lamp at 102 66 $z rotate 270
+  }
+
+  fill 18 66 46 to 30 66 58 minecraft:coarse_dirt
+  fill 162 66 46 to 174 66 58 minecraft:coarse_dirt
+  surface_scatter 18 46 30 58 from 64 to 70 chance 1 2 seed 404 step 2 {
+    choose seed 405 {
+      weight 3 {
+        set 0 0 0 minecraft:poppy
+      }
+      weight 3 {
+        set 0 0 0 minecraft:dandelion
+      }
+      weight 1 {
+        set 0 0 0 minecraft:short_grass
+      }
+    }
+  }
+  surface_scatter 162 46 174 58 from 64 to 70 chance 1 2 seed 504 step 2 {
+    choose seed 505 {
+      weight 3 {
+        set 0 0 0 minecraft:cornflower
+      }
+      weight 2 {
+        set 0 0 0 minecraft:azure_bluet
+      }
+      weight 1 {
+        set 0 0 0 minecraft:short_grass
+      }
+    }
+  }
+
+  set 96 66 47 minecraft:oak_wall_sign[facing=south,waterlogged=false]
+  sign_text 96 66 47 front "ATF Harbor" "larger test" "sign text" "plain"
+
+  set 96 66 51 minecraft:chest[facing=north,type=single,waterlogged=false]
+  block_entity 96 66 51 minecraft:chest {
+    string CustomName "Harbor Supplies"
+    item Items slot 0 minecraft:bread count 24
+    item Items slot 1 minecraft:oak_boat count 3
+    item Items slot 2 minecraft:lantern count 16
+  }
+}

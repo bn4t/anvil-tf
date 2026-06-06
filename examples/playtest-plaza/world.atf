@@ -1,0 +1,7 @@
+world "ATF Playtest Plaza" {
+  include "meta.atf"
+  include "components/lamp-post.atf"
+  include "components/bench.atf"
+  include "components/fountain-jet.atf"
+  include "groups/spawn-plaza.atf"
+}

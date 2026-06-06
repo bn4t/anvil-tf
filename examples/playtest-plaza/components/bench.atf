@@ -1,0 +1,9 @@
+component "bench" {
+  bounds 0 0 0 to 4 1 1
+  fill 0 0 0 to 4 0 0 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  set 0 0 1 minecraft:spruce_trapdoor[facing=north,half=top,open=false,powered=false,waterlogged=false]
+  set 1 0 1 minecraft:spruce_trapdoor[facing=north,half=top,open=false,powered=false,waterlogged=false]
+  set 2 0 1 minecraft:spruce_trapdoor[facing=north,half=top,open=false,powered=false,waterlogged=false]
+  set 3 0 1 minecraft:spruce_trapdoor[facing=north,half=top,open=false,powered=false,waterlogged=false]
+  set 4 0 1 minecraft:spruce_trapdoor[facing=north,half=top,open=false,powered=false,waterlogged=false]
+}

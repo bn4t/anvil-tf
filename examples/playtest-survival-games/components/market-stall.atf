@@ -1,0 +1,13 @@
+component "market-stall" {
+  bounds 0 0 0 to 10 6 8
+  fill 0 0 0 to 10 0 8 minecraft:spruce_planks
+  fill 0 1 0 to 0 4 0 minecraft:dark_oak_fence
+  fill 10 1 0 to 10 4 0 minecraft:dark_oak_fence
+  fill 0 1 8 to 0 4 8 minecraft:dark_oak_fence
+  fill 10 1 8 to 10 4 8 minecraft:dark_oak_fence
+  fill 0 5 0 to 10 5 8 minecraft:red_wool
+  fill 1 6 1 to 9 6 7 minecraft:white_wool
+  fill 4 1 1 to 6 1 1 minecraft:barrel[facing=north,open=false]
+  fill 2 1 6 to 8 1 6 minecraft:hay_block[axis=x]
+  set 5 2 4 minecraft:lantern[hanging=false,waterlogged=false]
+}

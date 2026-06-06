@@ -1,0 +1,14 @@
+world "Volcanic Island Survival Games" {
+  include "meta.atf"
+  include "components/spawn-pad.atf"
+  include "components/crater-spire.atf"
+  include "components/charred-pine.atf"
+  include "components/basalt-column.atf"
+  include "components/ruined-forge.atf"
+  include "components/obsidian-watchtower.atf"
+  include "components/lava-bridge.atf"
+  include "components/magma-fumarole.atf"
+  include "components/obsidian-arch.atf"
+  include "components/supply-crate.atf"
+  include "groups/arena.atf"
+}

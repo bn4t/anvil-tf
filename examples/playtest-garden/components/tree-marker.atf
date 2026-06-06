@@ -1,0 +1,6 @@
+component "tree-marker" {
+  bounds 0 0 0 to 4 6 4
+  fill 2 0 2 to 2 4 2 minecraft:oak_log[axis=y]
+  hollow_sphere 2 5 2 2 minecraft:azalea_leaves[persistent=true,distance=1] minecraft:air
+  set 2 6 2 minecraft:flowering_azalea_leaves[persistent=true,distance=1]
+}
