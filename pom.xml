@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.3</junit.version>
         <hephaistos.version>2.6.1</hephaistos.version>
-        <kotlin.version>1.5.10</kotlin.version>
+        <kotlin.version>1.6.0</kotlin.version>
     </properties>
 
     <dependencies>
