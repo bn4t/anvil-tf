@@ -1,0 +1,12 @@
+component "bridge-small" {
+  bounds 0 0 0 to 12 4 4
+  fill 0 0 1 to 12 0 3 minecraft:spruce_planks
+  fill 0 1 0 to 12 1 0 minecraft:spruce_fence
+  fill 0 1 4 to 12 1 4 minecraft:spruce_fence
+  fill 0 -4 1 to 0 0 1 minecraft:spruce_log[axis=y]
+  fill 0 -4 3 to 0 0 3 minecraft:spruce_log[axis=y]
+  fill 12 -4 1 to 12 0 1 minecraft:spruce_log[axis=y]
+  fill 12 -4 3 to 12 0 3 minecraft:spruce_log[axis=y]
+  set 2 2 0 minecraft:lantern[hanging=false,waterlogged=false]
+  set 10 2 4 minecraft:lantern[hanging=false,waterlogged=false]
+}

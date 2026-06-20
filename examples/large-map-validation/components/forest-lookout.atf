@@ -1,0 +1,15 @@
+component "forest-lookout" {
+  bounds -8 0 -8 to 8 17 8
+  fill -7 0 -7 to 7 0 7 minecraft:podzol[snowy=false]
+  fill -6 1 -6 to 6 1 6 minecraft:dark_oak_planks
+  fill -6 2 -6 to -4 12 -4 minecraft:dark_oak_log[axis=y]
+  fill 4 2 -6 to 6 12 -4 minecraft:dark_oak_log[axis=y]
+  fill -6 2 4 to -4 12 6 minecraft:dark_oak_log[axis=y]
+  fill 4 2 4 to 6 12 6 minecraft:dark_oak_log[axis=y]
+  fill -7 13 -7 to 7 13 7 minecraft:dark_oak_planks
+  fill -5 14 -5 to 5 15 5 minecraft:jungle_leaves[persistent=true]
+  fill -3 16 -3 to 3 17 3 minecraft:jungle_leaves[persistent=true]
+  set 0 14 0 minecraft:campfire[lit=true,signal_fire=false,waterlogged=false]
+  set -7 3 0 minecraft:lantern[hanging=false,waterlogged=false]
+  set 7 3 0 minecraft:lantern[hanging=false,waterlogged=false]
+}

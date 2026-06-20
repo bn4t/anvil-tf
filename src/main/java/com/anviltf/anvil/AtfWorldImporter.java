@@ -501,7 +501,8 @@ public final class AtfWorldImporter {
                 List<ComponentPlacement> placements = components.placementsByChunk
                         .getOrDefault(new ChunkPos(coordinate.x, coordinate.z), List.of());
                 try (BufferedWriter out = Files.newBufferedWriter(outputDir.resolve(include), StandardCharsets.UTF_8)) {
-                    writeReviewableChunk(out, chunk, externalEntities, scan.defaultBiome, placements, report);
+                    writeReviewableChunk(out, chunk, externalEntities, scan.defaultBiome, placements,
+                            components.allPlacements, report);
                 }
             }
         }
@@ -521,11 +522,12 @@ public final class AtfWorldImporter {
 
     private void writeReviewableChunk(BufferedWriter out, ChunkColumn chunk, List<NBTCompound> externalEntities,
                                       String defaultBiome, List<ComponentPlacement> placements,
+                                      List<ComponentPlacement> allPlacements,
                                       ImportReport report) throws Exception {
         int originX = chunk.getX() * 16;
         int originY = chunk.getMinY();
         int originZ = chunk.getZ() * 16;
-        Set<BlockCoordinate> componentBlocks = componentBlocks(placements);
+        Set<BlockCoordinate> componentBlocks = componentBlocks(chunk, allPlacements);
         out.write("group " + quote("imported " + chunk.getX() + "," + chunk.getZ()) + " {\n");
         out.write("  origin " + originX + " " + originY + " " + originZ + "\n");
         out.write("  bounds 0 0 0 to 15 " + (chunk.getMaxY() - chunk.getMinY()) + " 15\n\n");
@@ -551,12 +553,19 @@ public final class AtfWorldImporter {
         out.write("\n");
     }
 
-    private Set<BlockCoordinate> componentBlocks(List<ComponentPlacement> placements) {
+    private Set<BlockCoordinate> componentBlocks(ChunkColumn chunk, List<ComponentPlacement> placements) {
         Set<BlockCoordinate> blocks = new HashSet<>();
+        int chunkOriginX = chunk.getX() * 16;
+        int chunkOriginZ = chunk.getZ() * 16;
         for (ComponentPlacement placement : placements) {
+            int placementOriginX = placement.chunk.x() * 16 + placement.localX;
+            int placementOriginZ = placement.chunk.z() * 16 + placement.localZ;
             for (ComponentBlock block : placement.component.blocks) {
-                blocks.add(new BlockCoordinate(placement.localX + block.x,
-                        placement.localY + block.y, placement.localZ + block.z));
+                int localX = placementOriginX + block.x - chunkOriginX;
+                int localZ = placementOriginZ + block.z - chunkOriginZ;
+                if (localX >= 0 && localX < 16 && localZ >= 0 && localZ < 16) {
+                    blocks.add(new BlockCoordinate(localX, placement.localY + block.y, localZ));
+                }
             }
         }
         return blocks;
@@ -565,25 +574,107 @@ public final class AtfWorldImporter {
     private void writeReviewableBlockGeometry(BufferedWriter out, ChunkColumn chunk,
                                               Set<BlockCoordinate> componentBlocks, ImportReport report)
             throws Exception {
-        for (int y = chunk.getMinY(); y <= chunk.getMaxY(); y++) {
-            int localY = y - chunk.getMinY();
-            String layer = solidLayerState(chunk, y, localY, componentBlocks);
-            if (layer != null && !AIR.equals(layer)) {
-                out.write("  fill 0 " + localY + " 0 to 15 " + localY + " 15 " + layer + "\n");
-                report.blockCommands++;
-                continue;
-            }
-            if (layer != null) {
-                continue;
-            }
-            if (layerHasBlocks(chunk, y, localY, componentBlocks)) {
-                out.write("  slice y=" + localY + " {\n");
-                for (int z = 0; z < 16; z++) {
-                    writeReviewableSliceRow(out, chunk, y, localY, z, componentBlocks, report);
-                }
-                out.write("  }\n");
+        int height = chunk.getMaxY() - chunk.getMinY() + 1;
+        boolean[][][] consumed = new boolean[height][16][16];
+        for (BlockCoordinate block : componentBlocks) {
+            if (block.y >= 0 && block.y < height && block.x >= 0 && block.x < 16 && block.z >= 0 && block.z < 16) {
+                consumed[block.y][block.z][block.x] = true;
             }
         }
+        for (int localY = 0; localY < height; localY++) {
+            for (int z = 0; z < 16; z++) {
+                for (int x = 0; x < 16; x++) {
+                    if (consumed[localY][z][x]) {
+                        continue;
+                    }
+                    String state = importBlockState(chunk, localY, z, x);
+                    if (AIR.equals(state)) {
+                        consumed[localY][z][x] = true;
+                        continue;
+                    }
+                    int endX = importBlockRunEndX(chunk, consumed, state, localY, z, x);
+                    int endZ = importBlockRunEndZ(chunk, consumed, state, localY, z, x, endX);
+                    int endY = importBlockRunEndY(chunk, consumed, state, localY, z, x, endX, endZ);
+                    for (int markY = localY; markY <= endY; markY++) {
+                        for (int markZ = z; markZ <= endZ; markZ++) {
+                            for (int markX = x; markX <= endX; markX++) {
+                                consumed[markY][markZ][markX] = true;
+                            }
+                        }
+                    }
+                    writeReviewableBlockCuboid(out, x, localY, z, endX, endY, endZ, state);
+                    report.blockCommands++;
+                }
+            }
+        }
+    }
+
+    private int importBlockRunEndX(ChunkColumn chunk, boolean[][][] consumed, String state,
+                                   int localY, int z, int startX) {
+        int endX = startX;
+        while (endX + 1 < 16 && importBlockMatches(chunk, consumed, state, localY, z, endX + 1)) {
+            endX++;
+        }
+        return endX;
+    }
+
+    private int importBlockRunEndZ(ChunkColumn chunk, boolean[][][] consumed, String state,
+                                   int localY, int startZ, int startX, int endX) {
+        int endZ = startZ;
+        while (endZ + 1 < 16 && importBlockRowMatches(chunk, consumed, state, localY, endZ + 1, startX, endX)) {
+            endZ++;
+        }
+        return endZ;
+    }
+
+    private int importBlockRunEndY(ChunkColumn chunk, boolean[][][] consumed, String state,
+                                   int startY, int startZ, int startX, int endX, int endZ) {
+        int endY = startY;
+        while (endY + 1 < consumed.length
+                && importBlockLayerRectangleMatches(chunk, consumed, state, endY + 1,
+                startZ, endZ, startX, endX)) {
+            endY++;
+        }
+        return endY;
+    }
+
+    private boolean importBlockLayerRectangleMatches(ChunkColumn chunk, boolean[][][] consumed, String state,
+                                                     int localY, int startZ, int endZ, int startX, int endX) {
+        for (int z = startZ; z <= endZ; z++) {
+            if (!importBlockRowMatches(chunk, consumed, state, localY, z, startX, endX)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean importBlockRowMatches(ChunkColumn chunk, boolean[][][] consumed, String state,
+                                          int localY, int z, int startX, int endX) {
+        for (int x = startX; x <= endX; x++) {
+            if (!importBlockMatches(chunk, consumed, state, localY, z, x)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean importBlockMatches(ChunkColumn chunk, boolean[][][] consumed, String state,
+                                       int localY, int z, int x) {
+        return !consumed[localY][z][x] && state.equals(importBlockState(chunk, localY, z, x));
+    }
+
+    private String importBlockState(ChunkColumn chunk, int localY, int z, int x) {
+        return blockState(chunk.getBlockState(x, chunk.getMinY() + localY, z));
+    }
+
+    private void writeReviewableBlockCuboid(BufferedWriter out, int x1, int y1, int z1,
+                                            int x2, int y2, int z2, String state) throws Exception {
+        if (x1 == x2 && y1 == y2 && z1 == z2) {
+            out.write("  set " + x1 + " " + y1 + " " + z1 + " " + state + "\n");
+            return;
+        }
+        out.write("  fill " + x1 + " " + y1 + " " + z1 + " to "
+                + x2 + " " + y2 + " " + z2 + " " + state + "\n");
     }
 
     private String solidLayerState(ChunkColumn chunk, int y, int localY, Set<BlockCoordinate> componentBlocks) {
@@ -663,17 +754,102 @@ public final class AtfWorldImporter {
 
     private void writeReviewableBiomes(BufferedWriter out, ChunkColumn chunk, String defaultBiome, ImportReport report)
             throws Exception {
+        int yCount = 0;
         for (int y = chunk.getMinY(); y <= chunk.getMaxY(); y += 4) {
-            for (int z = 0; z < 16; z += 4) {
-                for (int x = 0; x < 16; x += 4) {
-                    String biome = chunk.getBiome(x, y, z);
-                    if (!defaultBiome.equals(biome)) {
-                        out.write("  biome " + x + " " + (y - chunk.getMinY()) + " " + z + " " + biome + "\n");
-                        report.biomeCommands++;
+            yCount++;
+        }
+        boolean[][][] visited = new boolean[yCount][4][4];
+        for (int yi = 0; yi < yCount; yi++) {
+            for (int zi = 0; zi < 4; zi++) {
+                for (int xi = 0; xi < 4; xi++) {
+                    if (visited[yi][zi][xi]) {
+                        continue;
                     }
+                    String biome = biomeSample(chunk, yi, zi, xi);
+                    if (defaultBiome.equals(biome)) {
+                        visited[yi][zi][xi] = true;
+                        continue;
+                    }
+                    int endX = biomeRunEndX(chunk, visited, biome, yi, zi, xi);
+                    int endZ = biomeRunEndZ(chunk, visited, biome, yi, zi, xi, endX);
+                    int endY = biomeRunEndY(chunk, visited, biome, yi, zi, xi, endX, endZ);
+                    for (int markY = yi; markY <= endY; markY++) {
+                        for (int markZ = zi; markZ <= endZ; markZ++) {
+                            for (int markX = xi; markX <= endX; markX++) {
+                                visited[markY][markZ][markX] = true;
+                            }
+                        }
+                    }
+                    out.write("  fill_biome "
+                            + biomeSampleCoordinate(xi) + " " + biomeSampleLocalY(yi) + " "
+                            + biomeSampleCoordinate(zi) + " "
+                            + biomeSampleCoordinate(endX) + " " + biomeSampleLocalY(endY) + " "
+                            + biomeSampleCoordinate(endZ) + " " + biome + "\n");
+                    report.biomeCommands++;
                 }
             }
         }
+    }
+
+    private int biomeRunEndX(ChunkColumn chunk, boolean[][][] visited, String biome, int yi, int zi, int startX) {
+        int endX = startX;
+        while (endX + 1 < 4
+                && !visited[yi][zi][endX + 1]
+                && biome.equals(biomeSample(chunk, yi, zi, endX + 1))) {
+            endX++;
+        }
+        return endX;
+    }
+
+    private int biomeRunEndZ(ChunkColumn chunk, boolean[][][] visited, String biome, int yi, int startZ,
+                             int startX, int endX) {
+        int endZ = startZ;
+        while (endZ + 1 < 4 && biomeRectangleMatches(chunk, visited, biome, yi, endZ + 1, startX, endX)) {
+            endZ++;
+        }
+        return endZ;
+    }
+
+    private int biomeRunEndY(ChunkColumn chunk, boolean[][][] visited, String biome, int startY, int startZ,
+                             int startX, int endX, int endZ) {
+        int endY = startY;
+        while (endY + 1 < visited.length
+                && biomeLayerRectangleMatches(chunk, visited, biome, endY + 1, startZ, endZ, startX, endX)) {
+            endY++;
+        }
+        return endY;
+    }
+
+    private boolean biomeLayerRectangleMatches(ChunkColumn chunk, boolean[][][] visited, String biome, int yi,
+                                               int startZ, int endZ, int startX, int endX) {
+        for (int zi = startZ; zi <= endZ; zi++) {
+            if (!biomeRectangleMatches(chunk, visited, biome, yi, zi, startX, endX)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean biomeRectangleMatches(ChunkColumn chunk, boolean[][][] visited, String biome, int yi, int zi,
+                                          int startX, int endX) {
+        for (int xi = startX; xi <= endX; xi++) {
+            if (visited[yi][zi][xi] || !biome.equals(biomeSample(chunk, yi, zi, xi))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private String biomeSample(ChunkColumn chunk, int yi, int zi, int xi) {
+        return chunk.getBiome(biomeSampleCoordinate(xi), chunk.getMinY() + yi * 4, biomeSampleCoordinate(zi));
+    }
+
+    private int biomeSampleCoordinate(int index) {
+        return index * 4;
+    }
+
+    private int biomeSampleLocalY(int yi) {
+        return yi * 4;
     }
 
     private void writeReviewableBlockEntities(BufferedWriter out, ChunkColumn chunk, int originX, int originY,
@@ -749,6 +925,10 @@ public final class AtfWorldImporter {
         Map<String, List<ComponentCandidate>> candidatesByFingerprint = new HashMap<>();
         int candidatePlacements = 0;
         int chunksSeen = 0;
+        Set<ChunkPos> chunkPositions = new HashSet<>();
+        for (ChunkCoordinate coordinate : chunks) {
+            chunkPositions.add(new ChunkPos(coordinate.x, coordinate.z));
+        }
         try (RegionCache cache = new RegionCache(worldDir, "region");
              RegionCache entityCache = new RegionCache(worldDir, "entities")) {
             for (ChunkCoordinate coordinate : chunks) {
@@ -767,6 +947,19 @@ public final class AtfWorldImporter {
                             .add(candidate);
                     candidatePlacements++;
                 }
+                ChunkPos east = new ChunkPos(coordinate.x + 1, coordinate.z);
+                if (chunkPositions.contains(east)) {
+                    RegionCoordinate eastRegion = new RegionCoordinate(Math.floorDiv(east.x(), 32),
+                            Math.floorDiv(east.z(), 32));
+                    ChunkColumn eastChunk = loadChunk(cache.region(eastRegion), east.x(), east.z(),
+                            metadata.dataVersion);
+                    for (ComponentCandidate candidate : crossChunkComponentCandidates(chunk, eastChunk)) {
+                        candidatesByFingerprint
+                                .computeIfAbsent(candidate.fingerprint, ignored -> new ArrayList<>())
+                                .add(candidate);
+                        candidatePlacements++;
+                    }
+                }
             }
         }
 
@@ -774,37 +967,72 @@ public final class AtfWorldImporter {
                 .filter(entry -> entry.getValue().size() >= 3)
                 .filter(entry -> componentSavings(entry.getValue()) >= 4)
                 .sorted(Comparator
+                        .<Map.Entry<String, List<ComponentCandidate>>>comparingInt(
+                                entry -> componentSavings(entry.getValue()))
+                        .reversed()
+                        .thenComparing(Comparator
                         .<Map.Entry<String, List<ComponentCandidate>>>comparingInt(entry -> entry.getValue().size())
                         .reversed()
-                        .thenComparing(Map.Entry::getKey))
+                        .thenComparing(Map.Entry::getKey)))
                 .limit(128)
                 .toList();
 
         List<ExtractedComponent> components = new ArrayList<>();
         Map<ChunkPos, List<ComponentPlacement>> placementsByChunk = new HashMap<>();
+        List<ComponentPlacement> allPlacements = new ArrayList<>();
+        Set<WorldBlockCoordinate> promotedBlocks = new HashSet<>();
         int promotedPlacements = 0;
         int componentIndex = 1;
         for (Map.Entry<String, List<ComponentCandidate>> entry : repeated) {
-            List<ComponentCandidate> placements = entry.getValue();
+            List<ComponentCandidate> placements = entry.getValue().stream()
+                    .filter(placement -> !overlapsPromotedBlocks(placement, promotedBlocks))
+                    .toList();
+            if (placements.size() < 3 || componentSavings(placements) < 4) {
+                continue;
+            }
             ExtractedComponent component = new ExtractedComponent(
                     "component-%04d".formatted(componentIndex++), placements.get(0).blocks);
             components.add(component);
             promotedPlacements += placements.size();
             for (ComponentCandidate placement : placements) {
+                ComponentPlacement promoted = new ComponentPlacement(component, placement.chunk,
+                        placement.localX, placement.localY, placement.localZ);
+                allPlacements.add(promoted);
                 placementsByChunk.computeIfAbsent(placement.chunk, ignored -> new ArrayList<>())
-                        .add(new ComponentPlacement(component, placement.localX, placement.localY, placement.localZ));
+                        .add(promoted);
+                promotedBlocks.addAll(worldBlocks(placement));
             }
         }
         for (List<ComponentPlacement> placements : placementsByChunk.values()) {
             placements.sort(Comparator.naturalOrder());
         }
-        return new ComponentExtraction(components, placementsByChunk, candidatePlacements, promotedPlacements);
+        allPlacements.sort(Comparator.naturalOrder());
+        return new ComponentExtraction(components, placementsByChunk, allPlacements,
+                candidatePlacements, promotedPlacements);
     }
 
     private int componentSavings(List<ComponentCandidate> placements) {
         int inlineCommands = placements.size() * placements.get(0).blocks.size();
         int extractedCommands = componentCommandCount(placements.get(0).blocks) + placements.size();
         return inlineCommands - extractedCommands;
+    }
+
+    private boolean overlapsPromotedBlocks(ComponentCandidate placement, Set<WorldBlockCoordinate> promotedBlocks) {
+        for (WorldBlockCoordinate block : worldBlocks(placement)) {
+            if (promotedBlocks.contains(block)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private List<WorldBlockCoordinate> worldBlocks(ComponentCandidate placement) {
+        int originX = placement.chunk.x() * 16 + placement.localX;
+        int originZ = placement.chunk.z() * 16 + placement.localZ;
+        return placement.blocks.stream()
+                .map(block -> new WorldBlockCoordinate(originX + block.x, placement.localY + block.y,
+                        originZ + block.z))
+                .toList();
     }
 
     private List<ComponentCandidate> componentCandidates(ChunkColumn chunk) {
@@ -961,7 +1189,10 @@ public final class AtfWorldImporter {
         if (width > 16 || height > 16 || depth > 16 || volume > 2048) {
             return null;
         }
-        if (touchesChunkBoundary(minX, maxX, minZ, maxZ) || minY == 0 || maxY == chunk.getMaxY() - chunk.getMinY()) {
+        if (touchesChunkBoundary(minX, maxX, minZ, maxZ) && !isBoundaryObjectLike(component, volume)) {
+            return null;
+        }
+        if (minY == 0 || maxY == chunk.getMaxY() - chunk.getMinY()) {
             return null;
         }
         if (component.stream().anyMatch(blockEntities::contains)) {
@@ -981,6 +1212,175 @@ public final class AtfWorldImporter {
 
     private boolean touchesChunkBoundary(int minX, int maxX, int minZ, int maxZ) {
         return minX == 0 || maxX == 15 || minZ == 0 || maxZ == 15;
+    }
+
+    private boolean isBoundaryObjectLike(List<BlockCoordinate> component, int volume) {
+        if (component.size() > 192 || volume > 768) {
+            return false;
+        }
+        int boundaryBlocks = 0;
+        for (BlockCoordinate block : component) {
+            if (block.x == 0 || block.x == 15 || block.z == 0 || block.z == 15) {
+                boundaryBlocks++;
+            }
+        }
+        return boundaryBlocks <= Math.max(32, component.size() / 2);
+    }
+
+    private List<ComponentCandidate> crossChunkComponentCandidates(ChunkColumn west, ChunkColumn east) {
+        Set<BlockCoordinate> visited = new HashSet<>();
+        Set<BlockCoordinate> blockEntities = crossChunkBlockEntityCoordinates(west, east);
+        List<ComponentCandidate> candidates = new ArrayList<>();
+        for (int y = west.getMinY(); y <= west.getMaxY(); y++) {
+            int localY = y - west.getMinY();
+            for (int z = 0; z < 16; z++) {
+                for (int x = 0; x < 32; x++) {
+                    BlockCoordinate start = new BlockCoordinate(x, localY, z);
+                    if (visited.contains(start) || AIR.equals(crossChunkBlockState(west, east, x, y, z))) {
+                        continue;
+                    }
+                    List<BlockCoordinate> component = collectCrossChunkComponent(west, east, start, visited);
+                    ComponentCandidate candidate = crossChunkComponentCandidate(west, east, component, blockEntities);
+                    if (candidate != null) {
+                        candidates.add(candidate);
+                    }
+                }
+            }
+        }
+        return candidates;
+    }
+
+    private List<BlockCoordinate> collectCrossChunkComponent(ChunkColumn west, ChunkColumn east,
+                                                             BlockCoordinate start,
+                                                             Set<BlockCoordinate> visited) {
+        List<BlockCoordinate> component = new ArrayList<>();
+        ArrayDeque<BlockCoordinate> queue = new ArrayDeque<>();
+        queue.add(start);
+        visited.add(start);
+        while (!queue.isEmpty()) {
+            BlockCoordinate current = queue.removeFirst();
+            component.add(current);
+            for (BlockCoordinate neighbor : neighbors(current)) {
+                if (neighbor.x < 0 || neighbor.x >= 32 || neighbor.z < 0 || neighbor.z >= 16
+                        || neighbor.y < 0 || neighbor.y > west.getMaxY() - west.getMinY()
+                        || visited.contains(neighbor)) {
+                    continue;
+                }
+                if (isCrossChunkSupportCut(west, east, current, neighbor)) {
+                    continue;
+                }
+                int worldY = west.getMinY() + neighbor.y;
+                if (AIR.equals(crossChunkBlockState(west, east, neighbor.x, worldY, neighbor.z))) {
+                    continue;
+                }
+                visited.add(neighbor);
+                queue.add(neighbor);
+            }
+        }
+        return component;
+    }
+
+    private ComponentCandidate crossChunkComponentCandidate(ChunkColumn west, ChunkColumn east,
+                                                            List<BlockCoordinate> component,
+                                                            Set<BlockCoordinate> blockEntities) {
+        if (component.size() < 4 || component.size() > 768) {
+            return null;
+        }
+        int minX = component.stream().mapToInt(BlockCoordinate::x).min().orElse(0);
+        int maxX = component.stream().mapToInt(BlockCoordinate::x).max().orElse(0);
+        int minY = component.stream().mapToInt(BlockCoordinate::y).min().orElse(0);
+        int maxY = component.stream().mapToInt(BlockCoordinate::y).max().orElse(0);
+        int minZ = component.stream().mapToInt(BlockCoordinate::z).min().orElse(0);
+        int maxZ = component.stream().mapToInt(BlockCoordinate::z).max().orElse(0);
+        if (minX >= 16 || maxX < 16) {
+            return null;
+        }
+        int width = maxX - minX + 1;
+        int height = maxY - minY + 1;
+        int depth = maxZ - minZ + 1;
+        int volume = width * height * depth;
+        if (width > 32 || height > 16 || depth > 16 || volume > 4096) {
+            return null;
+        }
+        if (minY == 0 || maxY == west.getMaxY() - west.getMinY()) {
+            return null;
+        }
+        if (component.stream().anyMatch(blockEntities::contains)) {
+            return null;
+        }
+        if (component.size() > volume * 0.95 && volume > 512) {
+            return null;
+        }
+        List<ComponentBlock> blocks = component.stream()
+                .map(block -> new ComponentBlock(block.x - minX, block.y - minY, block.z - minZ,
+                        crossChunkBlockState(west, east, block.x, west.getMinY() + block.y, block.z)))
+                .sorted()
+                .toList();
+        return new ComponentCandidate(new ChunkPos(west.getX(), west.getZ()), minX, minY, minZ,
+                blocks, fingerprint(blocks));
+    }
+
+    private boolean isCrossChunkSupportCut(ChunkColumn west, ChunkColumn east,
+                                           BlockCoordinate current, BlockCoordinate neighbor) {
+        if (current.x != neighbor.x || current.z != neighbor.z || Math.abs(current.y - neighbor.y) != 1) {
+            return false;
+        }
+        if (neighbor.y > current.y) {
+            return isCrossChunkBroadSupport(west, east, current);
+        }
+        return isCrossChunkBroadSupport(west, east, neighbor);
+    }
+
+    private boolean isCrossChunkBroadSupport(ChunkColumn west, ChunkColumn east, BlockCoordinate coordinate) {
+        int worldY = west.getMinY() + coordinate.y;
+        int neighbors = 0;
+        if (coordinate.x > 0 && !AIR.equals(crossChunkBlockState(west, east,
+                coordinate.x - 1, worldY, coordinate.z))) {
+            neighbors++;
+        }
+        if (coordinate.x < 31 && !AIR.equals(crossChunkBlockState(west, east,
+                coordinate.x + 1, worldY, coordinate.z))) {
+            neighbors++;
+        }
+        if (coordinate.z > 0 && !AIR.equals(crossChunkBlockState(west, east,
+                coordinate.x, worldY, coordinate.z - 1))) {
+            neighbors++;
+        }
+        if (coordinate.z < 15 && !AIR.equals(crossChunkBlockState(west, east,
+                coordinate.x, worldY, coordinate.z + 1))) {
+            neighbors++;
+        }
+        return neighbors >= 3;
+    }
+
+    private String crossChunkBlockState(ChunkColumn west, ChunkColumn east, int windowX, int y, int z) {
+        if (windowX < 16) {
+            return blockState(west.getBlockState(windowX, y, z));
+        }
+        return blockState(east.getBlockState(windowX - 16, y, z));
+    }
+
+    private Set<BlockCoordinate> crossChunkBlockEntityCoordinates(ChunkColumn west, ChunkColumn east) {
+        Set<BlockCoordinate> coordinates = new HashSet<>();
+        int westOriginX = west.getX() * 16;
+        int westOriginZ = west.getZ() * 16;
+        for (NBTCompound blockEntity : west.getTileEntities()) {
+            Integer x = blockEntity.getInt("x");
+            Integer y = blockEntity.getInt("y");
+            Integer z = blockEntity.getInt("z");
+            if (x != null && y != null && z != null) {
+                coordinates.add(new BlockCoordinate(x - westOriginX, y - west.getMinY(), z - westOriginZ));
+            }
+        }
+        for (NBTCompound blockEntity : east.getTileEntities()) {
+            Integer x = blockEntity.getInt("x");
+            Integer y = blockEntity.getInt("y");
+            Integer z = blockEntity.getInt("z");
+            if (x != null && y != null && z != null) {
+                coordinates.add(new BlockCoordinate(x - westOriginX, y - west.getMinY(), z - westOriginZ));
+            }
+        }
+        return coordinates;
     }
 
     private String fingerprint(List<ComponentBlock> blocks) {
@@ -1689,6 +2089,9 @@ public final class AtfWorldImporter {
     private record BlockCoordinate(int x, int y, int z) {
     }
 
+    private record WorldBlockCoordinate(int x, int y, int z) {
+    }
+
     private record ComponentBlock(int x, int y, int z, String state) implements Comparable<ComponentBlock> {
         @Override
         public int compareTo(ComponentBlock other) {
@@ -1722,10 +2125,18 @@ public final class AtfWorldImporter {
         }
     }
 
-    private record ComponentPlacement(ExtractedComponent component, int localX, int localY, int localZ)
+    private record ComponentPlacement(ExtractedComponent component, ChunkPos chunk, int localX, int localY, int localZ)
             implements Comparable<ComponentPlacement> {
         @Override
         public int compareTo(ComponentPlacement other) {
+            int chunkZCompare = Integer.compare(chunk.z(), other.chunk.z());
+            if (chunkZCompare != 0) {
+                return chunkZCompare;
+            }
+            int chunkXCompare = Integer.compare(chunk.x(), other.chunk.x());
+            if (chunkXCompare != 0) {
+                return chunkXCompare;
+            }
             int yCompare = Integer.compare(localY, other.localY);
             if (yCompare != 0) {
                 return yCompare;
@@ -1744,6 +2155,7 @@ public final class AtfWorldImporter {
 
     private record ComponentExtraction(List<ExtractedComponent> components,
                                        Map<ChunkPos, List<ComponentPlacement>> placementsByChunk,
+                                       List<ComponentPlacement> allPlacements,
                                        int candidatePlacements, int promotedPlacements) {
     }
 

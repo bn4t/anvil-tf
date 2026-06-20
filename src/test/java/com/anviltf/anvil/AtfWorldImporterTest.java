@@ -157,7 +157,7 @@ class AtfWorldImporterTest {
                   fill 0 0 0 15 15 15 minecraft:stone
                   fill 0 16 0 15 16 15 minecraft:glass
                   set 2 17 2 minecraft:gold_block
-                  biome 0 0 0 minecraft:flower_forest
+                  fill_biome 0 0 0 15 15 15 minecraft:flower_forest
                   block_entity 2 17 2 minecraft:chest {
                     item Items slot 0 minecraft:bread count 3
                   }
@@ -181,9 +181,44 @@ class AtfWorldImporterTest {
         String group = Files.readString(importedDir.resolve("groups/imported-0-0.atf"));
         assertEquals(true, group.contains("group \"imported 0,0\""));
         assertEquals(true, group.contains("origin 0 0 0"));
-        assertEquals(true, group.contains("slice y=17"));
+        assertEquals(true, group.contains("fill 0 0 0 to 15 15 15 minecraft:stone"));
+        assertEquals(true, group.contains("set 2 17 2 minecraft:gold_block"));
+        assertEquals(true, group.contains("fill_biome 0 0 0 12 12 12 minecraft:flower_forest"));
+        assertEquals(1, report.biomeCommands());
         assertEquals(1, comparison.chunkCount());
         assertEquals(16384, comparison.blockChecks());
+        assertEquals(true, comparison.biomeChecks() > 0);
+    }
+
+    @Test
+    void reviewableImportCompressesPartialBlockCuboids() throws Exception {
+        WorldSpec source = new DslParser().parse("""
+                world "Partial Cuboid Compression" {
+                  version 3465
+                  min_y 0
+                  height 32
+                  fill 3 2 4 to 10 6 9 minecraft:granite
+                  set 12 7 12 minecraft:gold_block
+                }
+                """);
+        Path sourceWorld = tempDir.resolve("partial-cuboid-source-world");
+        new AnvilWorldWriter().write(source, sourceWorld);
+
+        Path importedDir = tempDir.resolve("partial-cuboid-import");
+        AtfWorldImporter.ImportReport report = new AtfWorldImporter().importWorld(sourceWorld, importedDir,
+                new AtfWorldImporter.ImportOptions(0, AtfWorldImporter.ImportLayout.REVIEWABLE));
+        WorldSpec imported = new DslParser().parse(importedDir.resolve("world.atf"));
+        Path regeneratedWorld = tempDir.resolve("partial-cuboid-regenerated-world");
+        new AnvilWorldWriter().write(imported, regeneratedWorld);
+        ReferenceWorldRoundTripComparator.ComparisonReport comparison =
+                new ReferenceWorldRoundTripComparator().compare(sourceWorld, regeneratedWorld);
+
+        String group = Files.readString(importedDir.resolve("groups/imported-0-0.atf"));
+        assertEquals(true, group.contains("fill 3 2 4 to 10 6 9 minecraft:granite"));
+        assertEquals(true, group.contains("set 12 7 12 minecraft:gold_block"));
+        assertEquals(2, report.blockCommands());
+        assertEquals(1, comparison.chunkCount());
+        assertEquals(8192, comparison.blockChecks());
     }
 
     @Test
@@ -261,6 +296,84 @@ class AtfWorldImporterTest {
         assertEquals(true, group.contains("place component-0001 at 7 1 2"));
         assertEquals(true, group.contains("place component-0001 at 2 1 7"));
         assertEquals(1, comparison.chunkCount());
+    }
+
+    @Test
+    void reviewableImportPromotesRepeatedBoundaryTouchingVolumesToComponents() throws Exception {
+        WorldSpec source = new DslParser().parse("""
+                world "Repeated Boundary Components" {
+                  version 3465
+                  min_y 0
+                  height 32
+                  fill 0 0 0 to 95 0 15 minecraft:stone_bricks
+                  fill 14 1 2 to 15 2 3 minecraft:copper_block
+                  fill 46 1 2 to 47 2 3 minecraft:copper_block
+                  fill 78 1 2 to 79 2 3 minecraft:copper_block
+                }
+                """);
+        Path sourceWorld = tempDir.resolve("boundary-component-source-world");
+        new AnvilWorldWriter().write(source, sourceWorld);
+
+        Path importedDir = tempDir.resolve("boundary-component-import");
+        AtfWorldImporter.ImportReport report = new AtfWorldImporter().importWorld(sourceWorld, importedDir,
+                new AtfWorldImporter.ImportOptions(0, AtfWorldImporter.ImportLayout.REVIEWABLE));
+        WorldSpec imported = new DslParser().parse(importedDir.resolve("world.atf"));
+        Path regeneratedWorld = tempDir.resolve("boundary-component-regenerated-world");
+        new AnvilWorldWriter().write(imported, regeneratedWorld);
+        ReferenceWorldRoundTripComparator.ComparisonReport comparison =
+                new ReferenceWorldRoundTripComparator().compare(sourceWorld, regeneratedWorld);
+
+        assertEquals(1, report.promotedComponents());
+        assertEquals(3, report.componentPlacements());
+        String component = Files.readString(importedDir.resolve("components/component-0001.atf"));
+        assertEquals(true, component.contains("bounds 0 0 0 to 1 1 1"));
+        assertEquals(true, Files.readString(importedDir.resolve("groups/imported-0-0.atf"))
+                .contains("place component-0001 at 14 1 2"));
+        assertEquals(true, Files.readString(importedDir.resolve("groups/imported-2-0.atf"))
+                .contains("place component-0001 at 14 1 2"));
+        assertEquals(true, Files.readString(importedDir.resolve("groups/imported-4-0.atf"))
+                .contains("place component-0001 at 14 1 2"));
+        assertEquals(6, comparison.chunkCount());
+    }
+
+    @Test
+    void reviewableImportPromotesRepeatedCrossChunkVolumesToComponents() throws Exception {
+        WorldSpec source = new DslParser().parse("""
+                world "Repeated Cross Chunk Components" {
+                  version 3465
+                  min_y 0
+                  height 32
+                  fill 0 0 0 to 95 0 15 minecraft:stone_bricks
+                  fill 14 1 4 to 17 2 5 minecraft:copper_block
+                  fill 46 1 4 to 49 2 5 minecraft:copper_block
+                  fill 78 1 4 to 81 2 5 minecraft:copper_block
+                }
+                """);
+        Path sourceWorld = tempDir.resolve("cross-chunk-component-source-world");
+        new AnvilWorldWriter().write(source, sourceWorld);
+
+        Path importedDir = tempDir.resolve("cross-chunk-component-import");
+        AtfWorldImporter.ImportReport report = new AtfWorldImporter().importWorld(sourceWorld, importedDir,
+                new AtfWorldImporter.ImportOptions(0, AtfWorldImporter.ImportLayout.REVIEWABLE));
+        WorldSpec imported = new DslParser().parse(importedDir.resolve("world.atf"));
+        Path regeneratedWorld = tempDir.resolve("cross-chunk-component-regenerated-world");
+        new AnvilWorldWriter().write(imported, regeneratedWorld);
+        ReferenceWorldRoundTripComparator.ComparisonReport comparison =
+                new ReferenceWorldRoundTripComparator().compare(sourceWorld, regeneratedWorld);
+
+        assertEquals(1, report.promotedComponents());
+        assertEquals(3, report.componentPlacements());
+        String component = Files.readString(importedDir.resolve("components/component-0001.atf"));
+        assertEquals(true, component.contains("bounds 0 0 0 to 3 1 1"));
+        assertEquals(true, Files.readString(importedDir.resolve("groups/imported-0-0.atf"))
+                .contains("place component-0001 at 14 1 4"));
+        assertEquals(true, Files.readString(importedDir.resolve("groups/imported-2-0.atf"))
+                .contains("place component-0001 at 14 1 4"));
+        assertEquals(true, Files.readString(importedDir.resolve("groups/imported-4-0.atf"))
+                .contains("place component-0001 at 14 1 4"));
+        assertEquals(false, Files.readString(importedDir.resolve("groups/imported-1-0.atf"))
+                .contains("minecraft:copper_block"));
+        assertEquals(6, comparison.chunkCount());
     }
 
     @Test

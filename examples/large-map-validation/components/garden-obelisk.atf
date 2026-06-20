@@ -1,0 +1,13 @@
+component "garden-obelisk" {
+  bounds -10 0 -10 to 10 20 10
+  fill -10 0 -10 to 10 0 10 minecraft:polished_andesite
+  fill -8 1 -8 to 8 1 8 minecraft:mossy_stone_bricks
+  fill -4 2 -4 to 4 4 4 minecraft:polished_andesite
+  fill -2 5 -2 to 2 16 2 minecraft:quartz_pillar[axis=y]
+  fill -1 17 -1 to 1 19 1 minecraft:amethyst_block
+  set 0 20 0 minecraft:sea_lantern
+  fill -9 1 0 to -7 3 0 minecraft:azalea_leaves[persistent=true]
+  fill 7 1 0 to 9 3 0 minecraft:azalea_leaves[persistent=true]
+  fill 0 1 -9 to 0 3 -7 minecraft:azalea_leaves[persistent=true]
+  fill 0 1 7 to 0 3 9 minecraft:azalea_leaves[persistent=true]
+}

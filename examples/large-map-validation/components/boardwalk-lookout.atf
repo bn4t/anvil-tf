@@ -1,0 +1,18 @@
+component "boardwalk-lookout" {
+  bounds -10 0 -7 to 10 12 7
+  fill -10 0 -7 to 10 0 7 minecraft:mangrove_planks
+  fill -8 1 -5 to 8 1 5 minecraft:stripped_mangrove_wood[axis=y]
+  fill -9 2 -6 to -7 9 -4 minecraft:mangrove_log[axis=y]
+  fill 7 2 -6 to 9 9 -4 minecraft:mangrove_log[axis=y]
+  fill -9 2 4 to -7 9 6 minecraft:mangrove_log[axis=y]
+  fill 7 2 4 to 9 9 6 minecraft:mangrove_log[axis=y]
+  fill -10 10 -7 to 10 10 7 minecraft:mangrove_planks
+  fill -8 11 -5 to 8 12 5 minecraft:dark_oak_planks
+  fill -10 -10 -6 to -10 0 -6 minecraft:mangrove_log[axis=y]
+  fill 10 -10 -6 to 10 0 -6 minecraft:mangrove_log[axis=y]
+  fill -10 -10 6 to -10 0 6 minecraft:mangrove_log[axis=y]
+  fill 10 -10 6 to 10 0 6 minecraft:mangrove_log[axis=y]
+  set 0 2 0 minecraft:crafting_table
+  set -9 2 0 minecraft:lantern[hanging=false,waterlogged=false]
+  set 9 2 0 minecraft:lantern[hanging=false,waterlogged=false]
+}

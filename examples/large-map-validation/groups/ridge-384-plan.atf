@@ -1,0 +1,212 @@
+# Second large validation group. It is intentionally ordinary ATF source:
+# a placed group with local coordinates and an experimental plan block.
+group "ridge 384 validation skeleton" {
+  origin 320 0 -192
+  bounds 0 0 0 to 384 128 384
+
+  block_palette ridge_path_mix {
+    block minecraft:stone_bricks weight 5
+    block minecraft:mossy_stone_bricks weight 3
+    block minecraft:andesite weight 2
+    block minecraft:gravel weight 1
+  }
+  block_palette ridge_dark_path_mix {
+    block minecraft:polished_blackstone weight 5
+    block minecraft:blackstone weight 3
+    block minecraft:basalt weight 2
+    block minecraft:cracked_polished_blackstone_bricks weight 1
+  }
+  block_palette ridge_plaza_mix {
+    block minecraft:stone_bricks weight 7
+    block minecraft:mossy_stone_bricks weight 3
+    block minecraft:polished_andesite weight 2
+  }
+  block_palette ridge_gate_mix {
+    block minecraft:polished_andesite weight 7
+    block minecraft:stone_bricks weight 3
+    block minecraft:chiseled_stone_bricks weight 1
+  }
+
+  plan {
+    area 0 0 384 384
+
+    style ridge {
+      top minecraft:grass_block[snowy=false]
+      under minecraft:dirt
+      water minecraft:water[level=0]
+      hazard minecraft:lava[level=0]
+      path ridge_path_mix
+      plaza_floor minecraft:stone_bricks
+      plaza_floor_palette ridge_plaza_mix
+      plaza_edge minecraft:mossy_stone_bricks
+      gate_floor minecraft:polished_andesite
+      gate_floor_palette ridge_gate_mix
+      gate_edge minecraft:stone_bricks
+      garden_floor minecraft:moss_block
+      watch_floor minecraft:mossy_stone_bricks
+      dock_floor minecraft:dark_oak_planks
+      dock_floor_palette ridge_path_mix
+      dock_edge minecraft:spruce_planks
+      landmark facade-tower-cap
+      plaza_landmark spawn-beacon
+      gate_landmark temple-spire
+      garden_landmark garden-obelisk
+      watch_landmark harbor-watch
+      dock_landmark boardwalk-lookout
+      wall_piece low-wall-segment
+      column_piece ruin-column
+      arch_piece stone-arch
+      facade_shop facade-shop-narrow
+      facade_house facade-house-wide
+      tower_piece facade-tower-cap
+      rib_piece facade-roof-rib
+      keep_piece ridge-keep-core
+      stair_tower_piece ridge-stair-tower
+      gallery_piece ridge-gallery-span
+      post_piece dock-post
+      planter_piece planter-box
+      light lantern-post
+      foliage minecraft:fern
+      accent minecraft:azalea
+    }
+    style basalt {
+      top minecraft:blackstone
+      under minecraft:basalt
+      water minecraft:water[level=0]
+      hazard minecraft:lava[level=0]
+      path ridge_dark_path_mix
+      plaza_floor minecraft:polished_blackstone_bricks
+      plaza_floor_palette ridge_dark_path_mix
+      plaza_edge minecraft:blackstone
+      gate_floor minecraft:chiseled_polished_blackstone
+      gate_floor_palette ridge_dark_path_mix
+      gate_edge minecraft:polished_blackstone_bricks
+      garden_floor minecraft:smooth_basalt
+      watch_floor minecraft:cracked_polished_blackstone_bricks
+      dock_floor minecraft:warped_planks
+      dock_floor_palette ridge_dark_path_mix
+      dock_edge minecraft:blackstone
+      landmark facade-tower-cap
+      plaza_landmark spawn-beacon
+      gate_landmark temple-spire
+      garden_landmark garden-obelisk
+      watch_landmark harbor-watch
+      dock_landmark boardwalk-lookout
+      wall_piece low-wall-segment
+      column_piece ruin-column
+      arch_piece stone-arch
+      facade_shop facade-shop-narrow
+      facade_house facade-house-wide
+      tower_piece facade-tower-cap
+      rib_piece facade-roof-rib
+      keep_piece ridge-keep-core
+      stair_tower_piece ridge-stair-tower
+      gallery_piece ridge-gallery-span
+      post_piece dock-post
+      planter_piece planter-box
+      light lantern-post
+      foliage minecraft:dead_bush
+      accent minecraft:red_mushroom
+    }
+    use_style ridge
+
+    mask plateau = radial 192 192 radius 174 noise 0.2 seed 501
+    mask ravine_north = circle 192 72 radius 36
+    mask ravine_mid = rect 174 82 210 302
+    mask ravine_south = circle 192 318 radius 36
+    mask ravine_upper = ravine_north + ravine_mid
+    mask ravine = ravine_upper + ravine_south
+    mask west_court = circle 118 190 radius 42
+    mask east_court = circle 274 190 radius 42
+    mask playable = plateau - ravine
+
+    field ground = terrain plateau base 72 amplitude 14 scale 42 octaves 4 seed 502
+
+    terrain plateau field ground from 1 top style.top under style.under
+    water outside plateau from 1 to 60 style.water
+    clear outside plateau from 61 to 128
+    lava ravine from 1 to 66 style.hazard
+    clear ravine from 67 to 128
+    fill_biome plateau 60 118 minecraft:stony_peaks
+    fill_biome ravine 60 118 minecraft:basalt_deltas
+
+    route "ridge spine" width 7 palette style.path conform ground seed 601 {
+      point 68 192
+      point 136 192
+      point 192 192
+      crossing 192 192 radius 38
+      point 248 192
+      point 316 192
+    }
+    route "north wall walk" width 5 palette style.path conform ground seed 602 {
+      point 118 190
+      point 116 108
+      point 192 72
+      crossing 192 72 radius 44
+      point 268 108
+      point 274 190
+    }
+    route "south terrace walk" width 5 palette style.path conform ground seed 603 {
+      point 118 190
+      point 112 276
+      point 192 318
+      crossing 192 318 radius 44
+      point 272 276
+      point 274 190
+    }
+    route "dock descent" width 5 palette style.path conform ground seed 604 {
+      point 118 190
+      point 80 248
+      crossing 54 305 radius 36
+      point 48 314
+    }
+
+    reserve "west court" circle 118 190 radius 44 conform ground floor style.plaza_floor floor_palette style.plaza_floor_palette seed 805 edge style.plaza_edge edge_width 3 clear_to 112 require_route 10
+    reserve "east court" circle 274 190 radius 42 conform ground floor style.gate_floor floor_palette style.gate_floor_palette seed 806 edge style.gate_edge edge_width 3 clear_to 124 require_route 10
+    reserve "north watch" circle 192 72 radius 36 conform ground floor style.watch_floor clear_to 118 require_route 10
+    reserve "south garden" circle 192 318 radius 30 conform ground floor style.garden_floor clear_to 108 require_route 10
+    reserve "west dock" rect 28 294 76 352 conform ground floor style.dock_floor floor_palette style.dock_floor_palette seed 807 edge style.dock_edge edge_width 2 clear_to 98 require_route 10
+
+    landmark "west beacon" component style.plaza_landmark at 118 190 conform ground reserve "west court" radius 10 height 24 rotate 0
+    landmark "east keep" component style.keep_piece at 274 190 conform ground reserve "east court" radius 18 height 38 rotate 90
+    landmark "north watch cap" component style.watch_landmark at 192 72 conform ground reserve "north watch" radius 13 height 13 rotate 180
+    landmark "south garden obelisk" component style.garden_landmark at 192 318 conform ground reserve "south garden" radius 12 height 20 rotate 0
+    landmark "west dock lookout" component style.dock_landmark at 52 322 conform ground reserve "west dock" radius 12 height 12 rotate 270
+
+    cluster "west court frontage" at reserve "west court" conform ground spacing 1 {
+      component style.facade_shop at -20 -24 radius 6 height 13 rotate 0
+      component style.facade_house at 0 -26 radius 8 height 15 rotate 0
+      component style.facade_shop at 20 -24 radius 6 height 13 rotate 0
+      repeat component style.arch_piece from -22 24 to 22 24 count 3 radius 5 height 8 rotate 180
+    }
+    cluster "east gate ribs" at reserve "east court" conform ground spacing 3 {
+      component style.stair_tower_piece at -28 -16 radius 7 height 28 rotate 270
+      component style.stair_tower_piece at 28 -16 radius 7 height 28 rotate 90
+      component style.gallery_piece at 0 -24 radius 14 height 12 rotate 0
+      repeat component style.rib_piece from -18 28 to 18 28 count 3 radius 3 height 8 rotate 0
+    }
+    cluster "north wall rhythm" at reserve "north watch" conform ground spacing 3 {
+      repeat component style.wall_piece from -22 -18 to 22 -18 count 5 radius 4 height 3 rotate 0
+      repeat component style.column_piece from -24 8 to 24 8 count 4 radius 2 height 7 rotate 0
+    }
+    cluster "south garden rows" at reserve "south garden" conform ground spacing 4 {
+      repeat component style.planter_piece from -16 -12 to 16 -12 count 3 radius 4 height 3 rotate 0
+      repeat component style.planter_piece from -16 12 to 16 12 count 3 radius 4 height 3 rotate 0
+      repeat component style.light from -18 0 to 18 0 count 3 radius 1 height 5 rotate 0
+    }
+    cluster "dock posts" at reserve "west dock" conform ground spacing 4 {
+      repeat component style.post_piece from -18 -20 to 18 -20 count 4 radius 2 height 4 rotate 0
+      repeat component style.post_piece from -18 18 to 18 18 count 4 radius 2 height 4 rotate 0
+    }
+
+    scatter_in playable count 80 seed 710 avoid_routes 6 avoid_reservations 8 conform ground {
+      component style.landmark weight 1
+      component style.light weight 5
+      set style.foliage weight 7
+      set style.accent weight 3
+    }
+
+    loot playable tier 1 count 18 seed 801 avoid_routes 5 avoid_reservations 8 conform ground
+    loot playable tier 2 count 7 seed 802 avoid_routes 8 avoid_reservations 3 conform ground
+  }
+}

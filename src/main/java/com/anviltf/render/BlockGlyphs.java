@@ -75,6 +75,33 @@ public final class BlockGlyphs {
     }
 
     private static Character curatedGlyph(String name) {
+        if (name.startsWith("plan:loot")) {
+            return 'L';
+        }
+        if (name.startsWith("plan:scatter")) {
+            return '*';
+        }
+        if (name.startsWith("plan:crossing")) {
+            return 'X';
+        }
+        if (name.startsWith("plan:cluster")) {
+            return 'C';
+        }
+        if (name.startsWith("plan:landmark")) {
+            return 'M';
+        }
+        if (name.startsWith("plan:route")) {
+            return '+';
+        }
+        if (name.startsWith("plan:reservation")) {
+            return 'R';
+        }
+        if (name.startsWith("plan:hazard")) {
+            return '~';
+        }
+        if (name.startsWith("plan:mask")) {
+            return '.';
+        }
         if (name.contains("water")) {
             return '~';
         }
@@ -111,6 +138,33 @@ public final class BlockGlyphs {
     }
 
     private static Integer curatedColor(String name) {
+        if (name.startsWith("plan:loot")) {
+            return 0xFFD84D;
+        }
+        if (name.startsWith("plan:scatter")) {
+            return 0x5FAF5A;
+        }
+        if (name.startsWith("plan:crossing")) {
+            return 0xF4F1DE;
+        }
+        if (name.startsWith("plan:cluster")) {
+            return 0xC75CFF;
+        }
+        if (name.startsWith("plan:landmark")) {
+            return 0x7C4DFF;
+        }
+        if (name.startsWith("plan:route")) {
+            return 0xE07A2F;
+        }
+        if (name.startsWith("plan:reservation")) {
+            return 0xD64F7A;
+        }
+        if (name.startsWith("plan:hazard")) {
+            return 0x3A78C2;
+        }
+        if (name.startsWith("plan:mask")) {
+            return 0x6F8F72;
+        }
         if (name.contains("water")) {
             return 0x3A6EA5;
         }

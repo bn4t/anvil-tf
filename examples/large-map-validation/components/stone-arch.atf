@@ -1,0 +1,8 @@
+component "stone-arch" {
+  bounds -4 0 -2 to 4 8 2
+  fill -4 0 -2 to -2 6 2 minecraft:mossy_stone_bricks
+  fill 2 0 -2 to 4 6 2 minecraft:mossy_stone_bricks
+  fill -4 7 -2 to 4 8 2 minecraft:stone_bricks
+  fill -1 6 -2 to 1 6 2 minecraft:chiseled_stone_bricks
+  set 0 5 0 minecraft:lantern[hanging=true,waterlogged=false]
+}

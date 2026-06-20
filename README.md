@@ -43,6 +43,31 @@ java -jar anvil-tf.jar diagnose <input.atf>
 java -jar anvil-tf.jar validate <world-dir>
 java -jar anvil-tf.jar compare <source-world-dir> <regenerated-world-dir>
 java -jar anvil-tf.jar import <world-dir> <output.atf-or-dir> [--chunk-limit n] [--layout flat|reviewable]
+java -jar anvil-tf.jar source-metrics <input.atf-or-dir>
+java -jar anvil-tf.jar source-gates <input.atf-or-dir>
+java -jar anvil-tf.jar plan-diagnose <input.atf>
+java -jar anvil-tf.jar plan-edit-trial <base.atf> <edited.atf>
+java -jar anvil-tf.jar plan-edit-suite <base.atf> <edited.atf>... [--max-source-lines n] [--min-expanded-lines n]
+java -jar anvil-tf.jar plan-edit-manifest <base.atf> <manifest.tsv>
+java -jar anvil-tf.jar plan-edit-manifest-report <base.atf> <manifest.tsv> <out.md>
+java -jar anvil-tf.jar plan-eval-status <base.atf> <manifest.tsv>
+java -jar anvil-tf.jar plan-eval-status-report <base.atf> <manifest.tsv> <out.md>
+java -jar anvil-tf.jar plan-eval-audit <base.atf> <pack-dir> [--min-passed n] [--out file.md]
+java -jar anvil-tf.jar plan-eval-completion <base.atf> <pack-dir>... [--min-runs n] [--min-passed-per-run n] [--out file.md]
+java -jar anvil-tf.jar plan-eval-pack <base.atf> <tasks.tsv> <out-dir> [--run-prefix name] [--runs-dir dir] [--independent] [--isolated-handoffs] [--model-surface name] [--operator name] [--date yyyy-mm-dd] [--independence-notes text] [--with-context] [--context-lines n] [--prepare-runs] [--overwrite-runs] [--write-initial-reports] [--initial-min-passed n]
+java -jar anvil-tf.jar plan-eval-brief <base.atf> <tasks.tsv> <task-id> [--run name] [--runs-dir dir] [--with-context] [--context-lines n]
+java -jar anvil-tf.jar plan-eval-score <base.atf> <tasks.tsv> <task-id> <edited.atf>
+java -jar anvil-tf.jar plan-expand <input.atf> <output-dir>
+java -jar anvil-tf.jar plan-gates <input.atf> [--profile skeleton|dense] [--edit-trial edited.atf] [--reference-world world-dir] [--render-artifact file.png]... [--compare-worlds source-world-dir regenerated-world-dir]
+java -jar anvil-tf.jar plan-metrics <input.atf>
+java -jar anvil-tf.jar plan-outline <input.atf>
+java -jar anvil-tf.jar plan-target-audit <input.atf>
+java -jar anvil-tf.jar plan-index <input.atf>
+java -jar anvil-tf.jar plan-workbench <input.atf> [--group name-or-file] [--kind route|reserve|landmark|cluster|scatter_in|loot] [--limit n] [--catalog-limit n] [--with-gates]
+java -jar anvil-tf.jar plan-snippet <input.atf> (--name handle [--group name-or-file] [--kind kind] | --component name | --style style.key [--group name-or-file] | --file file --line n) [--context n]
+java -jar anvil-tf.jar plan-recipe <input.atf> (--component name | --style style.key [--group name-or-file]) [--count n]
+java -jar anvil-tf.jar plan-report <input.atf> [--profile skeleton|dense] [--edit-trial edited.atf] [--reference-world world-dir] [--render-artifact file.png]... [--compare-worlds source-world-dir regenerated-world-dir]
+java -jar anvil-tf.jar plan-render <input.atf> [--out file.png] [--scale n] [--max n]
 java -jar anvil-tf.jar render top <input.atf> <y> [--dim id] [--out file.png] [--scale n] [--max n]
 java -jar anvil-tf.jar render map <input.atf> [--biome] [--dim id] [--out file.png] [--scale n] [--max n]
 java -jar anvil-tf.jar render slice <input.atf> x|z <coord> [--dim id] [--out file.png] [--scale n] [--max n]
@@ -65,6 +90,152 @@ Views auto-crop to the authored bounds; `--scale` sets pixels per block and `--m
 `diagnose` parses ATF source and reports generic authoring warnings before
 generation, such as block entities anchored to the wrong block type or
 wall-mounted blocks with no authored support behind them.
+
+`source-metrics` and `source-gates` measure reviewability of ordinary ATF
+source trees, including reviewable imports. They report source size, group and
+component file sizes, command counts, and pass/fail checks for small group
+files, component extraction, ordinary group layout, and fill/set compression.
+
+`plan-diagnose`, `plan-expand`, and `plan-render` are experimental large-map
+authoring prototypes. `plan-diagnose` checks generic `plan { ... }` blocks for
+composition issues such as overlapping reservations, route points outside the
+authored area, steep route steps, missing route crossings through water/lava
+hazards, unreachable reserved pads with `require_route`, landmark footprints
+outside their reservations, landmark clearance problems, cluster member spacing,
+cluster footprints outside their reservations, repeated cluster member runs, and
+unsatisfied scatter/loot counts. `plan-render` draws masks, hazards, routes,
+crossings, reservations, landmarks, clusters, scatter points, and loot anchors
+before expansion.
+`plan-expand` rewrites those blocks into ordinary ATF v1 files in an output
+directory so determinism, core diagnostics, rendering, and Anvil generation can
+be validated with the existing toolchain.
+`plan-metrics` reports source size, plan command counts, expanded ATF line
+counts, and visible plan-overlay cell counts. It is intended for validating
+whether a large-map authoring pattern is actually becoming more ergonomic, not
+just more capable.
+`plan-outline` prints the composition-level edit surface for each plan group:
+routes, reservations, landmarks, clusters, scatter, and loot. It is intended as
+compact context for LLM edits before touching source coordinates.
+`plan-target-audit` checks each 384x384-or-larger plan group against per-group
+large-map thresholds for routes, crossings, reservations, landmarks, distinct
+landmark components, clusters, repeated detail, loot, and plan diagnostics. It
+is stricter than aggregate gates because one strong district cannot hide another
+district that lacks edit handles.
+`plan-index` prints one grep-friendly `file:line` row for every editable
+top-level plan handle, including routes, reservations, landmarks, clusters,
+scatter passes, and loot passes. It is intended as the surgical follow-up to
+`plan-outline`: first choose the named semantic object, then edit the exact
+source line that owns it.
+`plan-workbench` combines the outline, editable handles, reusable component and
+style catalog, quality guardrails, and validation commands into a compact LLM
+editing context. Use `--group`, `--kind`, `--limit`, and `--catalog-limit` to
+keep a huge map's edit surface small enough for a focused change. It skips gate
+evaluation by default so the context is quick to prepare; add `--with-gates`
+when you want the automatic scoreboard inline.
+`plan-snippet` prints a line-numbered source snippet for one editable handle.
+Use it after `plan-workbench` when a route, cluster, scatter pass, or other
+multi-line handle needs its full bounded source block in context before editing.
+It can also inspect catalog entries with `--style polish.arch_piece` or
+`--component stone-arch`, so the model can check aliases and component bounds
+before adding detail. Component catalog rows include conservative
+`safe_cluster radius ... height ...` hints derived from bounds, which are useful
+starting values for new cluster members.
+`plan-recipe` turns one component or component-valued style alias into
+ready-to-paste `component` and `repeat component` rows using those safe
+radius/height hints.
+`plan-report` combines the core evidence needed to judge the large-map format:
+scale metrics, composition groups, editable index counts, and the same gate
+scoreboard used by `plan-gates`. It accepts the same optional evidence flags as
+`plan-gates`, so a dense validation run can attach edit-locality, render,
+reference-world, and import round-trip proof in one reproducible report.
+`plan-gates` interprets those metrics against the practical large-map acceptance
+gates. It reports automatic pass/fail checks for scale, route density, landmark
+count, repeated detail, loot, source shape, deterministic expansion, diagnostics,
+and theme purity. `--profile dense` adds stricter finished-map stress gates for
+detail density, cluster density, landmark count, loot spread, and visible
+cluster footprint. Optional evidence flags attach edit-trial, reference-world,
+render-artifact, and import round-trip results to the same scoreboard.
+`plan-edit-trial` compares a base plan source tree with an edited tree, expands
+both, and reports whether a semantic edit stayed small in authored source while
+creating the expected large generated-ATF change.
+By default it uses move-edit thresholds (`<=5` source lines, `>=100` expanded
+lines). Use `--max-source-lines` and `--min-expanded-lines` for richer additive
+edits such as adding a new repeated-detail cluster.
+`plan-edit-suite` runs that same check over multiple edited trees and fails if
+any edit trial fails, which is useful for validating LLM edit ergonomics across
+several semantic edit shapes. It accepts the same threshold flags as
+`plan-edit-trial`.
+`plan-edit-manifest` scores mixed edit suites from a tab-separated manifest:
+`name`, edited `world.atf`, max source lines, min expanded lines, and optional
+expected changed file. Use it for model-eval batches where move edits and
+additive edits need different thresholds and should land in a specific group
+file. The large-map validation example includes `edit-eval-prompts.md` with
+prompt-ready edit tasks and matching manifest rows.
+`plan-edit-manifest-report` runs the same full scorer and writes a Markdown
+table with source-line, expanded-line, diagnostic, expected-file, and changed
+file results for evidence capture.
+`plan-eval-status` checks a manifest cheaply before expansion. It reports
+whether each edited tree is missing, unedited, ready, or changed the wrong file,
+which is useful while waiting for independent model runs to finish.
+`plan-eval-status-report` writes the same readiness information as a Markdown
+table, so partial or complete independent model-eval batches can be attached to
+the validation record before full scoring.
+`plan-eval-audit` checks a completed eval pack as evidence: required pack
+artifacts, filled run notes, per-task retry rows, readiness, score pass count,
+handoff-lock hashes, baseline source hashes, independence hygiene for handoff
+Markdown, and target-family coverage for the large-map benchmark tasks. Use
+`--min-passed 3` for the independent large-map completion standard, and
+`--out audit.md` to preserve the gate table with the pack.
+`plan-eval-completion` checks multiple audited eval packs against the
+cross-run standard: at least two completed runs by distinct model/surface
+entries, with each run meeting the per-run pass threshold. When the large-map
+target-family task names are present, it also carries forward the
+Kikoshi/castle-or-canal/polish coverage requirement from the pack audits.
+`plan-eval-pack` writes one `plan-eval-brief` Markdown file per task, a
+pack-level `README.md`, a `run-notes.md` metadata template, and a batch
+`manifest.tsv` into an output directory.
+Use it to prepare independent model-eval runs with the same bounded context,
+output contracts, and scoring rows. Add `--runs-dir <out-dir>/runs` to keep the
+edited source trees inside the pack, then add `--prepare-runs` to copy the base
+source tree into each task's run directory. Without `--runs-dir`, prepared runs
+use the compatibility default
+`target/validation-trials/<run-prefix>-<task-id>`. Existing run directories are
+protected unless `--overwrite-runs` is also passed.
+For independent trials, prefer `--independent`: it uses `<out-dir>/runs`,
+prepares run trees, and checks the generated handoff Markdown for controlled
+solution fingerprints before returning success.
+Add `--isolated-handoffs` to write per-task `handoffs/<task>/` directories.
+Each directory contains that task's brief plus a filtered `source/` tree, and
+the generated manifest points at `handoffs/<task>/source/world.atf` so scoring
+uses exactly the source tree handed to the model.
+Use `--model-surface`, `--operator`, `--date`, and `--independence-notes` to
+pre-fill the generated `run-notes.md` metadata for a known independent run.
+Generated packs include `handoff-lock.tsv`, which records hashes for the README,
+manifest, and task briefs; audits verify those handoff files still match.
+Prepared-run packs also include `baseline-lock.tsv`, which records hashes for
+the copied `.atf` source in each run tree; audits allow later hash differences
+only in the expected changed file for each task.
+Prepared run trees are filtered to the reviewable ATF source surface
+(`world.atf`, `meta.atf`, `groups/*.atf`, and `components/*.atf`), and audits
+fail if helper prompts, manifests, reports, or other non-source files appear in
+those model-edit trees.
+Add `--write-initial-reports` to write the pack's initial `status.md` and
+`audit.md` immediately after generation. This preserves the expected pre-edit
+state: handoff, metadata, baseline locks, and source-scope gates can pass while
+readiness and score gates remain pending until the model-authored edits are
+complete. Use `--initial-min-passed n` to set the pass threshold recorded in
+that initial audit.
+See `docs/large-map-independent-eval-protocol.md` for the independence rules,
+operator workflow, and evidence checklist for model-authored edit trials.
+`plan-eval-brief` prints one task from `edit-eval-tasks.tsv` as a ready prompt:
+the instruction, context commands, source/output contract, direct diagnostics
+command, manifest row, and direct score command for a specific model run. Add
+`--with-context` to embed the live workbench, snippet, or recipe output in the
+brief. Embedded context is
+capped at 160 lines per command by default; use `--context-lines n` to tune that
+cap, or `--context-lines 0` for full output.
+`plan-eval-score` scores one edited `world.atf` against a task id from
+`edit-eval-tasks.tsv`, using that task's thresholds and expected changed file.
 
 ## Format Sketch
 

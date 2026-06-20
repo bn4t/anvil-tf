@@ -1,0 +1,290 @@
+# Third large authoring validation group. This stresses a dense canal/castle
+# district: water divides the play area, bridges reconnect it, and repeated
+# vertical architecture gives the map more authored detail without raw blocks.
+group "canal 448 validation skeleton" {
+  origin -256 0 320
+  bounds 0 0 0 to 448 128 448
+
+  block_palette canal_path_mix {
+    block minecraft:stone_bricks weight 5
+    block minecraft:mossy_stone_bricks weight 3
+    block minecraft:andesite weight 2
+    block minecraft:gravel weight 1
+  }
+  block_palette canal_dark_path_mix {
+    block minecraft:dark_prismarine weight 4
+    block minecraft:prismarine_bricks weight 3
+    block minecraft:stone_bricks weight 3
+    block minecraft:mossy_cobblestone weight 1
+  }
+  block_palette canal_plaza_mix {
+    block minecraft:smooth_stone weight 7
+    block minecraft:polished_andesite weight 3
+    block minecraft:stone_bricks weight 2
+    block minecraft:mossy_stone_bricks weight 1
+  }
+  block_palette canal_bridge_mix {
+    block minecraft:stone_bricks weight 7
+    block minecraft:mossy_stone_bricks weight 3
+    block minecraft:dark_prismarine weight 1
+  }
+  block_palette canal_dock_mix {
+    block minecraft:dark_oak_planks weight 7
+    block minecraft:spruce_planks weight 3
+    block minecraft:mangrove_planks weight 2
+  }
+
+  plan {
+    area 0 0 448 448
+
+    style canal {
+      top minecraft:grass_block[snowy=false]
+      under minecraft:dirt
+      water minecraft:water[level=0]
+      path canal_path_mix
+      plaza_floor minecraft:smooth_stone
+      plaza_floor_palette canal_plaza_mix
+      plaza_edge minecraft:dark_prismarine
+      bridge_floor minecraft:stone_bricks
+      bridge_floor_palette canal_bridge_mix
+      bridge_edge minecraft:dark_prismarine
+      keep_floor minecraft:polished_andesite
+      keep_floor_palette canal_plaza_mix
+      keep_edge minecraft:dark_prismarine
+      dock_floor minecraft:dark_oak_planks
+      dock_floor_palette canal_dock_mix
+      dock_edge minecraft:spruce_planks
+      village_floor minecraft:spruce_planks
+      village_floor_palette canal_dock_mix
+      village_edge minecraft:dark_oak_planks
+      garden_floor minecraft:moss_block
+      landmark facade-tower-cap
+      plaza_landmark spawn-beacon
+      bridge_landmark stone-arch
+      keep_landmark ridge-keep-core
+      dock_landmark harbor-watch
+      village_landmark forest-lookout
+      garden_landmark garden-obelisk
+      wall_piece low-wall-segment
+      column_piece ruin-column
+      arch_piece stone-arch
+      facade_shop facade-shop-narrow
+      facade_house facade-house-wide
+      tower_piece facade-tower-cap
+      stair_tower_piece ridge-stair-tower
+      gallery_piece ridge-gallery-span
+      retaining_piece retaining-bank-segment
+      crate_piece dock-crate-stack
+      post_piece dock-post
+      planter_piece planter-box
+      market_piece market-stall
+      light lantern-post
+      foliage minecraft:fern
+      accent minecraft:azalea
+    }
+    style drowned {
+      top minecraft:mossy_cobblestone
+      under minecraft:stone
+      water minecraft:water[level=0]
+      path canal_dark_path_mix
+      plaza_floor minecraft:prismarine_bricks
+      plaza_floor_palette canal_dark_path_mix
+      plaza_edge minecraft:dark_prismarine
+      bridge_floor minecraft:dark_prismarine
+      bridge_floor_palette canal_dark_path_mix
+      bridge_edge minecraft:prismarine_bricks
+      keep_floor minecraft:polished_andesite
+      keep_floor_palette canal_dark_path_mix
+      keep_edge minecraft:dark_prismarine
+      dock_floor minecraft:warped_planks
+      dock_floor_palette canal_dark_path_mix
+      dock_edge minecraft:dark_prismarine
+      village_floor minecraft:spruce_planks
+      village_floor_palette canal_dark_path_mix
+      village_edge minecraft:dark_prismarine
+      garden_floor minecraft:moss_block
+      landmark facade-tower-cap
+      plaza_landmark spawn-beacon
+      bridge_landmark stone-arch
+      keep_landmark ridge-keep-core
+      dock_landmark harbor-watch
+      village_landmark forest-lookout
+      garden_landmark garden-obelisk
+      wall_piece low-wall-segment
+      column_piece ruin-column
+      arch_piece stone-arch
+      facade_shop facade-shop-narrow
+      facade_house facade-house-wide
+      tower_piece facade-tower-cap
+      stair_tower_piece ridge-stair-tower
+      gallery_piece ridge-gallery-span
+      retaining_piece retaining-bank-segment
+      crate_piece dock-crate-stack
+      post_piece dock-post
+      planter_piece planter-box
+      market_piece market-stall
+      light lantern-post
+      foliage minecraft:seagrass
+      accent minecraft:sea_pickle[pickles=1,waterlogged=false]
+    }
+    use_style canal
+
+    mask archipelago = radial 224 224 radius 204 noise 0.2 seed 901
+    mask lagoon = circle 224 224 radius 58
+    mask canal_ns = rect 208 28 240 420
+    mask canal_ew = rect 36 208 412 240
+    mask canal_cross = canal_ns + canal_ew
+    mask waterway = lagoon + canal_cross
+    mask playable = archipelago - waterway
+
+    field lowland = terrain archipelago base 62 amplitude 7 scale 48 octaves 4 seed 902
+    field ridge = ridge 68 224 138 164 224 120 310 224 138 380 224 width 32 height 14
+    field ground = max lowland ridge
+
+    terrain archipelago field ground from 1 top style.top under style.under
+    water outside archipelago from 1 to 57 style.water
+    clear outside archipelago from 58 to 128
+    water waterway from 1 to 59 style.water
+    clear waterway from 60 to 128
+    fill_biome playable 56 112 minecraft:bamboo_jungle
+    fill_biome waterway 56 112 minecraft:warm_ocean
+
+    route "outer market ring" width 7 palette style.path conform ground seed 911 {
+      point 224 88
+      crossing 224 88 radius 44
+      point 334 114
+      point 360 224
+      crossing 360 224 radius 40
+      point 326 334
+      point 224 360
+      crossing 224 360 radius 40
+      point 112 326
+      point 88 224
+      crossing 88 224 radius 40
+      point 118 112
+      close
+    }
+    route "north south bridge" width 7 palette style.path conform ground seed 912 {
+      point 224 84
+      crossing 224 224 radius 176
+      point 224 364
+    }
+    route "east west bridge" width 7 palette style.path conform ground seed 913 {
+      point 84 224
+      crossing 224 224 radius 176
+      point 364 224
+    }
+    route "garden lane" width 5 palette style.path conform ground seed 914 {
+      point 118 112
+      point 90 148
+      crossing 90 224 radius 24
+      point 88 224
+    }
+    route "dock lane" width 5 palette style.path conform ground seed 915 {
+      point 224 360
+      point 224 390
+      crossing 224 388 radius 36
+    }
+
+    reserve "central bridge plaza" rect 190 190 258 258 conform ground floor style.bridge_floor floor_palette style.bridge_floor_palette seed 941 edge style.bridge_edge edge_width 3 clear_to 104 require_route 12
+    reserve "east keep island" circle 338 224 radius 52 conform ground floor style.keep_floor floor_palette style.keep_floor_palette seed 942 edge style.keep_edge edge_width 3 clear_to 122 require_route 12
+    reserve "west market island" circle 110 224 radius 44 conform ground floor style.plaza_floor floor_palette style.plaza_floor_palette seed 943 edge style.plaza_edge edge_width 3 clear_to 104 require_route 12
+    reserve "north village" circle 224 92 radius 40 conform ground floor style.village_floor floor_palette style.village_floor_palette seed 944 edge style.village_edge edge_width 3 clear_to 102 require_route 10
+    reserve "south docks" rect 172 342 276 414 conform ground floor style.dock_floor floor_palette style.dock_floor_palette seed 945 edge style.dock_edge edge_width 3 clear_to 98 require_route 10
+    reserve "northwest garden" circle 96 118 radius 34 conform ground floor style.garden_floor clear_to 98 require_route 10
+
+    landmark "bridge arch crown" component style.bridge_landmark at 224 224 conform ground reserve "central bridge plaza" radius 12 height 8 rotate 0
+    landmark "east keep core" component style.keep_landmark at 338 224 conform ground reserve "east keep island" radius 18 height 38 rotate 90
+    landmark "west plaza beacon" component style.plaza_landmark at 110 224 conform ground reserve "west market island" radius 10 height 24 rotate 0
+    landmark "north village lookout" component style.village_landmark at 224 92 conform ground reserve "north village" radius 10 height 17 rotate 180
+    landmark "south dock tower" component style.dock_landmark at 224 378 conform ground reserve "south docks" radius 13 height 13 rotate 180
+    landmark "garden obelisk" component style.garden_landmark at 96 118 conform ground reserve "northwest garden" radius 12 height 20 rotate 0
+
+    cluster "bridge balustrades" at reserve "central bridge plaza" conform ground spacing 1 {
+      repeat component style.wall_piece from -30 -24 to 30 -24 count 6 radius 4 height 3 rotate 0
+      repeat component style.wall_piece from -30 24 to 30 24 count 6 radius 4 height 3 rotate 0
+      repeat component style.arch_piece from -24 0 to 24 0 count 3 radius 5 height 8 rotate 90
+    }
+    cluster "bridge corner anchors" at reserve "central bridge plaza" conform ground spacing 6 {
+      component style.column_piece at -32 -32 radius 2 height 7 rotate 0
+      component style.column_piece at 32 -32 radius 2 height 7 rotate 0
+      component style.column_piece at -32 32 radius 2 height 7 rotate 0
+      component style.column_piece at 32 32 radius 2 height 7 rotate 0
+    }
+    cluster "bridge water retaining walls" at reserve "central bridge plaza" conform ground spacing 0 {
+      repeat component style.retaining_piece from -30 -14 to -30 14 count 4 radius 4 height 3 rotate 90
+      repeat component style.retaining_piece from 30 -14 to 30 14 count 4 radius 4 height 3 rotate 90
+      repeat component style.retaining_piece from -14 -30 to 14 -30 count 4 radius 4 height 3 rotate 0
+      repeat component style.retaining_piece from -14 30 to 14 30 count 4 radius 4 height 3 rotate 0
+    }
+    cluster "east keep ribs" at reserve "east keep island" conform ground spacing 4 {
+      component style.stair_tower_piece at -30 -18 radius 7 height 28 rotate 270
+      component style.stair_tower_piece at 30 -18 radius 7 height 28 rotate 90
+      component style.gallery_piece at 0 -28 radius 14 height 12 rotate 0
+      repeat component style.wall_piece from -34 28 to 34 28 count 6 radius 4 height 3 rotate 0
+      repeat component style.column_piece from -32 8 to 32 8 count 5 radius 2 height 7 rotate 0
+    }
+    cluster "east keep retaining trim" at reserve "east keep island" conform ground spacing 0 {
+      repeat component style.wall_piece from -40 -20 to -40 20 count 4 radius 4 height 3 rotate 90
+      repeat component style.wall_piece from 40 -20 to 40 20 count 4 radius 4 height 3 rotate 90
+      repeat component style.retaining_piece from -24 -38 to 24 -38 count 5 radius 4 height 3 rotate 0
+      repeat component style.retaining_piece from -24 38 to 24 38 count 5 radius 4 height 3 rotate 0
+      component style.column_piece at -36 -32 radius 2 height 7 rotate 0
+      component style.column_piece at 36 -32 radius 2 height 7 rotate 0
+      component style.column_piece at -36 32 radius 2 height 7 rotate 0
+      component style.column_piece at 36 32 radius 2 height 7 rotate 0
+    }
+    cluster "east keep courtyard detail" at reserve "east keep island" conform ground spacing 4 {
+      repeat component style.planter_piece from -24 -2 to 24 -2 count 4 radius 4 height 3 rotate 0
+      repeat component style.light from -24 18 to 24 18 count 4 radius 1 height 5 rotate 0
+      repeat component style.arch_piece from -20 34 to 20 34 count 3 radius 5 height 8 rotate 180
+    }
+    cluster "west market frontage" at reserve "west market island" conform ground spacing 3 {
+      component style.facade_shop at -26 -24 radius 6 height 13 rotate 0
+      component style.facade_house at 0 -28 radius 8 height 15 rotate 0
+      component style.facade_shop at 26 -24 radius 6 height 13 rotate 0
+      repeat component style.market_piece from -28 18 to 28 18 count 4 radius 4 height 4 rotate 180
+    }
+    cluster "west market curb rhythm" at reserve "west market island" conform ground spacing 0 {
+      repeat component style.planter_piece from -24 26 to 24 26 count 5 radius 4 height 3 rotate 0
+      repeat component style.light from -28 0 to 28 0 count 5 radius 1 height 5 rotate 0
+      repeat component style.retaining_piece from -24 -30 to 24 -30 count 5 radius 4 height 3 rotate 0
+      repeat component style.retaining_piece from -30 -14 to -30 14 count 4 radius 4 height 3 rotate 90
+      repeat component style.retaining_piece from 30 -14 to 30 14 count 4 radius 4 height 3 rotate 90
+      component style.column_piece at -30 -30 radius 2 height 7 rotate 0
+      component style.column_piece at 30 -30 radius 2 height 7 rotate 0
+    }
+    cluster "north village street" at reserve "north village" conform ground spacing 4 {
+      repeat component style.facade_house from -28 -16 to 28 -16 count 3 radius 8 height 15 rotate 0
+      repeat component style.facade_shop from -30 16 to 30 16 count 4 radius 6 height 13 rotate 180
+      repeat component style.light from -24 0 to 24 0 count 4 radius 1 height 5 rotate 0
+    }
+    cluster "south dock cargo" at reserve "south docks" conform ground spacing 4 {
+      repeat component style.crate_piece from -36 -18 to 36 -18 count 5 radius 4 height 4 rotate 0
+      repeat component style.post_piece from -40 20 to 40 20 count 7 radius 2 height 4 rotate 0
+      repeat component style.post_piece from -40 -30 to 40 -30 count 7 radius 2 height 4 rotate 0
+    }
+    cluster "south dock retaining edge" at reserve "south docks" conform ground spacing 0 {
+      repeat component style.wall_piece from -44 -20 to 44 -20 count 8 radius 4 height 3 rotate 0
+      repeat component style.wall_piece from -44 20 to 44 20 count 8 radius 4 height 3 rotate 0
+      repeat component style.post_piece from -48 0 to 48 0 count 7 radius 2 height 4 rotate 0
+      repeat component style.retaining_piece from -44 -30 to 44 -30 count 9 radius 4 height 3 rotate 0
+      repeat component style.retaining_piece from -44 30 to 44 30 count 9 radius 4 height 3 rotate 0
+    }
+    cluster "garden colonnade" at reserve "northwest garden" conform ground spacing 4 {
+      repeat component style.planter_piece from -18 -16 to 18 -16 count 4 radius 4 height 3 rotate 0
+      repeat component style.planter_piece from -18 16 to 18 16 count 4 radius 4 height 3 rotate 0
+      repeat component style.column_piece from -20 0 to 20 0 count 4 radius 2 height 7 rotate 0
+    }
+
+    scatter_in playable count 110 seed 920 avoid_routes 6 avoid_reservations 8 conform ground {
+      component style.landmark weight 1
+      component style.light weight 5
+      set style.foliage weight 8
+      set style.accent weight 2
+    }
+
+    loot playable tier 1 count 24 seed 931 avoid_routes 5 avoid_reservations 8 conform ground
+    loot playable tier 2 count 10 seed 932 avoid_routes 8 avoid_reservations 4 conform ground
+  }
+}

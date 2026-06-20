@@ -1,0 +1,15 @@
+component "temple-spire" {
+  bounds -14 0 -14 to 14 28 14
+  fill -14 0 -14 to 14 0 14 minecraft:mossy_stone_bricks
+  fill -12 1 -12 to 12 3 12 minecraft:stone_bricks
+  fill -10 4 -10 to 10 6 10 minecraft:mossy_stone_bricks
+  fill -8 7 -8 to 8 9 8 minecraft:cracked_stone_bricks
+  fill -5 10 -5 to 5 15 5 minecraft:stone_bricks
+  fill -3 16 -3 to 3 22 3 minecraft:chiseled_stone_bricks
+  fill -1 23 -1 to 1 27 1 minecraft:dark_prismarine
+  set 0 28 0 minecraft:sea_lantern
+  fill -14 1 -14 to -12 8 -12 minecraft:mossy_cobblestone
+  fill 12 1 -14 to 14 8 -12 minecraft:mossy_cobblestone
+  fill -14 1 12 to -12 8 14 minecraft:mossy_cobblestone
+  fill 12 1 12 to 14 8 14 minecraft:mossy_cobblestone
+}

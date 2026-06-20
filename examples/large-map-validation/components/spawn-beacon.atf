@@ -1,0 +1,12 @@
+component "spawn-beacon" {
+  bounds -8 0 -8 to 8 24 8
+  fill -8 0 -8 to 8 0 8 minecraft:smooth_stone
+  fill -6 1 -6 to 6 1 6 minecraft:polished_andesite
+  fill -3 2 -3 to 3 3 3 minecraft:quartz_block
+  fill -1 4 -1 to 1 18 1 minecraft:quartz_pillar[axis=y]
+  fill -4 19 -4 to 4 19 4 minecraft:sea_lantern
+  fill -2 20 -2 to 2 21 2 minecraft:glass
+  set 0 22 0 minecraft:beacon
+  set 0 23 0 minecraft:sea_lantern
+  set 0 24 0 minecraft:green_stained_glass
+}

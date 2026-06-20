@@ -1,0 +1,21 @@
+version 3465
+min_y 0
+height 160
+spawn 0 76 0
+time 6000
+day_time 6000
+game_mode survival
+difficulty normal
+allow_commands true
+default_biome minecraft:plains
+game_rule doMobSpawning false
+world_border {
+  center 0.0 0.0
+  size 512.0
+  size_lerp_target 512.0
+  size_lerp_time 0
+  warning_blocks 12
+  warning_time 15
+  damage_buffer 4.0
+  damage_per_block 0.2
+}

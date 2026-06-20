@@ -1,0 +1,17 @@
+component "retaining-bank-segment" {
+  bounds -4 -7 -1 to 4 3 1
+
+  fill -4 -7 0 to 4 -1 0 minecraft:dark_prismarine
+  fill -4 -7 -1 to -4 0 1 minecraft:prismarine_bricks
+  fill 4 -7 -1 to 4 0 1 minecraft:prismarine_bricks
+
+  fill -4 0 -1 to 4 0 1 minecraft:prismarine_bricks
+  fill -4 1 0 to 4 1 0 minecraft:dark_prismarine
+  fill -4 2 0 to -4 2 0 minecraft:sea_lantern
+  fill 0 2 0 to 0 2 0 minecraft:chiseled_stone_bricks
+  fill 4 2 0 to 4 2 0 minecraft:sea_lantern
+
+  fill -3 -3 -1 to -3 -1 -1 minecraft:stone_bricks
+  fill 3 -3 -1 to 3 -1 -1 minecraft:stone_bricks
+  set 0 3 0 minecraft:lantern[hanging=false,waterlogged=false]
+}

@@ -1,0 +1,9 @@
+# name	edited_world_atf	max_source_lines	min_expanded_lines	expected_changed_file
+dense-east-overlook-move	../../target/validation-trials/dense-edit-source/world.atf	5	100	groups/polish-384-plan.atf
+north-terrace-move	../../target/validation-trials/edit-suite-north-terrace/world.atf	5	100	groups/polish-384-plan.atf
+south-quay-move	../../target/validation-trials/edit-suite-south-quay/world.atf	5	100	groups/polish-384-plan.atf
+west-garden-move	../../target/validation-trials/edit-suite-west-garden/world.atf	5	100	groups/polish-384-plan.atf
+east-overlook-additive-detail	../../target/validation-trials/additive-detail-edit/world.atf	8	80	groups/polish-384-plan.atf
+recipe-arch-rhythm	../../target/validation-trials/recipe-edit-arch/world.atf	4	6	groups/polish-384-plan.atf
+kikoshi-harbor-mooring	../../target/validation-trials/target-edit-kikoshi-harbor/world.atf	4	8	groups/kikoshi-512-plan.atf
+riverton-keep-parapet	../../target/validation-trials/target-edit-riverton-keep/world.atf	4	8	groups/canal-448-plan.atf

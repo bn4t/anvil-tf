@@ -1,0 +1,19 @@
+component "harbor-watch" {
+  bounds -12 0 -6 to 12 13 6
+  fill -12 0 -6 to 12 0 6 minecraft:spruce_planks
+  fill -10 1 -4 to 10 1 4 minecraft:stripped_spruce_wood[axis=y]
+  fill -10 2 -4 to -8 10 -2 minecraft:spruce_log[axis=y]
+  fill 8 2 -4 to 10 10 -2 minecraft:spruce_log[axis=y]
+  fill -10 2 2 to -8 10 4 minecraft:spruce_log[axis=y]
+  fill 8 2 2 to 10 10 4 minecraft:spruce_log[axis=y]
+  fill -12 11 -6 to 12 11 6 minecraft:dark_oak_planks
+  fill -10 12 -4 to 10 12 4 minecraft:dark_prismarine
+  fill -8 13 -2 to 8 13 2 minecraft:dark_prismarine
+  fill -12 -8 -5 to -12 0 -5 minecraft:spruce_log[axis=y]
+  fill 12 -8 -5 to 12 0 -5 minecraft:spruce_log[axis=y]
+  fill -12 -8 5 to -12 0 5 minecraft:spruce_log[axis=y]
+  fill 12 -8 5 to 12 0 5 minecraft:spruce_log[axis=y]
+  set 0 2 0 minecraft:bell[attachment=floor,facing=north,powered=false]
+  set -11 2 0 minecraft:lantern[hanging=false,waterlogged=false]
+  set 11 2 0 minecraft:lantern[hanging=false,waterlogged=false]
+}

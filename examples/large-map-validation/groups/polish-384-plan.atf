@@ -1,0 +1,241 @@
+# Dense validation group. This stresses finished-map polish: repeated local
+# architecture, retaining edges, market rhythm, and loot density without adding
+# theme-specific plan commands.
+group "polish 384 density benchmark" {
+  origin 320 0 320
+  bounds 0 0 0 to 384 128 384
+
+  block_palette polish_ground_mix {
+    block minecraft:grass_block[snowy=false] weight 8
+    block minecraft:coarse_dirt weight 2
+    block minecraft:mossy_cobblestone weight 1
+  }
+  block_palette polish_path_mix {
+    block minecraft:stone_bricks weight 6
+    block minecraft:mossy_stone_bricks weight 3
+    block minecraft:polished_andesite weight 2
+    block minecraft:gravel weight 1
+  }
+  block_palette polish_floor_mix {
+    block minecraft:smooth_stone weight 6
+    block minecraft:polished_andesite weight 4
+    block minecraft:stone_bricks weight 2
+    block minecraft:mossy_stone_bricks weight 1
+  }
+  block_palette polish_quay_mix {
+    block minecraft:spruce_planks weight 6
+    block minecraft:dark_oak_planks weight 4
+    block minecraft:mangrove_planks weight 2
+  }
+
+  plan {
+    area 0 0 384 384
+
+    style polish {
+      top polish_ground_mix
+      under minecraft:dirt
+      water minecraft:water[level=0]
+      path polish_path_mix
+      plaza_floor minecraft:smooth_stone
+      plaza_floor_palette polish_floor_mix
+      plaza_edge minecraft:mossy_stone_bricks
+      terrace_floor minecraft:polished_andesite
+      terrace_floor_palette polish_floor_mix
+      terrace_edge minecraft:stone_bricks
+      overlook_floor minecraft:stone_bricks
+      overlook_floor_palette polish_path_mix
+      overlook_edge minecraft:chiseled_stone_bricks
+      quay_floor minecraft:spruce_planks
+      quay_floor_palette polish_quay_mix
+      quay_edge minecraft:dark_oak_planks
+      garden_floor minecraft:moss_block
+      camp_floor minecraft:podzol[snowy=false]
+      arcade_floor minecraft:mossy_stone_bricks
+      landmark marker-tower
+      plaza_landmark spawn-beacon
+      terrace_landmark forest-lookout
+      overlook_landmark ridge-keep-core
+      quay_landmark harbor-watch
+      garden_landmark garden-obelisk
+      camp_landmark boardwalk-lookout
+      arcade_landmark temple-spire
+      wall_piece low-wall-segment
+      column_piece ruin-column
+      arch_piece stone-arch
+      facade_shop facade-shop-narrow
+      facade_house facade-house-wide
+      tower_piece facade-tower-cap
+      stair_tower_piece ridge-stair-tower
+      gallery_piece ridge-gallery-span
+      retaining_piece retaining-bank-segment
+      crate_piece dock-crate-stack
+      post_piece dock-post
+      planter_piece planter-box
+      market_piece market-stall
+      rib_piece facade-roof-rib
+      light lantern-post
+      foliage minecraft:fern
+      accent minecraft:azalea
+    }
+    use_style polish
+
+    mask island = radial 192 192 radius 174 noise 0.18 seed 1201
+    mask inlet = circle 288 304 radius 44
+    mask canal = rect 274 220 306 340
+    mask waterway = inlet + canal
+    mask playable = island - waterway
+
+    field lowland = terrain island base 66 amplitude 8 scale 48 octaves 4 seed 1202
+    field crown = ridge 0 82 92 142 128 192 156 250 124 318 88 width 34 height 9
+    field ground = max lowland crown
+
+    terrain island field ground from 1 top style.top under style.under
+    water outside island from 1 to 58 style.water
+    clear outside island from 59 to 128
+    water waterway from 1 to 59 style.water
+    clear waterway from 60 to 128
+    fill_biome playable 56 112 minecraft:bamboo_jungle
+    fill_biome waterway 56 112 minecraft:warm_ocean
+
+    route "polish outer loop" width 7 palette style.path conform ground seed 1211 {
+      point 192 68
+      point 304 96
+      point 318 190
+      crossing 292 224 radius 100
+      point 238 318
+      crossing 238 318 radius 36
+      point 112 308
+      point 66 214
+      point 84 106
+      close
+    }
+    route "central promenade" width 7 palette style.path conform ground seed 1212 {
+      point 192 68
+      point 192 142
+      point 192 192
+      crossing 192 192 radius 48
+      point 188 278
+      point 188 336
+    }
+    route "west garden lane" width 5 palette style.path conform ground seed 1213 {
+      point 192 192
+      point 128 210
+      point 82 224
+    }
+    route "east overlook lane" width 5 palette style.path conform ground seed 1214 {
+      point 192 192
+      point 252 190
+      point 314 202
+    }
+    route "camp ridge lane" width 5 palette style.path conform ground seed 1215 {
+      point 84 106
+      point 78 98
+      point 148 86
+      point 192 68
+    }
+
+    reserve "central polished plaza" circle 192 192 radius 52 conform ground floor style.plaza_floor floor_palette style.plaza_floor_palette seed 1231 edge style.plaza_edge edge_width 3 clear_to 108 require_route 12
+    reserve "north terrace" rect 122 44 262 136 conform ground floor style.terrace_floor floor_palette style.terrace_floor_palette seed 1232 edge style.terrace_edge edge_width 3 clear_to 106 require_route 12
+    reserve "east overlook" circle 314 202 radius 54 conform ground floor style.overlook_floor floor_palette style.overlook_floor_palette seed 1233 edge style.overlook_edge edge_width 3 clear_to 124 require_route 12
+    reserve "south quay" rect 128 292 248 366 conform ground floor style.quay_floor floor_palette style.quay_floor_palette seed 1234 edge style.quay_edge edge_width 3 clear_to 98 require_route 12
+    reserve "west garden court" circle 82 224 radius 44 conform ground floor style.garden_floor clear_to 100 require_route 12
+    reserve "northwest camp" circle 78 98 radius 38 conform ground floor style.camp_floor clear_to 96 require_route 10
+    reserve "northeast arcade" circle 316 86 radius 44 conform ground floor style.arcade_floor clear_to 112 require_route 12
+
+    landmark "polished plaza beacon" component style.plaza_landmark at 192 192 conform ground reserve "central polished plaza" radius 10 height 24 rotate 0
+    landmark "north terrace lookout" component style.terrace_landmark at 192 90 conform ground reserve "north terrace" radius 10 height 17 rotate 180
+    landmark "east overlook keep" component style.overlook_landmark at 314 202 conform ground reserve "east overlook" radius 18 height 38 rotate 90
+    landmark "south quay tower" component style.quay_landmark at 188 330 conform ground reserve "south quay" radius 13 height 13 rotate 180
+    landmark "west garden obelisk" component style.garden_landmark at 82 224 conform ground reserve "west garden court" radius 12 height 20 rotate 0
+    landmark "northwest camp lookout" component style.camp_landmark at 78 98 conform ground reserve "northwest camp" radius 12 height 12 rotate 270
+    landmark "northeast arcade spire" component style.arcade_landmark at 316 86 conform ground reserve "northeast arcade" radius 16 height 28 rotate 0
+
+    cluster "center arcade ring" at reserve "central polished plaza" conform ground spacing 0 {
+      repeat component style.wall_piece from -30 -26 to 30 -26 count 8 radius 2 height 3 rotate 0
+      repeat component style.wall_piece from -30 26 to 30 26 count 8 radius 2 height 3 rotate 0
+      repeat component style.arch_piece from -22 0 to 22 0 count 4 radius 3 height 8 rotate 90
+      component style.column_piece at -34 -34 radius 1 height 7 rotate 0
+      component style.column_piece at 34 -34 radius 1 height 7 rotate 0
+      component style.column_piece at -34 34 radius 1 height 7 rotate 0
+      component style.column_piece at 34 34 radius 1 height 7 rotate 0
+    }
+    cluster "central micro detail" at reserve "central polished plaza" conform ground spacing 0 {
+      repeat component style.planter_piece from -28 -8 to 28 -8 count 6 radius 2 height 3 rotate 0
+      repeat component style.planter_piece from -28 12 to 28 12 count 6 radius 2 height 3 rotate 0
+      repeat component style.light from -30 0 to 30 0 count 6 radius 1 height 5 rotate 0
+      repeat component style.column_piece from -18 30 to 18 30 count 4 radius 1 height 7 rotate 0
+    }
+    cluster "north terrace frontage" at reserve "north terrace" conform ground spacing 1 {
+      repeat component style.facade_house from -42 -22 to 42 -22 count 4 radius 5 height 15 rotate 0
+      repeat component style.facade_shop from -44 20 to 44 20 count 5 radius 4 height 13 rotate 180
+      repeat component style.light from -48 0 to 48 0 count 7 radius 1 height 5 rotate 0
+    }
+    cluster "north roofline accents" at reserve "north terrace" conform ground spacing 0 {
+      repeat component style.rib_piece from -38 -32 to 38 -32 count 6 radius 1 height 8 rotate 0
+      component style.tower_piece at -54 -24 radius 4 height 18 rotate 0
+      component style.tower_piece at 54 -24 radius 4 height 18 rotate 0
+      component style.tower_piece at -54 22 radius 4 height 18 rotate 180
+      component style.tower_piece at 54 22 radius 4 height 18 rotate 180
+    }
+    cluster "east overlook ribs" at reserve "east overlook" conform ground spacing 1 {
+      component style.stair_tower_piece at -28 -18 radius 5 height 28 rotate 270
+      component style.stair_tower_piece at 28 -18 radius 5 height 28 rotate 90
+      component style.gallery_piece at 0 -28 radius 10 height 12 rotate 0
+      repeat component style.wall_piece from -32 28 to 32 28 count 7 radius 2 height 3 rotate 0
+      repeat component style.column_piece from -30 8 to 30 8 count 6 radius 1 height 7 rotate 0
+      repeat component style.rib_piece from -20 36 to 20 36 count 4 radius 1 height 8 rotate 180
+    }
+    cluster "south quay cargo edge" at reserve "south quay" conform ground spacing 0 {
+      repeat component style.post_piece from -42 -18 to 42 -18 count 8 radius 1 height 4 rotate 0
+      repeat component style.post_piece from -42 18 to 42 18 count 8 radius 1 height 4 rotate 0
+      repeat component style.crate_piece from -34 -6 to 34 -6 count 6 radius 2 height 4 rotate 0
+      repeat component style.retaining_piece from -42 -26 to 42 -26 count 10 radius 2 height 3 rotate 0
+      repeat component style.wall_piece from -42 26 to 42 26 count 8 radius 2 height 3 rotate 0
+    }
+    cluster "west garden allees" at reserve "west garden court" conform ground spacing 0 {
+      repeat component style.planter_piece from -22 -18 to 22 -18 count 6 radius 2 height 3 rotate 0
+      repeat component style.planter_piece from -22 18 to 22 18 count 6 radius 2 height 3 rotate 0
+      repeat component style.column_piece from -24 0 to 24 0 count 6 radius 1 height 7 rotate 0
+      repeat component style.light from -26 8 to 26 8 count 6 radius 1 height 5 rotate 0
+      repeat component style.arch_piece from -18 28 to 18 28 count 3 radius 3 height 8 rotate 180
+    }
+    cluster "northwest camp pockets" at reserve "northwest camp" conform ground spacing 1 {
+      component style.camp_landmark at -12 -10 radius 7 height 12 rotate 90
+      component style.market_piece at 14 -8 radius 2 height 4 rotate 270
+      component style.market_piece at -10 14 radius 2 height 4 rotate 180
+      repeat component style.crate_piece from -18 20 to 18 20 count 4 radius 2 height 4 rotate 0
+      repeat component style.post_piece from -20 -20 to 20 -20 count 5 radius 1 height 4 rotate 0
+    }
+    cluster "northeast arcade rhythm" at reserve "northeast arcade" conform ground spacing 0 {
+      repeat component style.arch_piece from -20 -12 to 20 -12 count 4 radius 3 height 8 rotate 0
+      repeat component style.arch_piece from -20 12 to 20 12 count 4 radius 3 height 8 rotate 180
+      repeat component style.column_piece from -22 0 to 22 0 count 5 radius 1 height 7 rotate 0
+      repeat component style.light from -20 22 to 20 22 count 4 radius 1 height 5 rotate 0
+    }
+    cluster "outer retaining rhythm" at reserve "east overlook" conform ground spacing 0 {
+      repeat component style.retaining_piece from -36 -30 to 36 -30 count 8 radius 2 height 3 rotate 0
+      repeat component style.retaining_piece from -36 30 to 36 30 count 8 radius 2 height 3 rotate 0
+      repeat component style.retaining_piece from -40 -20 to -40 20 count 6 radius 2 height 3 rotate 90
+      repeat component style.retaining_piece from 40 -20 to 40 20 count 6 radius 2 height 3 rotate 90
+    }
+    cluster "market lane rhythm" at reserve "central polished plaza" conform ground spacing 0 {
+      repeat component style.market_piece from -32 -18 to 32 -18 count 5 radius 2 height 4 rotate 0
+      repeat component style.market_piece from -32 20 to 32 20 count 5 radius 2 height 4 rotate 180
+      repeat component style.light from -30 34 to 30 34 count 6 radius 1 height 5 rotate 0
+      repeat component style.planter_piece from -24 -34 to 24 -34 count 4 radius 2 height 3 rotate 0
+    }
+    cluster "shore support posts" at reserve "south quay" conform ground spacing 0 {
+      repeat component style.post_piece from -50 -30 to 50 -30 count 10 radius 1 height 4 rotate 0
+      repeat component style.retaining_piece from -48 34 to 48 34 count 10 radius 2 height 3 rotate 0
+    }
+
+    scatter_in playable count 190 seed 1260 avoid_routes 6 avoid_reservations 8 conform ground {
+      component style.light weight 5
+      set style.foliage weight 8
+      set style.accent weight 3
+    }
+
+    loot playable tier 1 count 24 seed 1271 avoid_routes 5 avoid_reservations 8 conform ground
+    loot playable tier 2 count 10 seed 1272 avoid_routes 8 avoid_reservations 4 conform ground
+  }
+}

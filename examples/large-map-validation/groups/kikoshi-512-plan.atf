@@ -1,0 +1,244 @@
+# Experimental plan-layer validation group. Run plan-expand before parsing.
+group "kikoshi 512 validation skeleton" {
+  origin -256 0 -256
+  bounds 0 0 0 to 512 128 512
+
+  block_palette ground_mix {
+    block minecraft:grass_block[snowy=false] weight 9
+    block minecraft:coarse_dirt weight 2
+    block minecraft:mossy_cobblestone weight 1
+  }
+  block_palette path_mix {
+    block minecraft:gravel weight 5
+    block minecraft:stone_bricks weight 4
+    block minecraft:mossy_stone_bricks weight 2
+    block minecraft:coarse_dirt weight 1
+  }
+  block_palette volcanic_path_mix {
+    block minecraft:basalt weight 5
+    block minecraft:blackstone weight 4
+    block minecraft:gravel weight 2
+    block minecraft:magma_block weight 1
+  }
+  block_palette kikoshi_plaza_mix {
+    block minecraft:smooth_stone weight 8
+    block minecraft:polished_andesite weight 3
+    block minecraft:stone_bricks weight 2
+    block minecraft:mossy_stone_bricks weight 1
+  }
+  block_palette kikoshi_harbor_mix {
+    block minecraft:spruce_planks weight 7
+    block minecraft:dark_oak_planks weight 3
+    block minecraft:mangrove_planks weight 2
+  }
+  block_palette kikoshi_temple_mix {
+    block minecraft:mossy_stone_bricks weight 7
+    block minecraft:stone_bricks weight 3
+    block minecraft:chiseled_stone_bricks weight 1
+  }
+
+  plan {
+    area 0 0 512 512
+
+    style kikoshi {
+      top minecraft:grass_block[snowy=false]
+      under minecraft:dirt
+      water minecraft:water[level=0]
+      path path_mix
+      spawn_floor minecraft:smooth_stone
+      spawn_floor_palette kikoshi_plaza_mix
+      spawn_edge minecraft:stone_bricks
+      harbor_floor minecraft:spruce_planks
+      harbor_floor_palette kikoshi_harbor_mix
+      harbor_edge minecraft:dark_oak_planks
+      temple_floor minecraft:mossy_stone_bricks
+      temple_floor_palette kikoshi_temple_mix
+      temple_edge minecraft:chiseled_stone_bricks
+      forest_floor minecraft:podzol[snowy=false]
+      boardwalk_floor minecraft:mangrove_planks
+      garden_floor minecraft:polished_andesite
+      garden_floor_palette kikoshi_plaza_mix
+      garden_edge minecraft:mossy_stone_bricks
+      landmark marker-tower
+      spawn_landmark spawn-beacon
+      harbor_landmark harbor-watch
+      temple_landmark temple-spire
+      forest_landmark forest-lookout
+      boardwalk_landmark boardwalk-lookout
+      garden_landmark garden-obelisk
+      market_piece market-stall
+      arch_piece stone-arch
+      camp_piece camp-tent
+      crate_piece dock-crate-stack
+      wall_piece low-wall-segment
+      column_piece ruin-column
+      post_piece dock-post
+      planter_piece planter-box
+      facade_shop facade-shop-narrow
+      facade_house facade-house-wide
+      facade_tower facade-tower-cap
+      roof_rib facade-roof-rib
+      light lantern-post
+      foliage minecraft:fern
+      accent minecraft:bamboo_sapling
+    }
+    style volcanic {
+      top minecraft:blackstone
+      under minecraft:basalt
+      water minecraft:lava[level=0]
+      path volcanic_path_mix
+      spawn_floor minecraft:polished_blackstone
+      spawn_floor_palette volcanic_path_mix
+      spawn_edge minecraft:blackstone
+      harbor_floor minecraft:crimson_planks
+      harbor_floor_palette volcanic_path_mix
+      harbor_edge minecraft:blackstone
+      temple_floor minecraft:chiseled_polished_blackstone
+      temple_floor_palette volcanic_path_mix
+      temple_edge minecraft:polished_blackstone_bricks
+      forest_floor minecraft:coarse_dirt
+      boardwalk_floor minecraft:warped_planks
+      garden_floor minecraft:smooth_basalt
+      garden_floor_palette volcanic_path_mix
+      garden_edge minecraft:blackstone
+      landmark marker-tower
+      spawn_landmark spawn-beacon
+      harbor_landmark harbor-watch
+      temple_landmark temple-spire
+      forest_landmark forest-lookout
+      boardwalk_landmark boardwalk-lookout
+      garden_landmark garden-obelisk
+      market_piece market-stall
+      arch_piece stone-arch
+      camp_piece camp-tent
+      crate_piece dock-crate-stack
+      wall_piece low-wall-segment
+      column_piece ruin-column
+      post_piece dock-post
+      planter_piece planter-box
+      facade_shop facade-shop-narrow
+      facade_house facade-house-wide
+      facade_tower facade-tower-cap
+      roof_rib facade-roof-rib
+      light lantern-post
+      foliage minecraft:dead_bush
+      accent minecraft:red_mushroom
+    }
+    use_style kikoshi
+
+    mask island = radial 256 256 radius 238 noise 0.28 seed 100
+    mask bay = circle 260 438 radius 68
+    mask spawn = circle 256 256 radius 52
+    mask harbor = rect 210 398 315 472
+    mask playable = island - bay
+
+    field ground = terrain playable base 64 amplitude 8 scale 54 octaves 4 seed 101
+
+    terrain playable field ground from 1 top style.top under style.under
+    water outside playable from 1 to 58 style.water
+    clear outside playable from 59 to 128
+    water bay from 1 to 58 style.water
+    clear bay from 59 to 128
+    fill_biome playable 56 108 minecraft:bamboo_jungle
+    fill_biome bay 56 108 minecraft:warm_ocean
+
+    route "main loop" width 7 palette style.path conform ground seed 201 {
+      point 256 256
+      point 168 206
+      point 112 318
+      point 220 432
+      crossing 260 420 radius 84
+      point 360 392
+      point 414 246
+      point 318 164
+      close
+    }
+    route "harbor approach" width 5 palette style.path conform ground seed 202 {
+      point 256 256
+      point 252 338
+      point 260 410
+      crossing 260 410 radius 56
+    }
+    route "ridge approach" width 5 palette style.path conform ground seed 203 {
+      point 256 256
+      point 320 204
+      point 378 152
+    }
+    route "forest branch" width 5 palette style.path conform ground seed 204 {
+      point 168 206
+      point 92 168
+      point 86 112
+    }
+    route "boardwalk branch" width 5 palette style.path conform ground seed 205 {
+      point 112 318
+      point 74 378
+      point 116 446
+    }
+
+    reserve "spawn plaza" circle 256 256 radius 44 conform ground floor style.spawn_floor floor_palette style.spawn_floor_palette seed 701 edge style.spawn_edge edge_width 3 clear_to 96 require_route 8
+    reserve "harbor pad" rect 218 410 304 466 conform ground floor style.harbor_floor floor_palette style.harbor_floor_palette seed 702 edge style.harbor_edge edge_width 3 clear_to 90 require_route 10
+    reserve "east temple pad" rect 368 138 432 198 conform ground floor style.temple_floor floor_palette style.temple_floor_palette seed 703 edge style.temple_edge edge_width 3 clear_to 110 require_route 10
+    reserve "north forest camp" circle 76 98 radius 30 conform ground floor style.forest_floor clear_to 94 require_route 10
+    reserve "south boardwalk camp" circle 122 440 radius 28 conform ground floor style.boardwalk_floor clear_to 92 require_route 10
+    reserve "west garden pad" circle 120 300 radius 26 conform ground floor style.garden_floor floor_palette style.garden_floor_palette seed 704 edge style.garden_edge edge_width 2 clear_to 98 require_route 12
+
+    landmark "spawn beacon" component style.spawn_landmark at 256 256 conform ground reserve "spawn plaza" radius 10 height 24 rotate 0
+    landmark "harbor watch" component style.harbor_landmark at 260 438 conform ground reserve "harbor pad" radius 13 height 13 rotate 0
+    landmark "east spire" component style.temple_landmark at 400 168 conform ground reserve "east temple pad" radius 16 height 28 rotate 270
+    landmark "north lookout" component style.forest_landmark at 76 98 conform ground reserve "north forest camp" radius 10 height 17 rotate 180
+    landmark "south lookout" component style.boardwalk_landmark at 122 440 conform ground reserve "south boardwalk camp" radius 12 height 12 rotate 90
+    landmark "west obelisk" component style.garden_landmark at 120 300 conform ground reserve "west garden pad" radius 12 height 20 rotate 0
+
+    cluster "spawn market ring" at reserve "spawn plaza" conform ground spacing 5 {
+      component style.market_piece at -26 -10 radius 4 height 4 rotate 90
+      component style.market_piece at 24 -12 radius 4 height 4 rotate 270
+      repeat component style.arch_piece from -24 22 to 24 22 count 3 radius 5 height 8 rotate 0
+    }
+    cluster "spawn frontage" at reserve "spawn plaza" conform ground spacing 1 {
+      component style.facade_shop at -18 -28 radius 6 height 13 rotate 0
+      component style.facade_house at 0 -30 radius 8 height 15 rotate 0
+      component style.facade_shop at 18 -28 radius 6 height 13 rotate 0
+    }
+    cluster "harbor cargo line" at reserve "harbor pad" conform ground spacing 4 {
+      repeat component style.crate_piece from -30 -12 to 30 -12 count 4 radius 4 height 4 rotate 0
+      repeat component style.post_piece from -38 20 to 38 20 count 6 radius 2 height 4 rotate 0
+    }
+    cluster "harbor frontage" at reserve "harbor pad" conform ground spacing 5 {
+      repeat component style.facade_shop from -30 10 to 30 10 count 3 radius 6 height 13 rotate 180
+    }
+    cluster "east ruin perimeter" at reserve "east temple pad" conform ground spacing 2 {
+      repeat component style.wall_piece from -24 -22 to 24 -22 count 5 radius 4 height 3 rotate 0
+      repeat component style.wall_piece from -24 22 to 24 22 count 5 radius 4 height 3 rotate 0
+      repeat component style.column_piece from -29 -14 to -29 14 count 3 radius 2 height 7 rotate 0
+      repeat component style.column_piece from 29 -14 to 29 14 count 3 radius 2 height 7 rotate 0
+    }
+    cluster "east frontage" at reserve "east temple pad" conform ground spacing 2 {
+      component style.facade_tower at -18 0 radius 6 height 18 rotate 90
+      component style.facade_house at 0 0 radius 8 height 15 rotate 90
+      component style.facade_tower at 18 0 radius 6 height 18 rotate 90
+    }
+    cluster "forest camp ring" at reserve "north forest camp" conform ground spacing 5 {
+      component style.camp_piece at -15 6 radius 5 height 5 rotate 90
+      component style.camp_piece at 13 -8 radius 5 height 5 rotate 270
+      component style.market_piece at 4 17 radius 4 height 4 rotate 180
+    }
+    cluster "garden arches" at reserve "west garden pad" conform ground spacing 4 {
+      repeat component style.arch_piece from -14 0 to 14 0 count 3 radius 5 height 8 rotate 90
+      repeat component style.planter_piece from -14 -14 to 14 -14 count 3 radius 4 height 3 rotate 0
+      repeat component style.planter_piece from -14 14 to 14 14 count 3 radius 4 height 3 rotate 0
+    }
+    cluster "south boardwalk posts" at reserve "south boardwalk camp" conform ground spacing 4 {
+      repeat component style.post_piece from -18 -16 to 18 -16 count 4 radius 2 height 4 rotate 0
+    }
+
+    scatter_in playable count 120 seed 310 avoid_routes 6 avoid_reservations 8 conform ground {
+      component style.landmark weight 1
+      component style.light weight 4
+      set style.foliage weight 7
+      set style.accent weight 2
+    }
+
+    loot playable tier 1 count 26 seed 401 avoid_routes 5 avoid_reservations 8 conform ground
+    loot playable tier 2 count 9 seed 402 avoid_routes 8 avoid_reservations 3 conform ground
+  }
+}

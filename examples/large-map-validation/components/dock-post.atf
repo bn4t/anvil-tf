@@ -1,0 +1,7 @@
+component "dock-post" {
+  bounds -1 -8 -1 to 1 4 1
+  fill 0 -8 0 to 0 3 0 minecraft:spruce_log[axis=y]
+  fill -1 0 0 to 1 0 0 minecraft:spruce_planks
+  fill 0 0 -1 to 0 0 1 minecraft:spruce_planks
+  set 0 4 0 minecraft:lantern[hanging=false,waterlogged=false]
+}
