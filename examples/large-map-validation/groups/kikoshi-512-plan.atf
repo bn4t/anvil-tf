@@ -237,6 +237,12 @@ group "kikoshi 512 validation skeleton" {
       set style.foliage weight 7
       set style.accent weight 2
     }
+    scatter_in playable count 260 seed 311 avoid_routes 6 avoid_reservations 8 conform ground {
+      component leaf-bush weight 5
+      component rock-cluster weight 2
+      set style.foliage weight 9
+      set style.accent weight 3
+    }
 
     loot playable tier 1 count 26 seed 401 avoid_routes 5 avoid_reservations 8 conform ground
     loot playable tier 2 count 9 seed 402 avoid_routes 8 avoid_reservations 3 conform ground

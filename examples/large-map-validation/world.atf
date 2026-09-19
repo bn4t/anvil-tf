@@ -25,6 +25,8 @@ world "Large Map Validation" {
   include "components/ridge-stair-tower.atf"
   include "components/ridge-gallery-span.atf"
   include "components/retaining-bank-segment.atf"
+  include "components/leaf-bush.atf"
+  include "components/rock-cluster.atf"
   include "groups/kikoshi-512-plan.atf"
   include "groups/ridge-384-plan.atf"
   include "groups/canal-448-plan.atf"

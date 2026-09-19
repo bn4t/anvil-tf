@@ -288,6 +288,12 @@ group "canal 448 validation skeleton" {
       set style.foliage weight 8
       set style.accent weight 2
     }
+    scatter_in playable count 240 seed 921 avoid_routes 6 avoid_reservations 8 conform ground {
+      component leaf-bush weight 5
+      component rock-cluster weight 2
+      set style.foliage weight 9
+      set style.accent weight 3
+    }
 
     loot playable tier 1 count 24 seed 931 avoid_routes 5 avoid_reservations 8 conform ground
     loot playable tier 2 count 10 seed 932 avoid_routes 8 avoid_reservations 4 conform ground

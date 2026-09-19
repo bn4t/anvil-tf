@@ -210,6 +210,12 @@ group "ridge 384 validation skeleton" {
       set style.foliage weight 7
       set style.accent weight 3
     }
+    scatter_in playable count 180 seed 711 avoid_routes 6 avoid_reservations 8 conform ground {
+      component leaf-bush weight 4
+      component rock-cluster weight 3
+      set style.foliage weight 8
+      set style.accent weight 3
+    }
 
     loot playable tier 1 count 18 seed 801 avoid_routes 5 avoid_reservations 8 conform ground
     loot playable tier 2 count 7 seed 802 avoid_routes 8 avoid_reservations 3 conform ground
