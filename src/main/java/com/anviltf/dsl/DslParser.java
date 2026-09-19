@@ -384,7 +384,11 @@ public final class DslParser {
                     int localZ2 = expr(take(), variables);
                     Point p1 = worldPoint(localX1, localZ1);
                     Point p2 = worldPoint(localX2, localZ2);
-                    world.fill(p1.x, y1, p1.z, p2.x, y2, p2.z, block());
+                    if (nextIsPalette()) {
+                        fillPalette(p1.x, y1, p1.z, p2.x, y2, p2.z, take(), optionalSeed(variables));
+                    } else {
+                        world.fill(p1.x, y1, p1.z, p2.x, y2, p2.z, block());
+                    }
                 }
                 case "wall" -> wall(variables);
                 case "line" -> {
@@ -672,7 +676,11 @@ public final class DslParser {
                         int localZ2 = expr(take(), variables);
                         Point p1 = worldPoint(localX1, localZ1);
                         Point p2 = worldPoint(localX2, localZ2);
-                        world.fill(p1.x, y, p1.z, p2.x, y, p2.z, block());
+                        if (nextIsPalette()) {
+                            fillPalette(p1.x, y, p1.z, p2.x, y, p2.z, take(), optionalSeed(variables));
+                        } else {
+                            world.fill(p1.x, y, p1.z, p2.x, y, p2.z, block());
+                        }
                     }
                     case "set", "place" -> {
                         int localX = expr(take(), variables);
@@ -1562,8 +1570,8 @@ public final class DslParser {
                 take("seed");
                 seed = expr(take(), variables);
             }
-            BlockState top = block();
-            BlockState under = block();
+            SurfaceSpec top = surfaceSpec();
+            SurfaceSpec under = surfaceSpec();
             Point p1 = worldPoint(localX1, localZ1);
             Point p2 = worldPoint(localX2, localZ2);
             int minX = Math.min(p1.x, p2.x);
@@ -1573,10 +1581,8 @@ public final class DslParser {
             for (int z = minZ; z <= maxZ; z++) {
                 for (int x = minX; x <= maxX; x++) {
                     int topY = baseY + Math.floorMod(mix(x, baseY, z, seed), amplitude + 1);
-                    if (fromY < topY) {
-                        world.fill(x, fromY, z, x, topY - 1, z, under);
-                    }
-                    world.setBlock(x, topY, z, top);
+                    fillUnder(x, z, fromY, topY, under, seed);
+                    world.setBlock(x, topY, z, top.at(x, topY, z, seed));
                 }
             }
         }
@@ -1616,8 +1622,8 @@ public final class DslParser {
                     seed = expr(take(), variables);
                 }
             }
-            BlockState top = block();
-            BlockState under = block();
+            SurfaceSpec top = surfaceSpec();
+            SurfaceSpec under = surfaceSpec();
             Point p1 = worldPoint(localX1, localZ1);
             Point p2 = worldPoint(localX2, localZ2);
             int minX = Math.min(p1.x, p2.x);
@@ -1627,10 +1633,8 @@ public final class DslParser {
             for (int z = minZ; z <= maxZ; z++) {
                 for (int x = minX; x <= maxX; x++) {
                     int topY = baseY + Math.round((float) (smoothNoise(x, z, seed, scale, octaves) * amplitude));
-                    if (fromY < topY) {
-                        world.fill(x, fromY, z, x, topY - 1, z, under);
-                    }
-                    world.setBlock(x, topY, z, top);
+                    fillUnder(x, z, fromY, topY, under, seed);
+                    world.setBlock(x, topY, z, top.at(x, topY, z, seed));
                 }
             }
         }
@@ -1664,6 +1668,69 @@ public final class DslParser {
             return body;
         }
 
+        private boolean nextIsPalette() {
+            String token = tokens.peek();
+            return token != null && blockPalettes.containsKey(token);
+        }
+
+        private int optionalSeed(Map<String, Integer> variables) {
+            int seed = 0;
+            if (peek("seed")) {
+                take("seed");
+                seed = expr(take(), variables);
+            }
+            return seed;
+        }
+
+        private interface SurfaceSpec {
+            BlockState at(int x, int y, int z, int seed);
+
+            default BlockState constant() {
+                return null;
+            }
+        }
+
+        private SurfaceSpec surfaceSpec() {
+            String token = tokens.peek();
+            if (token != null && blockPalettes.containsKey(token)) {
+                take();
+                BlockPalette palette = blockPalettes.get(token);
+                int turns = rotation.quarters;
+                return new SurfaceSpec() {
+                    @Override
+                    public BlockState at(int x, int y, int z, int seed) {
+                        return palette.pick(x, y, z, seed).rotatedY(turns);
+                    }
+                };
+            }
+            BlockState state = block();
+            return new SurfaceSpec() {
+                @Override
+                public BlockState at(int x, int y, int z, int seed) {
+                    return state;
+                }
+
+                @Override
+                public BlockState constant() {
+                    return state;
+                }
+            };
+        }
+
+        private void fillUnder(int x, int z, int fromY, int topY, SurfaceSpec under, int seed) {
+            if (fromY >= topY) {
+                return;
+            }
+            BlockState constant = under.constant();
+            if (constant != null) {
+                world.fill(x, fromY, z, x, topY - 1, z, constant);
+                return;
+            }
+            for (int y = fromY; y < topY; y++) {
+                world.setBlock(x, y, z, under.at(x, y, z, seed));
+            }
+        }
+
         private BlockState block() {
             return block(0);
         }
@@ -1678,6 +1745,11 @@ public final class DslParser {
                     throw new IllegalArgumentException("Unknown block alias: $" + name);
                 }
             } else {
+                if (blockPalettes.containsKey(token)) {
+                    throw new IllegalArgumentException("'" + token
+                            + "' is a block_palette; this command needs a single block "
+                            + "(palette-aware commands: fill, box, terrain, smooth_terrain)");
+                }
                 state = BlockState.parse(token);
             }
             return state.rotatedY(rotation.quarters + localQuarterTurns);
