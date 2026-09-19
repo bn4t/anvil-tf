@@ -4,6 +4,11 @@ group "ridge 384 validation skeleton" {
   origin 320 0 -192
   bounds 0 0 0 to 384 128 384
 
+  block_palette ridge_ground_mix {
+    block minecraft:grass_block[snowy=false] weight 7
+    block minecraft:coarse_dirt weight 2
+    block minecraft:gravel weight 2
+  }
   block_palette ridge_path_mix {
     block minecraft:stone_bricks weight 5
     block minecraft:mossy_stone_bricks weight 3
@@ -122,7 +127,7 @@ group "ridge 384 validation skeleton" {
 
     field ground = terrain plateau base 72 amplitude 14 scale 42 octaves 4 seed 502
 
-    terrain plateau field ground from 1 top style.top under style.under
+    terrain plateau field ground from 1 top ridge_ground_mix under style.under
     water outside plateau from 1 to 60 style.water
     clear outside plateau from 61 to 128
     lava ravine from 1 to 66 style.hazard

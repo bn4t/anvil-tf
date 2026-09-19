@@ -134,7 +134,7 @@ group "kikoshi 512 validation skeleton" {
 
     field ground = terrain playable base 64 amplitude 8 scale 54 octaves 4 seed 101
 
-    terrain playable field ground from 1 top style.top under style.under
+    terrain playable field ground from 1 top ground_mix under style.under
     water outside playable from 1 to 58 style.water
     clear outside playable from 59 to 128
     water bay from 1 to 58 style.water
