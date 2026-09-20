@@ -17,6 +17,7 @@ world "kikoshi-scale" {
   include "components/fountain.atf"
   include "components/gate-tower.atf"
   include "components/lantern-post.atf"
+  include "components/jetty.atf"
   include "components/leaf-bush.atf"
   include "components/lighthouse.atf"
   include "components/low-wall-segment.atf"

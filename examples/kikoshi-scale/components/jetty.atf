@@ -1,0 +1,17 @@
+component "jetty" {
+  bounds -2 -2 0 to 2 1 12
+  # finger pier: posts sunk into the water, plank deck, rail posts, end lantern
+  fill -2 -2 0 to -2 0 0 minecraft:dark_oak_log
+  fill 2 -2 0 to 2 0 0 minecraft:dark_oak_log
+  fill -2 -2 4 to -2 0 4 minecraft:dark_oak_log
+  fill 2 -2 4 to 2 0 4 minecraft:dark_oak_log
+  fill -2 -2 8 to -2 0 8 minecraft:dark_oak_log
+  fill 2 -2 8 to 2 0 8 minecraft:dark_oak_log
+  fill -2 -2 12 to -2 0 12 minecraft:dark_oak_log
+  fill 2 -2 12 to 2 0 12 minecraft:dark_oak_log
+  fill -2 1 0 to 2 1 12 minecraft:spruce_planks
+  set -2 2 12 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 2 2 12 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 0 2 12 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 0 3 12 minecraft:lantern[hanging=false,waterlogged=false]
+}

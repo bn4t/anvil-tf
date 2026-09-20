@@ -372,4 +372,5 @@ group "harbor town" {
   place rowboat at 500 62 763 rotate 0
   place rowboat at 548 62 766 rotate 90
   place rowboat at 596 62 763 rotate 270
+  place jetty at 560 62 758 rotate 0
 }

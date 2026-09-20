@@ -198,6 +198,13 @@ group "shrine isles" {
     cluster "sand lanterns" at reserve "sand watch" conform ground spacing 1 {
       repeat component style.light from -10 0 to 10 0 count 5 radius 2 height 6 rotate 0
     }
+    cluster "sand camp" at reserve "sand watch" conform ground spacing 0 {
+      component fire-ring at -4 2 radius 3 height 2 rotate 0
+      component fish-rack at -12 -5 radius 3 height 4 rotate 90
+      component fish-rack at -12 6 radius 3 height 4 rotate 90
+      component style.crate at 3 7 radius 3 height 4 rotate 0
+      component rowboat at 10 -6 radius 4 height 2 rotate 90
+    }
     cluster "shrine court" at reserve "shrine crown" conform ground spacing 0 {
       component ema-rack at 13 28 radius 2 height 4 rotate 180
       component ema-rack at -13 28 radius 2 height 4 rotate 180
@@ -229,4 +236,6 @@ group "shrine isles" {
   place rowboat at 930 62 745 rotate 90
   place rowboat at 958 62 742 rotate 0
   place rowboat at 880 62 748 rotate 270
+  place jetty at 900 62 738 rotate 0
+  place jetty at 940 62 738 rotate 0
 }
