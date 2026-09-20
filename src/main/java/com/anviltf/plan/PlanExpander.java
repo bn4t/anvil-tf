@@ -55,6 +55,9 @@ public final class PlanExpander {
     public List<PlanWarning> diagnose(Path input) throws IOException {
         Path sourceRoot = input.toAbsolutePath().normalize().getParent();
         List<PlanWarning> warnings = new ArrayList<>();
+        Map<String, int[]> componentBounds = new HashMap<>();
+        List<Plan> plans = new ArrayList<>();
+        List<PlanPlacement> placements = new ArrayList<>();
         try (var paths = Files.walk(sourceRoot)) {
             List<Path> sources = paths
                     .filter(Files::isRegularFile)
@@ -62,10 +65,18 @@ public final class PlanExpander {
                     .sorted()
                     .toList();
             for (Path source : sources) {
+                List<String> lines = Files.readAllLines(source);
+                Path relative = sourceRoot.relativize(source);
+                collectComponentBounds(lines, componentBounds);
+                collectPlans(lines, plans);
+                collectFreePlacements(relative, lines, placements);
+            }
+            for (Path source : sources) {
                 Path relative = sourceRoot.relativize(source);
                 diagnoseFile(relative, Files.readAllLines(source), warnings);
             }
         }
+        diagnosePlacementOverlaps(plans, placements, componentBounds, warnings);
         warnings.sort(Comparator
                 .comparing(PlanWarning::file)
                 .thenComparing(PlanWarning::code)
@@ -2256,6 +2267,201 @@ public final class PlanExpander {
             }
         }
     }
+
+    private static final java.util.regex.Pattern COMPONENT_DEF = java.util.regex.Pattern
+            .compile("^\\s*component\\s+\\\"?([A-Za-z0-9_:-]+)\\\"?\\s*\\{\\s*$");
+    private static final java.util.regex.Pattern BOUNDS_DEF = java.util.regex.Pattern
+            .compile("^\\s*bounds\\s+(-?\\d+)\\s+(-?\\d+)\\s+(-?\\d+)\\s+to\\s+(-?\\d+)\\s+(-?\\d+)\\s+(-?\\d+)");
+    private static final java.util.regex.Pattern PLACE_DEF = java.util.regex.Pattern
+            .compile("^\\s*place\\s+([A-Za-z0-9_:-]+)\\s+at\\s+(-?\\d+)\\s+(-?\\d+)\\s+(-?\\d+)(?:\\s+rotate\\s+(\\d+))?");
+    private static final java.util.regex.Pattern FLORA_NAME = java.util.regex.Pattern
+            .compile(".*(tree|bush|leaf|foliage|grass|fern|mushroom|flower|sapling|driftwood|crop|vine|kelp).*");
+
+    private record PlanPlacement(String component, int anchorX, int anchorZ, int rotation,
+                                 boolean flora, Path file) {
+    }
+
+    private static void collectComponentBounds(List<String> source, Map<String, int[]> bounds) {
+        String current = null;
+        for (String line : source) {
+            var component = COMPONENT_DEF.matcher(line);
+            if (component.matches()) {
+                current = component.group(1);
+                continue;
+            }
+            if (current != null) {
+                var b = BOUNDS_DEF.matcher(line);
+                if (b.find()) {
+                    int[] box = new int[6];
+                    for (int i = 0; i < 6; i++) {
+                        box[i] = Integer.parseInt(b.group(i + 1));
+                    }
+                    bounds.putIfAbsent(current, box);
+                }
+                if (line.contains("}")) {
+                    current = null;
+                }
+            }
+        }
+    }
+
+    private static void collectFreePlacements(Path file, List<String> source, List<PlanPlacement> out) {
+        int originX = 0;
+        int originZ = 0;
+        boolean inPlan = false;
+        int depth = 0;
+        for (String line : source) {
+            String stripped = stripComment(line).trim();
+            if (stripped.startsWith("origin ")) {
+                List<String> tokens = tokenize(stripped);
+                if (tokens.size() >= 4) {
+                    originX = intAt(tokens, 1);
+                    originZ = intAt(tokens, 3);
+                }
+            }
+            if (!inPlan && line.trim().equals("plan {")) {
+                inPlan = true;
+                depth = 1;
+                continue;
+            }
+            if (inPlan) {
+                depth += braceDelta(line);
+                if (depth <= 0) {
+                    inPlan = false;
+                }
+                continue;
+            }
+            var place = PLACE_DEF.matcher(line);
+            if (place.matches()) {
+                int rotation = place.group(5) == null ? 0 : Integer.parseInt(place.group(5));
+                out.add(new PlanPlacement(place.group(1),
+                        originX + Integer.parseInt(place.group(2)),
+                        originZ + Integer.parseInt(place.group(4)),
+                        rotation, false, file));
+            }
+        }
+    }
+
+    private static int[] placedBox(Map<String, int[]> bounds, PlanPlacement placement) {
+        int[] box = bounds.get(placement.component);
+        if (box == null) {
+            return null;
+        }
+        int x0 = box[0];
+        int z0 = box[2];
+        int x1 = box[3];
+        int z1 = box[5];
+        // matches DslParser.rotate: CW_90 (x,z)->(-z,x), CW_180 ->(-x,-z), CW_270 ->(z,-x)
+        if (placement.rotation == 90) {
+            x0 = -box[5];
+            z0 = box[0];
+            x1 = -box[2];
+            z1 = box[3];
+        } else if (placement.rotation == 270) {
+            x0 = box[2];
+            z0 = -box[3];
+            x1 = box[5];
+            z1 = -box[0];
+        } else if (placement.rotation == 180) {
+            x0 = -box[3];
+            z0 = -box[5];
+            x1 = -box[0];
+            z1 = -box[2];
+        }
+        return new int[]{placement.anchorX + x0, placement.anchorZ + z0,
+                placement.anchorX + x1, placement.anchorZ + z1};
+    }
+
+    private static PlanPlacement placed(String component, int anchorX, int anchorZ, int rotation,
+                                        int originX, int originZ, Path file) {
+        return new PlanPlacement(component, originX + anchorX, originZ + anchorZ,
+                rotation, FLORA_NAME.matcher(component).matches(), file);
+    }
+
+    private void diagnosePlacementOverlaps(List<Plan> plans, List<PlanPlacement> freePlacements,
+                                           Map<String, int[]> componentBounds, List<PlanWarning> warnings) {
+        List<PlanPlacement> all = new ArrayList<>(freePlacements);
+        for (Plan plan : plans) {
+            for (LandmarkAction landmark : plan.landmarks) {
+                all.add(placed(landmark.component, landmark.x, landmark.z, landmark.rotation,
+                        plan.overlayOriginX, plan.overlayOriginZ, null));
+            }
+            for (ClusterAction cluster : plan.clusters) {
+                Point anchor = cluster.anchor(plan);
+                for (ClusterMember member : cluster.members) {
+                    Point memberAnchor = member.anchor(anchor);
+                    all.add(placed(member.component, memberAnchor.x, memberAnchor.z, member.rotation,
+                            plan.overlayOriginX, plan.overlayOriginZ, null));
+                }
+            }
+        }
+        List<int[]> boxes = new ArrayList<>();
+        List<PlanPlacement> resolved = new ArrayList<>();
+        for (PlanPlacement placement : all) {
+            int[] box = placedBox(componentBounds, placement);
+            if (box != null) {
+                resolved.add(placement);
+                boxes.add(box);
+            }
+        }
+        Set<String> reported = new HashSet<>();
+        for (int i = 0; i < resolved.size(); i++) {
+            for (int j = i + 1; j < resolved.size(); j++) {
+                PlanPlacement a = resolved.get(i);
+                PlanPlacement b = resolved.get(j);
+                if (a.flora && b.flora) {
+                    continue;
+                }
+                int[] ab = boxes.get(i);
+                int[] bb = boxes.get(j);
+                // flora gets clipped by reservation clears or harmlessly overhangs — flag it
+                // only when its anchor column lands inside a structure footprint
+                if (a.flora || b.flora) {
+                    int f = a.flora ? i : j;
+                    int st = a.flora ? j : i;
+                    PlanPlacement flora = resolved.get(f);
+                    int[] sb = boxes.get(st);
+                    if (big(sb) && flora.anchorX >= sb[0] && flora.anchorX <= sb[2]
+                            && flora.anchorZ >= sb[1] && flora.anchorZ <= sb[3]) {
+                        String key = flora.component + "@" + flora.anchorX + "," + flora.anchorZ
+                                + "|" + resolved.get(st).component;
+                        if (reported.add(key)) {
+                            warnings.add(new PlanWarning(String.valueOf(flora.file),
+                                    "flora-inside-structure", flora.anchorX, flora.anchorZ,
+                                    "flora " + quote(flora.component)
+                                            + " anchor sits inside "
+                                            + quote(resolved.get(st).component) + " footprint"));
+                        }
+                    }
+                    continue;
+                }
+                // only structure-scale pairs warn: stalls, posts, crates and other small
+                // props hugging a wall are intended density, and same-component runs tile
+                if (!big(ab) || !big(bb) || a.component.equals(b.component)) {
+                    continue;
+                }
+                int ox = Math.min(ab[2], bb[2]) - Math.max(ab[0], bb[0]);
+                int oz = Math.min(ab[3], bb[3]) - Math.max(ab[1], bb[1]);
+                if (ox < 2 || oz < 2) {
+                    continue;
+                }
+                String key = a.component + "|" + b.component + "|" + Math.max(ab[0], bb[0])
+                        + "," + Math.max(ab[1], bb[1]);
+                if (reported.add(key)) {
+                    warnings.add(new PlanWarning(String.valueOf(b.file), "placement-overlap",
+                            Math.max(ab[0], bb[0]), Math.max(ab[1], bb[1]),
+                            "placement " + quote(a.component) + " footprint overlaps "
+                                    + quote(b.component) + " by " + ox + "x" + oz));
+                }
+            }
+        }
+    }
+
+    private static boolean big(int[] box) {
+        // structure-scale footprint: buildings and towers pass, stalls/crates/boats/props don't
+        return (long) (box[2] - box[0] + 1) * (box[3] - box[1] + 1) >= 80;
+    }
+
 
     private record LandmarkAction(String name, String component, int x, int z, String field, String reservation,
                                   int radius, int height, int rotation) implements Action {

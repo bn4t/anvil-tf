@@ -197,7 +197,7 @@ group "base terrain" {
       repeat component style.light from -8 -12 to 8 -12 count 5 radius 2 height 6 rotate 0
     }
     cluster "south camp" at reserve "camp south" conform ground spacing 0 {
-      component style.stall at 0 -6 radius 3 height 4 rotate 0
+      component style.stall at 0 -13 radius 3 height 4 rotate 0
       component style.light at -8 -8 radius 2 height 6 rotate 0
       component style.light at 8 8 radius 2 height 6 rotate 0
       component style.crate at 6 -6 radius 3 height 4 rotate 0
