@@ -1,0 +1,5 @@
+component "driftwood" {
+  bounds -1 0 -1 to 1 2 1
+  set 0 0 0 minecraft:stripped_spruce_log[axis=z]
+  set 0 1 0 minecraft:spruce_log[axis=y]
+}

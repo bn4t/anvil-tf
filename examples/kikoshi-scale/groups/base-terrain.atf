@@ -259,6 +259,13 @@ group "base terrain" {
       set minecraft:red_mushroom weight 1
     }
 
+    scatter_in beach_land count 240 seed 431 avoid_routes 4 avoid_reservations 6 conform ground {
+      component driftwood weight 3
+      component style.rock weight 2
+      set minecraft:dead_bush weight 4
+      set minecraft:short_grass weight 2
+    }
+
     loot wild tier 1 count 60 seed 511 avoid_routes 5 avoid_reservations 8 conform ground
   }
 
