@@ -69,6 +69,15 @@ component "townhouse-b" {
   fill 1 11 -6 to 3 11 -6 minecraft:azalea_leaves[persistent=true,waterlogged=false]
   set 0 1 -4 minecraft:spruce_door[facing=north,half=lower,hinge=left,open=false,powered=false]
   set 0 2 -4 minecraft:spruce_door[facing=north,half=upper,hinge=left,open=false,powered=false]
+  # third-floor balcony over the street door: bracketed slab platform + rail
+  set -1 9 -6 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 1 9 -6 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  fill -1 10 -7 to 1 10 -5 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  fill -1 11 -7 to 1 11 -7 minecraft:spruce_trapdoor[facing=south,half=top,open=true,waterlogged=false]
+  set -1 11 -6 minecraft:spruce_trapdoor[facing=east,half=top,open=true,waterlogged=false]
+  set 1 11 -6 minecraft:spruce_trapdoor[facing=west,half=top,open=true,waterlogged=false]
+  set 0 11 -5 minecraft:spruce_door[facing=north,half=lower,hinge=left,open=false,powered=false]
+  set 0 12 -5 minecraft:spruce_door[facing=north,half=upper,hinge=left,open=false,powered=false]
   set -1 1 -4 minecraft:dark_oak_log
   set 1 1 -4 minecraft:dark_oak_log
   # weathering: vines climbing the east wall

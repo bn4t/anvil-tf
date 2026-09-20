@@ -174,15 +174,15 @@ group "harbor town" {
 
     cluster "market stalls" at reserve "market plaza" conform ground spacing 4 {
       component style.stall at -24 -18 radius 3 height 4 rotate 90
-      component style.stall at 24 -18 radius 3 height 4 rotate 270
+      component market-stall-red at 24 -18 radius 3 height 4 rotate 270
       component style.stall at -24 18 radius 3 height 4 rotate 90
       component style.stall at 24 18 radius 3 height 4 rotate 270
       component style.stall at 0 -28 radius 3 height 4 rotate 0
-      component style.stall at 0 28 radius 3 height 4 rotate 0
+      component market-stall-red at 0 28 radius 3 height 4 rotate 0
       component style.stall at -12 26 radius 3 height 4 rotate 0
       component style.stall at 12 26 radius 3 height 4 rotate 0
       repeat component style.arch from -30 38 to 30 38 count 4 radius 4 height 8 rotate 0
-      component style.stall at -28 0 radius 3 height 4 rotate 90
+      component market-stall-red at -28 0 radius 3 height 4 rotate 90
       component style.stall at 28 0 radius 3 height 4 rotate 270
       component style.cart at 34 -12 radius 3 height 3 rotate 90
       component style.cart at -34 12 radius 3 height 3 rotate 270
@@ -190,6 +190,7 @@ group "harbor town" {
     cluster "quay cargo line" at reserve "harbor quay" conform ground spacing 2 {
       repeat component style.crate from -51 -10 to 51 -10 count 8 radius 4 height 4 rotate 0
       repeat component style.post from -64 29 to 64 29 count 10 radius 2 height 12 rotate 0
+      repeat component quay-chain from -57 29 to 57 29 count 9 radius 2 height 4 rotate 0
     }
     cluster "quay yard" at reserve "harbor quay" conform ground spacing 0 {
       component style.cart at -70 6 radius 3 height 3 rotate 0

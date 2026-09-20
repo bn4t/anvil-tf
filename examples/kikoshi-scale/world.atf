@@ -20,6 +20,8 @@ world "kikoshi-scale" {
   include "components/marker-tower.atf"
   include "components/market-cart.atf"
   include "components/market-stall.atf"
+  include "components/market-stall-red.atf"
+  include "components/quay-chain.atf"
   include "components/oak-tree.atf"
   include "components/birch-tree.atf"
   include "components/spruce-tree.atf"
