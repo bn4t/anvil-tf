@@ -90,7 +90,7 @@ group "harbor town" {
     field raised = max hillmix2 quay_hill
     field ground = max bed raised
 
-    route "ring street" width 5 palette style.path conform ground centerline minecraft:white_concrete seed 301 {
+    route "ring street" width 5 palette style.path conform ground centerline minecraft:white_concrete edge minecraft:stone_brick_slab[type=bottom] seed 301 {
       point 470 372
       point 540 400
       point 555 455
@@ -101,7 +101,7 @@ group "harbor town" {
       point 320 360
       close
     }
-    route "harbor road" width 6 palette style.path conform ground centerline minecraft:white_concrete seed 302 {
+    route "harbor road" width 6 palette style.path conform ground centerline minecraft:white_concrete edge minecraft:stone_brick_slab[type=bottom] seed 302 {
       point 430 480
       crossing 430 640 radius 90
       point 470 700
@@ -110,7 +110,7 @@ group "harbor town" {
       crossing 600 760 radius 40
       point 600 780
     }
-    route "keep road" width 5 palette style.path conform ground centerline minecraft:white_concrete seed 303 {
+    route "keep road" width 5 palette style.path conform ground centerline minecraft:white_concrete edge minecraft:stone_brick_slab[type=bottom] seed 303 {
       point 430 428
       point 400 300
     }

@@ -113,3 +113,12 @@ fastutil, kotlin-stdlib on the classpath).
   dialog on load: click "I know what I'm doing!" → "Yes" to continue.
 - When checking an interior, teleport INSIDE the structure bounds (spectator
   outside often renders the inside too dark to judge).
+
+## Inspecting plan-authored builds
+
+- `render`/`diagnose`/`build` do not parse `plan {}` blocks — run
+  `plan-expand <world.atf> <outdir>` first, then point render/diagnose at the
+  expanded `<outdir>/world.atf`.
+- `render top <y>` shows blocks at exactly that y only; features sitting a
+  half-step above street level (e.g. curb slabs) are at street_y+1, not
+  street_y.

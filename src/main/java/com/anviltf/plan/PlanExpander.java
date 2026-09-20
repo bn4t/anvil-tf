@@ -1164,6 +1164,7 @@ public final class PlanExpander {
         }
         return new Route(name, width, palette, field, seed,
                 resolveOptional(plan, optionalTokenAfter(tokens, "centerline", null)),
+                resolveOptional(plan, optionalTokenAfter(tokens, "edge", null)),
                 points, crossings);
     }
 
@@ -2167,7 +2168,8 @@ public final class PlanExpander {
     }
 
     private record Route(String name, int width, String palette, String field, int seed,
-                         String centerline, List<Point> points, List<Crossing> crossings)
+                         String centerline, String edge,
+                         List<Point> points, List<Crossing> crossings)
             implements Action {
         @Override
         public void expand(Plan plan, List<String> out) {
@@ -2187,6 +2189,24 @@ public final class PlanExpander {
                 }
                 for (Cell cell : spine) {
                     out.add("  set " + cell.x + " " + cell.y + " " + cell.z + " " + centerline);
+                }
+            }
+            if (edge != null) {
+                Set<Point> footprint = new HashSet<>();
+                for (Cell cell : cells) {
+                    footprint.add(new Point(cell.x, cell.z));
+                }
+                for (Cell cell : cells) {
+                    if (crossesAt(cell.x, cell.z)) {
+                        continue;
+                    }
+                    boolean boundary = !footprint.contains(new Point(cell.x + 1, cell.z))
+                            || !footprint.contains(new Point(cell.x - 1, cell.z))
+                            || !footprint.contains(new Point(cell.x, cell.z + 1))
+                            || !footprint.contains(new Point(cell.x, cell.z - 1));
+                    if (boundary) {
+                        out.add("  set " + cell.x + " " + (cell.y + 1) + " " + cell.z + " " + edge);
+                    }
                 }
             }
         }
