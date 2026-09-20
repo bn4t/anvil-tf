@@ -19,6 +19,7 @@ world "kikoshi-scale" {
   include "components/oak-tree.atf"
   include "components/birch-tree.atf"
   include "components/spruce-tree.atf"
+  include "components/park-bench.atf"
   include "components/planter-box.atf"
   include "components/ridge-keep-core.atf"
   include "components/rock-cluster.atf"

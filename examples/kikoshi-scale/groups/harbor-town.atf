@@ -67,6 +67,7 @@ group "harbor town" {
       tree oak-tree
       hut fishing-hut
       pavilion shrine-pavilion
+      bench park-bench
     }
 
     use_style port
@@ -187,19 +188,19 @@ group "harbor town" {
       repeat component style.hut from -30 -14 to 30 -14 count 3 radius 6 height 18 rotate 0
       repeat component style.hut from -30 14 to 30 14 count 3 radius 6 height 18 rotate 180
     }
-    cluster "east row houses" at reserve "east row" conform ground spacing 4 {
-      repeat component style.house_a from -16 -58 to -16 58 count 5 radius 6 height 15 rotate 270
-      repeat component style.house_b from 16 -48 to 16 48 count 4 radius 6 height 17 rotate 90
+    cluster "east row houses" at reserve "east row" conform ground spacing 1 {
+      repeat component style.house_a from -16 -58 to -16 58 count 9 radius 6 height 15 rotate 270
+      repeat component style.house_b from 16 -58 to 16 58 count 9 radius 6 height 17 rotate 90
     }
-    cluster "east row center" at reserve "east row" conform ground spacing 4 {
-      repeat component style.house_b from 0 -58 to 0 58 count 7 radius 6 height 17 rotate 0
+    cluster "east row center" at reserve "east row" conform ground spacing 1 {
+      repeat component style.house_b from 0 -58 to 0 58 count 9 radius 6 height 17 rotate 0
     }
-    cluster "west row houses" at reserve "west row" conform ground spacing 4 {
-      repeat component style.house_a from 16 -58 to 16 58 count 5 radius 6 height 15 rotate 90
-      repeat component style.house_b from -16 -48 to -16 48 count 4 radius 6 height 17 rotate 270
+    cluster "west row houses" at reserve "west row" conform ground spacing 1 {
+      repeat component style.house_a from 16 -58 to 16 58 count 9 radius 6 height 15 rotate 90
+      repeat component style.house_b from -16 -58 to -16 58 count 9 radius 6 height 17 rotate 270
     }
-    cluster "west row center" at reserve "west row" conform ground spacing 4 {
-      repeat component style.house_b from 0 -58 to 0 58 count 7 radius 6 height 17 rotate 180
+    cluster "west row center" at reserve "west row" conform ground spacing 1 {
+      repeat component style.house_b from 0 -58 to 0 58 count 9 radius 6 height 17 rotate 180
     }
     cluster "keep walls" at reserve "keep crown" conform ground spacing 0 {
       repeat component style.wall_piece from -34 -45 to 34 -45 count 7 radius 5 height 8 rotate 0
@@ -225,6 +226,12 @@ group "harbor town" {
       repeat component style.light from 16 24 to -16 24 count 7 radius 2 height 6 rotate 0
       repeat component style.light from -24 16 to -24 -16 count 7 radius 2 height 6 rotate 0
     }
+    cluster "plaza benches" at reserve "market plaza" conform ground spacing 0 {
+      repeat component style.bench from -14 -14 to 14 -14 count 3 radius 2 height 1 rotate 180
+      repeat component style.bench from -14 14 to 14 14 count 3 radius 2 height 1 rotate 0
+      repeat component style.bench from -14 -7 to -14 7 count 2 radius 2 height 1 rotate 90
+      repeat component style.bench from 14 -7 to 14 7 count 2 radius 2 height 1 rotate 270
+    }
     cluster "keep towers" at reserve "keep crown" conform ground spacing 2 {
       component style.gate_piece at -40 -40 radius 5 height 15 rotate 0
       component style.gate_piece at 40 -40 radius 5 height 15 rotate 0
@@ -234,12 +241,12 @@ group "harbor town" {
     cluster "quay crates south" at reserve "harbor quay" conform ground spacing 2 {
       repeat component style.crate from -51 -24 to 51 -24 count 11 radius 4 height 4 rotate 0
     }
-    cluster "east row north houses" at reserve "east row north" conform ground spacing 4 {
-      repeat component style.house_a from 4 -48 to 4 48 count 4 radius 6 height 15 rotate 270
+    cluster "east row north houses" at reserve "east row north" conform ground spacing 1 {
+      repeat component style.house_a from 4 -48 to 4 48 count 7 radius 6 height 15 rotate 270
       repeat component style.light from -14 -50 to -14 50 count 8 radius 2 height 6 rotate 0
     }
-    cluster "west row south houses" at reserve "west row south" conform ground spacing 4 {
-      repeat component style.house_a from -4 -52 to -4 52 count 4 radius 6 height 15 rotate 90
+    cluster "west row south houses" at reserve "west row south" conform ground spacing 1 {
+      repeat component style.house_a from -4 -52 to -4 52 count 7 radius 6 height 15 rotate 90
       repeat component style.light from 14 -52 to 14 52 count 8 radius 2 height 6 rotate 0
     }
     cluster "cape wall" at reserve "north cape" conform ground spacing 0 {
@@ -258,4 +265,16 @@ group "harbor town" {
     loot townside tier 1 count 50 seed 501 avoid_routes 5 avoid_reservations 8 conform ground
     loot townside tier 2 count 18 seed 502 avoid_routes 8 avoid_reservations 3 conform ground
   }
+
+  # moored rowboat in the bay, east of the quay
+  fill 676 62 818 to 680 62 822 minecraft:spruce_planks
+  fill 675 63 818 to 675 63 822 minecraft:dark_oak_planks
+  fill 681 63 818 to 681 63 822 minecraft:dark_oak_planks
+  set 676 63 818 minecraft:spruce_stairs[facing=west,half=bottom,waterlogged=false]
+  set 680 63 818 minecraft:spruce_stairs[facing=east,half=bottom,waterlogged=false]
+  set 676 63 822 minecraft:spruce_stairs[facing=west,half=bottom,waterlogged=false]
+  set 680 63 822 minecraft:spruce_stairs[facing=east,half=bottom,waterlogged=false]
+  fill 677 63 818 to 679 63 818 minecraft:dark_oak_planks
+  fill 677 63 822 to 679 63 822 minecraft:dark_oak_planks
+  set 678 63 820 minecraft:spruce_slab[type=bottom,waterlogged=false]
 }

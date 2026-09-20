@@ -31,13 +31,26 @@ component "townhouse-a" {
   fill -6 5 3 to -6 9 3 minecraft:dark_oak_log
   fill 6 5 -3 to 6 9 -3 minecraft:dark_oak_log
   fill 6 5 3 to 6 9 3 minecraft:dark_oak_log
-  # windows, shutters, door
-  fill -4 2 -5 to -2 3 -5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
-  fill 2 2 -5 to 4 3 -5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
-  fill -4 6 -5 to -2 8 -5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
-  fill 2 6 -5 to 4 8 -5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
-  fill -4 6 5 to -2 8 5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
-  fill 2 6 5 to 4 8 5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  # cornice strips between floors
+  fill -6 4 -6 to 6 4 -6 minecraft:stone_brick_stairs[facing=north,half=top,waterlogged=false]
+  fill -6 10 -6 to 6 10 -6 minecraft:dark_oak_stairs[facing=north,half=top,waterlogged=false]
+  # recessed windows: opening in facade, glass set one deep, sills + shutters
+  fill -4 2 -5 to -2 3 -5 minecraft:air
+  fill -4 2 -4 to -2 3 -4 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 2 2 -5 to 4 3 -5 minecraft:air
+  fill 2 2 -4 to 4 3 -4 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -4 6 -5 to -2 8 -5 minecraft:air
+  fill -4 6 -4 to -2 8 -4 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 2 6 -5 to 4 8 -5 minecraft:air
+  fill 2 6 -4 to 4 8 -4 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -4 6 5 to -2 8 5 minecraft:air
+  fill -4 6 4 to -2 8 4 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 2 6 5 to 4 8 5 minecraft:air
+  fill 2 6 4 to 4 8 4 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -4 1 -5 to -2 1 -5 minecraft:stone_brick_slab[type=top,waterlogged=false]
+  fill 2 1 -5 to 4 1 -5 minecraft:stone_brick_slab[type=top,waterlogged=false]
+  fill -4 5 -5 to -2 5 -5 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  fill 2 5 -5 to 4 5 -5 minecraft:spruce_slab[type=bottom,waterlogged=false]
   set -5 2 -6 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
   set -1 2 -6 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
   set 5 2 -6 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
@@ -49,6 +62,19 @@ component "townhouse-a" {
   set -1 2 -5 minecraft:dark_oak_log
   set 1 2 -5 minecraft:dark_oak_log
   set 0 0 -6 minecraft:stone_brick_stairs[facing=north,half=bottom,waterlogged=false]
+  # furnished interior: ground floor visible through the recessed glass
+  fill -5 2 -3 to 5 4 3 minecraft:air
+  fill -5 1 -4 to 5 1 4 minecraft:dark_oak_planks
+  fill -5 6 -3 to 5 9 3 minecraft:air
+  fill -5 5 -4 to 5 5 4 minecraft:dark_oak_planks
+  fill -5 2 -3 to -5 3 3 minecraft:bookshelf
+  set 4 2 3 minecraft:crafting_table
+  set 4 2 2 minecraft:barrel[facing=up,open=false]
+  fill -3 2 3 to -1 2 3 minecraft:oak_stairs[facing=north,half=bottom,waterlogged=false]
+  set 0 4 0 minecraft:lantern[hanging=true,waterlogged=false]
+  fill -2 6 -3 to -1 7 -3 minecraft:bookshelf
+  set 3 6 -2 minecraft:hay_block[axis=y]
+  set 0 9 0 minecraft:lantern[hanging=true,waterlogged=false]
   # gabled roof: ridge along x, eaves overhang z, stepped gable ends
   fill -6 10 -7 to 6 10 7 minecraft:dark_prismarine
   fill -6 11 -5 to 6 11 5 minecraft:dark_prismarine
