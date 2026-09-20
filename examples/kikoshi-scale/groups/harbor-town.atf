@@ -183,6 +183,7 @@ group "harbor town" {
       component style.stall at 12 26 radius 3 height 4 rotate 0
       repeat component style.arch from -30 38 to 30 38 count 4 radius 4 height 8 rotate 0
       component market-stall-red at -28 0 radius 3 height 4 rotate 90
+      component notice-board at 8 -34 radius 3 height 5 rotate 180
       component style.stall at 28 0 radius 3 height 4 rotate 270
       component style.cart at 34 -12 radius 3 height 3 rotate 90
       component style.cart at -34 12 radius 3 height 3 rotate 270
@@ -229,6 +230,14 @@ group "harbor town" {
     }
     cluster "west row center" at reserve "west row" conform ground spacing 1 {
       repeat component style.house_b from 0 -58 to 0 58 count 9 radius 6 height 17 rotate 180
+    }
+    cluster "bailey yard" at reserve "keep crown" conform ground spacing 0 {
+      component training-dummy at 14 26 radius 2 height 4 rotate 180
+      component training-dummy at 18 28 radius 2 height 4 rotate 180
+      component training-dummy at 22 30 radius 2 height 4 rotate 180
+      component archery-butt at 30 34 radius 3 height 3 rotate 0
+      component archery-butt at 30 42 radius 3 height 3 rotate 0
+      component fire-ring at 16 34 radius 3 height 2 rotate 0
     }
     cluster "keep walls" at reserve "keep crown" conform ground spacing 0 {
       repeat component style.wall_piece from -34 -45 to 34 -45 count 7 radius 5 height 8 rotate 0

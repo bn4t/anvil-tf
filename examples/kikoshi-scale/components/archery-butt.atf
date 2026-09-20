@@ -1,0 +1,11 @@
+component "archery-butt" {
+  bounds -2 0 -1 to 2 3 1
+  # hay bales with a target face, leaning on a plank back
+  fill -1 0 0 to 1 0 0 minecraft:hay_block[axis=x]
+  fill -1 1 0 to 1 1 0 minecraft:hay_block[axis=x]
+  set 0 1 -1 minecraft:target
+  set 0 0 -1 minecraft:spruce_planks
+  fill -2 0 1 to 2 2 1 minecraft:spruce_planks
+  set -2 2 1 minecraft:dark_oak_log
+  set 2 2 1 minecraft:dark_oak_log
+}

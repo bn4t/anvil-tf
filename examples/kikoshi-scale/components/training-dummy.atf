@@ -1,0 +1,9 @@
+component "training-dummy" {
+  bounds -2 0 -1 to 2 4 1
+  # straw practice dummy: post, crossbar arms, hay body, pumpkin head
+  fill 0 0 0 to 0 1 0 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set -1 2 0 minecraft:dark_oak_log[axis=x]
+  set 0 2 0 minecraft:hay_block[axis=y]
+  set 1 2 0 minecraft:dark_oak_log[axis=x]
+  set 0 3 0 minecraft:carved_pumpkin[facing=north]
+}

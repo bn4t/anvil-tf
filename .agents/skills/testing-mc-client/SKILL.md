@@ -129,3 +129,6 @@ fastutil, kotlin-stdlib on the classpath).
 - Waterline objects (boats, buoys): eye-level tps land submerged and aerial
   shots lose low dark hulls — verify via chunk-scan signature plus a
   hover-look-down shot from a few blocks above the surface.
+- `sign_text` inside components: predict which placed sign shows which line
+  from the authored local coords + placement rotation (rotate 180 mirrors
+  left-to-right). Blank sign or text on the wrong cell = BE offset bug.

@@ -1,0 +1,14 @@
+component "notice-board" {
+  bounds -2 0 -1 to 2 4 1
+  # post-and-plank notice board, sign face toward -z
+  fill -2 0 0 to -2 2 0 minecraft:dark_oak_log
+  fill 2 0 0 to 2 2 0 minecraft:dark_oak_log
+  fill -2 1 0 to 2 2 0 minecraft:spruce_planks
+  set 0 1 -1 minecraft:oak_wall_sign[facing=north,waterlogged=false]
+  set 1 1 -1 minecraft:oak_wall_sign[facing=north,waterlogged=false]
+  set -1 1 -1 minecraft:oak_wall_sign[facing=north,waterlogged=false]
+  sign_text 0 1 -1 front "" "TOWN NOTICE" "" ""
+  sign_text -1 1 -1 front "" "MARKET DAY" "SATURN'S EVE" ""
+  sign_text 1 1 -1 front "" "KEEP CURFEW" "AT DUSK" ""
+  fill -2 3 0 to 2 3 0 minecraft:spruce_slab[type=bottom,waterlogged=false]
+}

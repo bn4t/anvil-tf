@@ -1,0 +1,9 @@
+component "fire-ring" {
+  bounds -2 0 -2 to 2 2 2
+  # campfire ring with log seats
+  set 0 0 0 minecraft:campfire[facing=north,lit=true,signal_fire=false,waterlogged=false]
+  set -2 0 0 minecraft:oak_log[axis=x]
+  set 2 0 0 minecraft:oak_log[axis=x]
+  set 0 0 -2 minecraft:oak_log[axis=z]
+  set 0 0 2 minecraft:oak_log[axis=z]
+}
