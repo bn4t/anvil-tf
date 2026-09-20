@@ -87,24 +87,41 @@ component "townhouse-b" {
   fill 5 2 1 to 5 3 3 minecraft:vine[down=false,east=false,north=false,south=false,up=false,waterlogged=false,west=true]
   set 5 1 2 minecraft:vine[down=false,east=false,north=false,south=false,up=false,waterlogged=false,west=true]
   set 5 4 2 minecraft:vine[down=false,east=false,north=false,south=false,up=false,waterlogged=false,west=true]
-  # furnished interior: entry room + two upper rooms, all lit
+  # furnished interior: ground floor split shop/back room, upper floors split into
+  # two rooms each; ladders run through the back/east rooms
   fill -3 2 -3 to 3 4 3 minecraft:air
   fill -4 6 -3 to 4 8 3 minecraft:air
   fill -4 10 -3 to 4 12 3 minecraft:air
   fill -3 1 -3 to 3 1 3 minecraft:spruce_planks
-  fill -3 2 -2 to -3 3 2 minecraft:bookshelf
+  fill -3 2 -1 to 3 4 -1 minecraft:spruce_planks
+  set -1 2 -1 minecraft:spruce_door[facing=north,half=lower,hinge=left,open=false,powered=false]
+  set -1 3 -1 minecraft:spruce_door[facing=north,half=upper,hinge=left,open=false,powered=false]
+  fill -3 2 0 to -3 3 2 minecraft:bookshelf
   set -2 2 3 minecraft:barrel[facing=up,open=false]
   fill 1 2 2 to 2 2 3 minecraft:spruce_stairs[facing=north,half=bottom,waterlogged=false]
   # ladders linking all three floors (holes cut through both decks)
   fill 3 2 0 to 3 5 0 minecraft:ladder[facing=west,waterlogged=false]
   fill 4 6 -2 to 4 9 -2 minecraft:ladder[facing=west,waterlogged=false]
-  set 0 4 0 minecraft:lantern[hanging=true,waterlogged=false]
+  set -2 4 -2 minecraft:lantern[hanging=true,waterlogged=false]
+  set 0 4 2 minecraft:lantern[hanging=true,waterlogged=false]
   set 2 2 -2 minecraft:campfire[facing=north,lit=true,signal_fire=false,waterlogged=false]
+  # second floor: partition down the middle, door gap at the south end
+  fill 0 6 -3 to 0 8 3 minecraft:spruce_planks
+  set 0 6 2 minecraft:spruce_door[facing=west,half=lower,hinge=left,open=false,powered=false]
+  set 0 7 2 minecraft:spruce_door[facing=west,half=upper,hinge=left,open=false,powered=false]
   fill -4 6 -2 to -4 7 2 minecraft:bookshelf
   set 3 6 -2 minecraft:hay_block[axis=y]
-  set 0 8 0 minecraft:lantern[hanging=true,waterlogged=false]
+  set -2 8 0 minecraft:lantern[hanging=true,waterlogged=false]
+  set 2 8 0 minecraft:lantern[hanging=true,waterlogged=false]
+  # attic: partition down the middle, door gap at the south end
+  fill 0 10 -3 to 0 12 3 minecraft:spruce_planks
+  set 0 10 2 minecraft:spruce_door[facing=west,half=lower,hinge=left,open=false,powered=false]
+  set 0 11 2 minecraft:spruce_door[facing=west,half=upper,hinge=left,open=false,powered=false]
   set -3 10 3 minecraft:barrel[facing=up,open=false]
-  set 0 12 0 minecraft:lantern[hanging=true,waterlogged=false]
+  set 2 10 2 minecraft:red_bed[facing=south,occupied=false,part=foot]
+  set 2 10 3 minecraft:red_bed[facing=south,occupied=false,part=head]
+  set -2 12 0 minecraft:lantern[hanging=true,waterlogged=false]
+  set 2 12 0 minecraft:lantern[hanging=true,waterlogged=false]
   # gabled roof: ridge along z, eave overhang on x
   fill -6 14 -5 to 6 14 5 minecraft:dark_prismarine
   fill -4 15 -5 to 4 15 5 minecraft:dark_prismarine
