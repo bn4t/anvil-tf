@@ -77,6 +77,11 @@ component "townhouse-a" {
   fill -5 2 -3 to -5 3 3 minecraft:bookshelf
   set 4 2 3 minecraft:crafting_table
   set 4 2 2 minecraft:barrel[facing=up,open=false]
+  # partition wall splitting ground floor into front parlor and back kitchen
+  fill 1 2 -3 to 1 3 -1 minecraft:spruce_planks
+  fill 1 2 1 to 1 3 3 minecraft:spruce_planks
+  set 1 2 0 minecraft:spruce_door[facing=east,half=lower,hinge=left,open=false,powered=false]
+  set 1 3 0 minecraft:spruce_door[facing=east,half=upper,hinge=left,open=false,powered=false]
   fill -3 2 3 to -1 2 3 minecraft:oak_stairs[facing=north,half=bottom,waterlogged=false]
   # ladder linking ground floor to upper floor (hole cut in y5 deck)
   set -5 4 2 minecraft:dark_oak_log

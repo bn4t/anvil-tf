@@ -69,6 +69,9 @@ component "townhouse-b" {
   fill 1 11 -6 to 3 11 -6 minecraft:azalea_leaves[persistent=true,waterlogged=false]
   set 0 1 -4 minecraft:spruce_door[facing=north,half=lower,hinge=left,open=false,powered=false]
   set 0 2 -4 minecraft:spruce_door[facing=north,half=upper,hinge=left,open=false,powered=false]
+  # shop boards hung from the corbel band flanking the street door
+  set -3 4 -5 minecraft:oak_hanging_sign[rotation=8,waterlogged=false]
+  set 3 4 -5 minecraft:oak_hanging_sign[rotation=8,waterlogged=false]
   # third-floor balcony over the street door: bracketed slab platform + rail
   set -1 9 -6 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
   set 1 9 -6 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
