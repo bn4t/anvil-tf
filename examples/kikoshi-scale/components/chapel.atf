@@ -32,6 +32,15 @@ component "chapel" {
   set 0 1 6 minecraft:oak_door[facing=south,half=lower,hinge=left,open=false,powered=false]
   set 0 2 6 minecraft:oak_door[facing=south,half=upper,hinge=left,open=false,powered=false]
   set 0 0 7 minecraft:stone_brick_stairs[facing=south,half=bottom,waterlogged=false]
+  # interior: plank floor, two pew rows, altar with candles, lit nave
+  fill -3 1 -5 to 3 7 5 minecraft:air
+  fill -3 0 -5 to 3 0 5 minecraft:dark_oak_planks
+  fill -3 1 -2 to -1 1 2 minecraft:spruce_stairs[facing=north,half=bottom,waterlogged=false]
+  fill 1 1 -2 to 3 1 2 minecraft:spruce_stairs[facing=north,half=bottom,waterlogged=false]
+  fill -1 1 -5 to 1 1 -5 minecraft:polished_andesite
+  set -1 2 -5 minecraft:white_candle[candles=3,lit=true,waterlogged=false]
+  set 1 2 -5 minecraft:white_candle[candles=2,lit=true,waterlogged=false]
+  set 0 8 0 minecraft:lantern[hanging=true,waterlogged=false]
   # roof ridge along x, overhanging eaves, gable ends
   fill -5 9 -7 to 5 9 7 minecraft:dark_prismarine
   fill -4 10 -5 to 4 10 5 minecraft:dark_prismarine
