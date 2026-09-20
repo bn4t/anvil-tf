@@ -55,6 +55,7 @@ world "kikoshi-scale" {
   include "components/townhouse-a.atf"
   include "components/town-hall.atf"
   include "components/townhouse-b.atf"
+  include "components/townhouse-b-red.atf"
   include "components/townhouse-c.atf"
   include "components/townhouse-d.atf"
   include "components/townhouse-e.atf"

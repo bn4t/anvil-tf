@@ -217,7 +217,9 @@ group "harbor town" {
       repeat component style.bench from -45 40 to 45 40 count 5 radius 2 height 2 rotate 0
     }
     cluster "quay shops" at reserve "harbor quay" conform ground spacing 4 {
-      repeat component style.house_b from -50 -30 to -14 -30 count 3 radius 6 height 17 rotate 0
+      component style.house_b at -50 -30 radius 6 height 17 rotate 0
+      component townhouse-b-red at -32 -30 radius 6 height 17 rotate 0
+      component style.house_b at -14 -30 radius 6 height 17 rotate 0
       component townhouse-e at 0 -30 radius 2 height 18 rotate 0
       repeat component style.house_d from 14 -30 to 50 -30 count 3 radius 6 height 21 rotate 0
     }
@@ -229,10 +231,14 @@ group "harbor town" {
       repeat component style.house_a from -16 -58 to -16 58 count 9 radius 6 height 15 rotate 270
       # east side splits around the chapel pad (local z -43..-23)
       component townhouse-e at 16 -58 radius 7 height 18 rotate 90
-      repeat component style.house_b from 16 -15 to 16 58 count 6 radius 6 height 17 rotate 90
+      repeat component style.house_b from 16 -15 to 16 30 count 4 radius 6 height 17 rotate 90
+      component townhouse-b-red at 16 44 radius 6 height 17 rotate 90
+      component style.house_b at 16 58 radius 6 height 17 rotate 90
     }
     cluster "east row center" at reserve "east row" conform ground spacing 1 {
-      repeat component style.house_b from 0 -58 to 0 -29 count 3 radius 6 height 17 rotate 0
+      component style.house_b at 0 -58 radius 6 height 17 rotate 0
+      component townhouse-b-red at 0 -44 radius 6 height 17 rotate 0
+      component style.house_b at 0 -29 radius 6 height 17 rotate 0
       component style.house_c at 0 -14 radius 6 height 20 rotate 0
       component style.house_d at 0 0 radius 6 height 21 rotate 0
       component style.house_c at 0 14 radius 6 height 20 rotate 0
@@ -240,7 +246,9 @@ group "harbor town" {
     }
     cluster "west row houses" at reserve "west row" conform ground spacing 1 {
       repeat component style.house_a from 16 -58 to 16 58 count 9 radius 6 height 15 rotate 90
-      repeat component style.house_b from -16 -58 to -16 58 count 9 radius 6 height 17 rotate 270
+      repeat component style.house_b from -16 -58 to -16 0 count 5 radius 6 height 17 rotate 270
+      component townhouse-b-red at -16 14 radius 6 height 17 rotate 270
+      repeat component style.house_b from -16 29 to -16 58 count 3 radius 6 height 17 rotate 270
     }
     cluster "west row center" at reserve "west row" conform ground spacing 1 {
       repeat component style.house_b from 0 -58 to 0 58 count 9 radius 6 height 17 rotate 180
