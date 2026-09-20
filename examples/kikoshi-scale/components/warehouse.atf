@@ -29,6 +29,11 @@ component "warehouse" {
   fill 6 4 -6 to 7 5 -6 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
   fill -7 4 7 to -6 5 7 minecraft:air
   fill -7 4 6 to -6 5 6 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  # merchant pennants hanging on the water-side facade
+  set -3 4 -8 minecraft:blue_wall_banner[facing=north]
+  set 3 4 -8 minecraft:blue_wall_banner[facing=north]
+  set -3 5 -8 minecraft:blue_wall_banner[facing=north]
+  set 3 5 -8 minecraft:blue_wall_banner[facing=north]
   # hoist jib: beam out over the door side + hanging chain with crate hook
   fill -1 8 -7 to -1 8 -9 minecraft:dark_oak_log
   set -1 8 -9 minecraft:spruce_trapdoor[facing=north,half=bottom,open=true,waterlogged=false]

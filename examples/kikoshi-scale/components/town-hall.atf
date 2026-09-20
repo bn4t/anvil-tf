@@ -100,6 +100,11 @@ component "town-hall" {
   fill -1 7 -7 to 1 8 -7 minecraft:air
   set 0 7 -7 minecraft:dark_oak_door[facing=north,half=lower,hinge=left,open=false,powered=false]
   set 0 8 -7 minecraft:dark_oak_door[facing=north,half=upper,hinge=left,open=false,powered=false]
+  # banners hanging on the wool facade flanking the balcony door
+  set -2 9 -8 minecraft:white_wall_banner[facing=north]
+  set 2 9 -8 minecraft:white_wall_banner[facing=north]
+  set -2 8 -8 minecraft:red_wall_banner[facing=north]
+  set 2 8 -8 minecraft:red_wall_banner[facing=north]
   # roof: gable ridge along x, wide eaves, gable ends
   fill -11 12 -9 to 11 12 9 minecraft:dark_prismarine
   fill -11 13 -6 to 11 13 6 minecraft:dark_prismarine
