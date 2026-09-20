@@ -31,6 +31,7 @@ world "kikoshi-scale" {
   include "components/banner-pole.atf"
   include "components/potted-tree.atf"
   include "components/dock-crane.atf"
+  include "components/graveyard.atf"
   include "components/oak-tree.atf"
   include "components/birch-tree.atf"
   include "components/spruce-tree.atf"

@@ -1,0 +1,25 @@
+component "graveyard" {
+  bounds -4 0 -3 to 4 3 3
+  # small fenced churchyard: iron-bar rail + gravestone rows + flowers
+  fill -4 0 -3 to 4 0 -3 minecraft:iron_bars[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -4 0 3 to 4 0 3 minecraft:iron_bars[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -4 0 -3 to -4 0 3 minecraft:iron_bars[east=false,north=true,south=true,waterlogged=false,west=false]
+  fill 4 0 -3 to 4 0 3 minecraft:iron_bars[east=false,north=true,south=true,waterlogged=false,west=false]
+  set -2 0 -4 minecraft:oak_fence_gate[facing=south,in_wall=false,open=true,powered=false]
+  # gravestones: low wall stubs with slab caps
+  set -2 0 -1 minecraft:stone_brick_wall[east=false,north=false,south=false,waterlogged=false,west=false]
+  set -2 1 -1 minecraft:stone_brick_slab[type=top,waterlogged=false]
+  set 0 0 -1 minecraft:cobblestone_wall[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 0 1 -1 minecraft:stone_brick_slab[type=top,waterlogged=false]
+  set 2 0 -1 minecraft:stone_brick_wall[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 2 1 -1 minecraft:stone_brick_slab[type=top,waterlogged=false]
+  set -2 0 1 minecraft:cobblestone_wall[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 0 0 1 minecraft:stone_brick_wall[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 0 1 1 minecraft:stone_brick_slab[type=top,waterlogged=false]
+  set 2 0 1 minecraft:cobblestone_wall[east=false,north=false,south=false,waterlogged=false,west=false]
+  # mossy footing + wildflowers between the stones
+  set -1 0 0 minecraft:moss_carpet[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 1 0 0 minecraft:moss_carpet[east=false,north=false,south=false,waterlogged=false,west=false]
+  set -3 1 -2 minecraft:azure_bluet
+  set 3 1 2 minecraft:oxeye_daisy
+}

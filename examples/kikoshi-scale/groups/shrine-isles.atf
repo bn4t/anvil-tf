@@ -106,6 +106,7 @@ group "shrine isles" {
     reserve "shrine crown" circle 830 300 radius 55 conform ground floor style.shrine_floor floor_palette style.shrine_palette seed 611 edge style.shrine_edge edge_width 2 clear_to 130 require_route 10
     reserve "village quay" rect 855 640 965 735 conform ground floor style.dock_floor floor_palette style.dock_palette seed 612 edge style.dock_edge edge_width 2 clear_to 110 require_route 8
     reserve "village green" circle 910 605 radius 30 conform ground floor style.village_floor floor_palette style.village_palette seed 613 edge style.shrine_edge edge_width 2 clear_to 112 require_route 8
+    reserve "churchyard" circle 878 630 radius 9 conform ground floor minecraft:grass_block[snowy=false] clear_to 112 require_route 16
     reserve "sand watch" circle 970 878 radius 22 conform ground floor minecraft:sand seed 614 edge minecraft:sandstone edge_width 2 clear_to 110 require_route 8
     reserve "shrine gate" circle 785 395 radius 20 conform ground floor style.shrine_floor floor_palette style.shrine_palette seed 615 clear_to 110 require_route 8
 
@@ -188,6 +189,9 @@ group "shrine isles" {
     }
     cluster "sand lanterns" at reserve "sand watch" conform ground spacing 1 {
       repeat component style.light from -10 0 to 10 0 count 5 radius 2 height 6 rotate 0
+    }
+    cluster "churchyard graves" at reserve "churchyard" conform ground spacing 0 {
+      component graveyard at 0 0 radius 5 height 4 rotate 0
     }
     cluster "green lanterns" at reserve "village green" conform ground spacing 2 {
       repeat component style.light from -14 -10 to 14 -10 count 5 radius 2 height 6 rotate 0
