@@ -69,6 +69,7 @@ group "harbor town" {
       pavilion shrine-pavilion
       bench park-bench
       hall town-hall
+      whouse warehouse
     }
 
     use_style port
@@ -160,6 +161,8 @@ group "harbor town" {
     landmark "plaza tower sw" component marker-tower at 396 464 conform ground reserve "market plaza" radius 4 height 13 rotate 0
     landmark "quay watch" component marker-tower at 480 670 conform ground reserve "harbor quay" radius 4 height 13 rotate 0
     landmark "town hall" component style.hall at 505 315 conform ground reserve "hall grounds" radius 14 height 24 rotate 180
+    landmark "quay warehouse a" component style.whouse at 520 680 conform ground reserve "harbor quay" radius 16 height 18 rotate 180
+    landmark "quay warehouse b" component style.whouse at 590 690 conform ground reserve "harbor quay" radius 16 height 18 rotate 180
 
     cluster "market stalls" at reserve "market plaza" conform ground spacing 4 {
       component style.stall at -24 -18 radius 3 height 4 rotate 90
