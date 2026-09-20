@@ -1,0 +1,6 @@
+component "lantern-post" {
+  bounds 0 0 0 to 0 5 0
+  fill 0 0 0 to 0 3 0 minecraft:dark_oak_fence
+  set 0 4 0 minecraft:dark_oak_fence
+  set 0 5 0 minecraft:lantern[hanging=false,waterlogged=false]
+}

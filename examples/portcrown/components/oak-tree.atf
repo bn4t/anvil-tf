@@ -1,0 +1,7 @@
+component "oak-tree" {
+  bounds -2 0 -2 to 2 8 2
+  fill 0 0 0 to 0 5 0 minecraft:oak_log[axis=y]
+  fill -2 3 -2 to 2 5 2 minecraft:oak_leaves[distance=1,persistent=true,waterlogged=false]
+  fill -1 6 -1 to 1 6 1 minecraft:oak_leaves[distance=1,persistent=true,waterlogged=false]
+  set 0 7 0 minecraft:oak_leaves[distance=1,persistent=true,waterlogged=false]
+}

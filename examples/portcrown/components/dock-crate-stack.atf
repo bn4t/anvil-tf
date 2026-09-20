@@ -1,0 +1,10 @@
+component "dock-crate-stack" {
+  bounds -3 0 -3 to 3 4 3
+  fill -3 0 -3 to 3 0 3 minecraft:mangrove_planks
+  set -1 1 -1 minecraft:barrel[facing=up,open=false]
+  set 0 1 -1 minecraft:barrel[facing=up,open=false]
+  set 1 1 -1 minecraft:barrel[facing=up,open=false]
+  set 0 2 -1 minecraft:barrel[facing=up,open=false]
+  fill -2 1 1 to 2 1 2 minecraft:hay_block[axis=y]
+  set 0 3 0 minecraft:lantern[hanging=false,waterlogged=false]
+}

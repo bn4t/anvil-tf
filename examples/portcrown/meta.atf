@@ -1,0 +1,22 @@
+version 4790
+min_y 0
+height 160
+spawn 0 80 0
+time 6000
+day_time 6000
+game_mode adventure
+difficulty normal
+allow_commands true
+default_biome minecraft:plains
+game_rule minecraft:advance_time false
+game_rule minecraft:spawn_mobs false
+world_border {
+  center 0.0 0.0
+  size 544.0
+  size_lerp_target 544.0
+  size_lerp_time 0
+  warning_blocks 12
+  warning_time 15
+  damage_buffer 4.0
+  damage_per_block 0.2
+}

@@ -64,10 +64,34 @@ git worktree remove /tmp/repo-old --force
 - Useful commands: `/tp Devin <x> <y> <z> <yaw> <pitch>` (pitch 90 looks straight DOWN
   but in a void world shows skybox; tilt ~15-25 for landscape shots),
   `/time set 6000` for day, F3 debug overlay (shows XYZ/dimension), F2 screenshot.
+- MC yaw: 0=south(+Z), 90=west(-X), 180=north(-Z), 270=east(+X). For a top-down shot
+  facing south use yaw 0 pitch 90 — screen top is then north, screen left is east.
+- View distance: integrated server follows `renderDistance` in
+  `/home/ubuntu/mc/gamedir/options.txt` (default 4 = only ~64 blocks visible).
+  Edit to 16 before launch for overview shots of large worlds.
 - Launch: `cd ~/mc/client26 && setsid nohup ./run.sh > /tmp/mc-launch.log 2>&1 &`
   then wait ~25s for the GLFW window (check `wmctrl -l` for "Minecraft 26.1.2").
 - Expected log noise in offline mode: RealmsAvailability / auth failures,
   SoundSystem ERROR (no audio device). These are not test failures.
+
+## Pre-flight render check
+
+Sources with a `plan {}` block must be expanded before `render`/`generate`:
+
+```sh
+java -jar target/anvil-tf-0.1.0-SNAPSHOT.jar plan-expand examples/<x>/world.atf /tmp/x-expanded
+java -jar target/anvil-tf-0.1.0-SNAPSHOT.jar render map /tmp/x-expanded/world.atf --out /tmp/x-map.png
+java -jar target/anvil-tf-0.1.0-SNAPSHOT.jar plan-render examples/<x>/world.atf --out /tmp/x-plan.png
+```
+
+The map render catches holes/layout errors cheaply before launching the client.
+
+## Post-load log check
+
+After each in-client run, grep `/home/ubuntu/mc/client26/logs/latest.log` for
+`Unknown registry key` — those mean the generated world contains block ids the
+client doesn't know (e.g. renamed blocks like chain→iron_chain in 26.x). The client
+substitutes air: authored blocks silently vanish even though the world "loads fine".
 - On successful load, latest.log shows `Starting integrated minecraft server`,
   `Saving chunks for level .../minecraft:{overworld,the_nether,the_end}` (all three
   dims should appear), then `Devin logged in with entity id 1 at (x, y, z)`.

@@ -1,0 +1,9 @@
+component "leaf-bush" {
+  bounds -1 0 -1 to 1 2 1
+  fill -1 0 -1 to 1 1 1 minecraft:azalea_leaves
+  fill 0 0 0 to 0 2 0 minecraft:azalea_leaves
+  set -1 2 0 minecraft:flowering_azalea
+  set 1 2 0 minecraft:flowering_azalea
+  set 0 2 -1 minecraft:flowering_azalea
+  set 0 2 1 minecraft:flowering_azalea
+}
