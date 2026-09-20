@@ -89,6 +89,10 @@ group "base terrain" {
     mask wild_d = wild_c - isle_far
     mask wild = wild_d - isle_sand
     mask shrine_rock = isle_shrine & land
+    mask woods_nw0 = circle 260 330 radius 120
+    mask woods_e0 = circle 645 385 radius 90
+    mask woods_raw = woods_nw0 + woods_e0
+    mask woods = woods_raw & wild
 
     field bed = terrain land base 58 amplitude 4 scale 64 octaves 3 seed 20
     field lowland = terrain land base 63 amplitude 7 scale 60 octaves 5 seed 21
@@ -240,6 +244,18 @@ group "base terrain" {
       set minecraft:short_grass weight 4
       set minecraft:azalea weight 2
       set minecraft:dandelion weight 2
+    }
+
+    scatter_in woods count 900 seed 412 avoid_routes 3 avoid_reservations 5 conform ground {
+      component spruce-tree weight 4
+      component style.tree weight 4
+      component birch-tree weight 3
+      component style.bush weight 3
+      component style.rock weight 1
+      set minecraft:fern weight 4
+      set style.foliage weight 6
+      set minecraft:short_grass weight 5
+      set minecraft:mushroom weight 1
     }
 
     loot wild tier 1 count 60 seed 511 avoid_routes 5 avoid_reservations 8 conform ground

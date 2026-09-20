@@ -1,5 +1,7 @@
 component "rock-cluster" {
-  bounds -1 0 -1 to 1 1 1
+  bounds -1 -2 -1 to 1 1 1
+  # buried footing keeps the bump grounded on slope lips
+  fill -1 -2 -1 to 1 -1 1 minecraft:stone
   fill -1 0 -1 to 1 0 1 minecraft:stone
   set 0 1 0 minecraft:mossy_cobblestone
   set -1 1 0 minecraft:stone
