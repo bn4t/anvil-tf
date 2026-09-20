@@ -228,7 +228,7 @@ plan {
   clear [outside] mask from y1 to y2
   fill_biome mask y1 y2 biome
 
-  route "name" width n palette palette_or_style conform field seed s {
+  route "name" width n palette palette_or_style conform field [centerline block_or_style] seed s {
     point x z
     crossing x z radius r
     close

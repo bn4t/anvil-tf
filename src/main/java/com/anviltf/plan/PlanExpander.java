@@ -1162,7 +1162,9 @@ public final class PlanExpander {
         if (close && points.size() > 1) {
             points.add(points.get(0));
         }
-        return new Route(name, width, palette, field, seed, points, crossings);
+        return new Route(name, width, palette, field, seed,
+                resolveOptional(plan, optionalTokenAfter(tokens, "centerline", null)),
+                points, crossings);
     }
 
     private static ScatterAction parseScatter(Plan plan, List<String> tokens, List<String> block) {
@@ -1286,6 +1288,10 @@ public final class PlanExpander {
     private static String optionalTokenAfter(List<String> tokens, String key, String fallback) {
         int index = tokens.indexOf(key);
         return index < 0 ? fallback : tokens.get(index + 1);
+    }
+
+    private static String resolveOptional(Plan plan, String token) {
+        return token == null ? null : plan.resolve(token);
     }
 
     private static void expect(List<String> tokens, int index, String expected) {
@@ -2160,8 +2166,8 @@ public final class PlanExpander {
         }
     }
 
-    private record Route(String name, int width, String palette, String field, int seed, List<Point> points,
-                         List<Crossing> crossings)
+    private record Route(String name, int width, String palette, String field, int seed,
+                         String centerline, List<Point> points, List<Crossing> crossings)
             implements Action {
         @Override
         public void expand(Plan plan, List<String> out) {
@@ -2174,6 +2180,15 @@ public final class PlanExpander {
                 out.add("  fill_palette " + x1 + " " + y + " " + z + " " + x2 + " " + y
                         + " " + z + " " + palette + " seed " + (seed + z));
             });
+            if (centerline != null) {
+                Set<Cell> spine = new HashSet<>();
+                for (int i = 0; i + 1 < points.size(); i++) {
+                    addSegmentCells(plan, spine, points.get(i), points.get(i + 1), 0);
+                }
+                for (Cell cell : spine) {
+                    out.add("  set " + cell.x + " " + cell.y + " " + cell.z + " " + centerline);
+                }
+            }
         }
 
         private Set<Cell> cells(Plan plan) {
