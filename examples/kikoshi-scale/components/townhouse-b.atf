@@ -71,6 +71,10 @@ component "townhouse-b" {
   set 0 2 -4 minecraft:spruce_door[facing=north,half=upper,hinge=left,open=false,powered=false]
   set -1 1 -4 minecraft:dark_oak_log
   set 1 1 -4 minecraft:dark_oak_log
+  # weathering: vines climbing the east wall
+  fill 5 2 1 to 5 3 3 minecraft:vine[down=false,east=false,north=false,south=false,up=false,waterlogged=false,west=true]
+  set 5 1 2 minecraft:vine[down=false,east=false,north=false,south=false,up=false,waterlogged=false,west=true]
+  set 5 4 2 minecraft:vine[down=false,east=false,north=false,south=false,up=false,waterlogged=false,west=true]
   # furnished interior: entry room + two upper rooms, all lit
   fill -3 2 -3 to 3 4 3 minecraft:air
   fill -4 6 -3 to 4 8 3 minecraft:air

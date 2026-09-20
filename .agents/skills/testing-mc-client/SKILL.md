@@ -95,3 +95,21 @@ substitutes air: authored blocks silently vanish even though the world "loads fi
 - On successful load, latest.log shows `Starting integrated minecraft server`,
   `Saving chunks for level .../minecraft:{overworld,the_nether,the_end}` (all three
   dims should appear), then `Devin logged in with entity id 1 at (x, y, z)`.
+
+## Chunk-data verification (palette + block-entity checks)
+
+Useful when a block places but may not render, or when a small block is hard to
+see in screenshots. Hephaistos jars live under
+`~/.m2/repository/io/github/jglrxavpok/hephaistos/` (needs common-*.jar,
+fastutil, kotlin-stdlib on the classpath).
+
+- Palette membership confirms the block was written: `RegionFile` →
+  `getChunk(cx,cz).getBlockState(x,y,z)` (x/z chunk-local via `Math.floorMod`).
+- Blocks rendered by a block entity (banners, signs, beds, chests, skulls) need
+  a matching `minecraft:<type>` entry in `chunk.getTileEntities()` — palette
+  entry without the BE id = invisible render. BE NBT x/y/z are world coords,
+  so they double as exact `tp` targets for the visual check.
+- Legacy 1.17-era saves (e.g. Greenfield reference) pop an upgrade-confirm
+  dialog on load: click "I know what I'm doing!" → "Yes" to continue.
+- When checking an interior, teleport INSIDE the structure bounds (spectator
+  outside often renders the inside too dark to judge).

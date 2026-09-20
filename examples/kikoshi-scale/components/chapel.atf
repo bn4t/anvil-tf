@@ -60,4 +60,9 @@ component "chapel" {
   fill -2 16 4 to 2 16 6 minecraft:dark_prismarine
   fill -1 17 4 to 1 17 6 minecraft:dark_prismarine
   set 0 18 5 minecraft:lantern[hanging=false,waterlogged=false]
+  # weathering: vines on the north wall and bell tower
+  fill -2 2 -7 to 0 5 -7 minecraft:vine[down=false,east=false,north=false,south=true,up=false,waterlogged=false,west=false]
+  set -1 6 -7 minecraft:vine[down=false,east=false,north=false,south=true,up=false,waterlogged=false,west=false]
+  fill -3 10 5 to -3 12 5 minecraft:vine[down=false,east=true,north=false,south=false,up=false,waterlogged=false,west=false]
+  set -3 9 5 minecraft:vine[down=false,east=true,north=false,south=false,up=false,waterlogged=false,west=false]
 }
