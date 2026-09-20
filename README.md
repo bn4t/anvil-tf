@@ -632,7 +632,11 @@ terrain x1 z1 x2 z2 from y base y amplitude n [seed n] top_block under_block
 smooth_terrain x1 z1 x2 z2 from y base y amplitude n [scale n] [octaves n] [seed n] top_block under_block
 ```
 
-Palette picks are deterministic from coordinates and seed.
+`fill`/`box` also accept a `block_palette` name in place of the block (with
+optional `seed n`), and `terrain`/`smooth_terrain` accept palette names for
+`top`/`under`, so terrain tops can be textured (e.g. a grass/coarse-dirt
+meadow mix) without a separate replace pass. Palette picks are deterministic
+from coordinates and seed.
 `surface_scatter` detects the top non-air block in each sampled column. Inside
 the body, `0 0 0` is one block above the surface and `0 -1 0` is the surface
 block itself.

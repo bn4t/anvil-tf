@@ -234,6 +234,12 @@ group "polish 384 density benchmark" {
       set style.foliage weight 8
       set style.accent weight 3
     }
+    scatter_in playable count 220 seed 1261 avoid_routes 6 avoid_reservations 8 conform ground {
+      component leaf-bush weight 4
+      component rock-cluster weight 3
+      set style.foliage weight 9
+      set style.accent weight 3
+    }
 
     loot playable tier 1 count 24 seed 1271 avoid_routes 5 avoid_reservations 8 conform ground
     loot playable tier 2 count 10 seed 1272 avoid_routes 8 avoid_reservations 4 conform ground

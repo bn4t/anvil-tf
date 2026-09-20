@@ -5,6 +5,11 @@ group "canal 448 validation skeleton" {
   origin -256 0 320
   bounds 0 0 0 to 448 128 448
 
+  block_palette canal_ground_mix {
+    block minecraft:grass_block[snowy=false] weight 8
+    block minecraft:coarse_dirt weight 2
+    block minecraft:podzol[snowy=false] weight 1
+  }
   block_palette canal_path_mix {
     block minecraft:stone_bricks weight 5
     block minecraft:mossy_stone_bricks weight 3
@@ -141,7 +146,7 @@ group "canal 448 validation skeleton" {
     field ridge = ridge 68 224 138 164 224 120 310 224 138 380 224 width 32 height 14
     field ground = max lowland ridge
 
-    terrain archipelago field ground from 1 top style.top under style.under
+    terrain archipelago field ground from 1 top canal_ground_mix under style.under
     water outside archipelago from 1 to 57 style.water
     clear outside archipelago from 58 to 128
     water waterway from 1 to 59 style.water
@@ -282,6 +287,12 @@ group "canal 448 validation skeleton" {
       component style.light weight 5
       set style.foliage weight 8
       set style.accent weight 2
+    }
+    scatter_in playable count 240 seed 921 avoid_routes 6 avoid_reservations 8 conform ground {
+      component leaf-bush weight 5
+      component rock-cluster weight 2
+      set style.foliage weight 9
+      set style.accent weight 3
     }
 
     loot playable tier 1 count 24 seed 931 avoid_routes 5 avoid_reservations 8 conform ground

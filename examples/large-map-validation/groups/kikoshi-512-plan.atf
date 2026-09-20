@@ -134,7 +134,7 @@ group "kikoshi 512 validation skeleton" {
 
     field ground = terrain playable base 64 amplitude 8 scale 54 octaves 4 seed 101
 
-    terrain playable field ground from 1 top style.top under style.under
+    terrain playable field ground from 1 top ground_mix under style.under
     water outside playable from 1 to 58 style.water
     clear outside playable from 59 to 128
     water bay from 1 to 58 style.water
@@ -236,6 +236,12 @@ group "kikoshi 512 validation skeleton" {
       component style.light weight 4
       set style.foliage weight 7
       set style.accent weight 2
+    }
+    scatter_in playable count 260 seed 311 avoid_routes 6 avoid_reservations 8 conform ground {
+      component leaf-bush weight 5
+      component rock-cluster weight 2
+      set style.foliage weight 9
+      set style.accent weight 3
     }
 
     loot playable tier 1 count 26 seed 401 avoid_routes 5 avoid_reservations 8 conform ground

@@ -11,7 +11,12 @@ import org.junit.jupiter.api.io.TempDir;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DslParserTest {
     @TempDir
@@ -340,6 +345,81 @@ class DslParserTest {
                 }
             }
         }
+    }
+
+    @Test
+    void smoothTerrainAcceptsPaletteTopAndUnder() {
+        WorldSpec world = new DslParser().parse("""
+                world "Terrain Palette" {
+                  min_y 0
+                  height 32
+                  block_palette ground_mix {
+                    block minecraft:grass_block[snowy=false] weight 9
+                    block minecraft:coarse_dirt weight 1
+                  }
+                  block_palette under_mix {
+                    block minecraft:dirt weight 8
+                    block minecraft:gravel weight 2
+                  }
+                  smooth_terrain 0 0 15 15 from 1 base 4 amplitude 4 scale 8 octaves 2 seed 11 ground_mix under_mix
+                }
+                """);
+
+        var chunk = world.chunks().get(new ChunkPos(0, 0));
+        Set<String> topNames = new HashSet<>();
+        Set<String> underNames = new HashSet<>();
+        for (int z = 0; z <= 15; z++) {
+            for (int x = 0; x <= 15; x++) {
+                int topY = topY(chunk, x, z, 1, 10);
+                topNames.add(chunk.get(x, topY, z).name());
+                assertEquals("minecraft:air", chunk.get(x, topY + 1, z).name());
+                if (topY > 1) {
+                    underNames.add(chunk.get(x, topY - 1, z).name());
+                }
+            }
+        }
+        assertTrue(topNames.contains("minecraft:grass_block"));
+        assertTrue(topNames.stream().allMatch(n -> n.equals("minecraft:grass_block") || n.equals("minecraft:coarse_dirt")));
+        assertTrue(underNames.stream().allMatch(n -> n.equals("minecraft:dirt") || n.equals("minecraft:gravel")));
+    }
+
+    @Test
+    void fillAcceptsPaletteName() {
+        WorldSpec world = new DslParser().parse("""
+                world "Fill Palette" {
+                  min_y 0
+                  height 16
+                  block_palette floor_mix {
+                    block minecraft:stone weight 1
+                    block minecraft:andesite weight 1
+                  }
+                  fill 0 2 0 to 15 2 15 floor_mix seed 9
+                }
+                """);
+
+        var chunk = world.chunks().get(new ChunkPos(0, 0));
+        Set<String> names = new HashSet<>();
+        for (int z = 0; z <= 15; z++) {
+            for (int x = 0; x <= 15; x++) {
+                names.add(chunk.get(x, 2, z).name());
+            }
+        }
+        assertEquals(Set.of("minecraft:stone", "minecraft:andesite"), names);
+    }
+
+    @Test
+    void rejectsPaletteNameWhereSingleBlockRequired() {
+        IllegalArgumentException error = assertThrows(IllegalArgumentException.class, () -> new DslParser().parse("""
+                world "Bad Palette" {
+                  min_y 0
+                  height 16
+                  block_palette floor_mix {
+                    block minecraft:stone weight 1
+                  }
+                  set 1 2 1 floor_mix
+                }
+                """));
+        assertTrue(error.getMessage().contains("block_palette"));
     }
 
     @Test
