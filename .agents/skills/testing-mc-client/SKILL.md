@@ -122,3 +122,7 @@ fastutil, kotlin-stdlib on the classpath).
 - `render top <y>` shows blocks at exactly that y only; features sitting a
   half-step above street level (e.g. curb slabs) are at street_y+1, not
   street_y.
+- Dense-row checks: when a target sits inside a continuous terrace, tps into
+  the gaps land inside neighboring interiors. Use `plan-expand` `place` lines
+  for the exact anchor x/z + surface y, then approach along the alley or
+  roofline instead of dropping straight down.

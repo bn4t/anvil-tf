@@ -1,0 +1,110 @@
+component "townhouse-c" {
+  bounds -5 0 -6 to 5 18 6
+  # narrow merchant rowhouse: brick ground floor, rendered upper floors,
+  # crow-step gable ends facing the street (front -z, back +z)
+  fill -4 0 -4 to 4 0 4 minecraft:stone_bricks
+  fill -4 1 -4 to 4 4 -4 minecraft:bricks
+  fill -4 1 4 to 4 4 4 minecraft:bricks
+  fill -4 1 -4 to -4 4 4 minecraft:bricks
+  fill 4 1 -4 to 4 4 4 minecraft:bricks
+  # rendered (plaster) upper floors with timber sill strips between floors
+  fill -4 5 -4 to 4 9 -4 minecraft:smooth_sandstone
+  fill -4 5 4 to 4 9 4 minecraft:smooth_sandstone
+  fill -4 5 -4 to -4 9 4 minecraft:smooth_sandstone
+  fill 4 5 -4 to 4 9 4 minecraft:smooth_sandstone
+  fill -4 10 -4 to 4 14 -4 minecraft:smooth_sandstone
+  fill -4 10 4 to 4 14 4 minecraft:smooth_sandstone
+  fill -4 10 -4 to -4 14 4 minecraft:smooth_sandstone
+  fill 4 10 -4 to 4 14 4 minecraft:smooth_sandstone
+  fill -4 4 -4 to 4 4 -4 minecraft:dark_oak_log
+  fill -4 4 4 to 4 4 4 minecraft:dark_oak_log
+  fill -4 9 -4 to 4 9 -4 minecraft:dark_oak_log
+  fill -4 9 4 to 4 9 4 minecraft:dark_oak_log
+  fill -4 14 -4 to 4 14 -4 minecraft:dark_oak_log
+  fill -4 14 4 to 4 14 4 minecraft:dark_oak_log
+  # corner quoins in brick all the way up
+  fill -4 5 -4 to -4 14 -4 minecraft:bricks
+  fill 4 5 -4 to 4 14 -4 minecraft:bricks
+  fill -4 5 4 to -4 14 4 minecraft:bricks
+  fill 4 5 4 to 4 14 4 minecraft:bricks
+  # crow-step gables (front -z, back +z): brick steps from y14 to y18
+  set -4 15 -4 minecraft:bricks
+  set -3 15 -4 minecraft:bricks
+  set -2 16 -4 minecraft:bricks
+  set -1 16 -4 minecraft:bricks
+  set 0 17 -4 minecraft:bricks
+  set 1 16 -4 minecraft:bricks
+  set 2 16 -4 minecraft:bricks
+  set 3 15 -4 minecraft:bricks
+  set 4 15 -4 minecraft:bricks
+  set -4 15 4 minecraft:bricks
+  set -3 15 4 minecraft:bricks
+  set -2 16 4 minecraft:bricks
+  set -1 16 4 minecraft:bricks
+  set 0 17 4 minecraft:bricks
+  set 1 16 4 minecraft:bricks
+  set 2 16 4 minecraft:bricks
+  set 3 15 4 minecraft:bricks
+  set 4 15 4 minecraft:bricks
+  # roof planes filling between the gable steps
+  fill -3 15 -3 to 3 15 3 minecraft:dark_prismarine
+  fill -2 16 -3 to 2 16 3 minecraft:dark_prismarine
+  fill -1 17 -3 to 1 17 3 minecraft:dark_prismarine
+  fill 0 18 -3 to 0 18 3 minecraft:prismarine_bricks
+  # storefront: wide glass front + awning + door
+  fill -3 1 -4 to -1 3 -4 minecraft:air
+  fill -3 1 -3 to -1 3 -3 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 1 1 -4 to 3 3 -4 minecraft:air
+  fill 1 1 -3 to 3 3 -3 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  set 0 1 -4 minecraft:spruce_door[facing=north,half=lower,hinge=left,open=false,powered=false]
+  set 0 2 -4 minecraft:spruce_door[facing=north,half=upper,hinge=left,open=false,powered=false]
+  fill -3 4 -5 to 3 4 -5 minecraft:dark_oak_slab[type=bottom,waterlogged=false]
+  set -4 3 -5 minecraft:oak_wall_sign[facing=north,waterlogged=false]
+  set 4 3 -5 minecraft:oak_wall_sign[facing=north,waterlogged=false]
+  # upper windows: recessed panes with sills + shutters, rows at both floors
+  fill -2 6 -4 to -1 7 -4 minecraft:air
+  fill -2 6 -3 to -1 7 -3 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 1 6 -4 to 2 7 -4 minecraft:air
+  fill 1 6 -3 to 2 7 -3 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -2 11 -4 to -1 12 -4 minecraft:air
+  fill -2 11 -3 to -1 12 -3 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 1 11 -4 to 2 12 -4 minecraft:air
+  fill 1 11 -3 to 2 12 -3 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -2 5 -4 to -1 5 -4 minecraft:stone_brick_slab[type=top,waterlogged=false]
+  fill 1 5 -4 to 2 5 -4 minecraft:stone_brick_slab[type=top,waterlogged=false]
+  fill -2 10 -4 to -1 10 -4 minecraft:stone_brick_slab[type=top,waterlogged=false]
+  fill 1 10 -4 to 2 10 -4 minecraft:stone_brick_slab[type=top,waterlogged=false]
+  set -3 6 -4 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
+  set 3 6 -4 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
+  set -3 11 -4 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
+  set 3 11 -4 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
+  # side + back windows (plainer)
+  fill -4 6 -1 to -4 7 1 minecraft:air
+  fill -3 6 -1 to -3 7 1 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 4 6 -1 to 4 7 1 minecraft:air
+  fill 3 6 -1 to 3 7 1 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -1 11 4 to 1 12 4 minecraft:air
+  fill -1 11 3 to 1 12 3 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  # attic round window in the gable peak
+  set 0 16 -4 minecraft:air
+  set 0 16 -3 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  # interior: shop floor + two furnished upper floors, lit
+  fill -3 1 -3 to 3 3 3 minecraft:air
+  fill -3 0 -3 to 3 0 3 minecraft:spruce_planks
+  fill -3 5 -3 to 3 8 3 minecraft:air
+  fill -3 4 -3 to 3 4 3 minecraft:spruce_planks
+  fill -3 10 -3 to 3 13 3 minecraft:air
+  fill -3 9 -3 to 3 9 3 minecraft:spruce_planks
+  set -3 1 2 minecraft:barrel[facing=up,open=false]
+  set -2 1 2 minecraft:barrel[facing=up,open=false]
+  fill 2 1 1 to 3 1 2 minecraft:oak_planks
+  set 0 3 0 minecraft:lantern[hanging=true,waterlogged=false]
+  fill -3 6 -3 to -3 7 2 minecraft:bookshelf
+  set 2 6 2 minecraft:hay_block[axis=y]
+  set 0 8 0 minecraft:lantern[hanging=true,waterlogged=false]
+  set -2 11 2 minecraft:barrel[facing=up,open=false]
+  set 0 13 0 minecraft:lantern[hanging=true,waterlogged=false]
+  # chimney on the back slope
+  fill 2 15 2 to 2 18 2 minecraft:bricks
+  set 2 19 2 minecraft:cobblestone_wall[east=false,north=false,south=false,waterlogged=false,west=false]
+}

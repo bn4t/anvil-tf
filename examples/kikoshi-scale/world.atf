@@ -35,6 +35,7 @@ world "kikoshi-scale" {
   include "components/townhouse-a.atf"
   include "components/town-hall.atf"
   include "components/townhouse-b.atf"
+  include "components/townhouse-c.atf"
   include "components/torii-gate.atf"
   include "components/warehouse.atf"
   include "components/windmill.atf"
