@@ -1,0 +1,25 @@
+component "torii-gate" {
+  bounds -5 0 -2 to 5 12 2
+  # posts with stone feet
+  fill -3 0 -1 to -3 1 1 minecraft:stone_bricks
+  fill 3 0 -1 to 3 1 1 minecraft:stone_bricks
+  fill -3 2 -1 to -3 9 1 minecraft:red_wool
+  fill 3 2 -1 to 3 9 1 minecraft:red_wool
+  # lower crossbeam
+  fill -4 7 -1 to 4 7 1 minecraft:dark_oak_planks
+  fill -4 8 -1 to 4 8 1 minecraft:dark_oak_planks
+  # curved top beam: long center span + upturned ends
+  fill -5 10 -1 to 5 10 1 minecraft:dark_prismarine
+  set -5 11 -1 minecraft:dark_prismarine_slab[type=bottom,waterlogged=false]
+  set -5 11 0 minecraft:dark_prismarine_slab[type=bottom,waterlogged=false]
+  set -5 11 1 minecraft:dark_prismarine_slab[type=bottom,waterlogged=false]
+  set 5 11 -1 minecraft:dark_prismarine_slab[type=bottom,waterlogged=false]
+  set 5 11 0 minecraft:dark_prismarine_slab[type=bottom,waterlogged=false]
+  set 5 11 1 minecraft:dark_prismarine_slab[type=bottom,waterlogged=false]
+  fill -4 11 -1 to 4 11 1 minecraft:dark_prismarine_slab[type=bottom,waterlogged=false]
+  # center wedge + hanging lantern
+  fill -1 9 -1 to 1 9 1 minecraft:red_wool
+  set -1 9 0 minecraft:red_wool
+  set 1 9 0 minecraft:red_wool
+  set 0 6 0 minecraft:lantern[hanging=true,waterlogged=false]
+}

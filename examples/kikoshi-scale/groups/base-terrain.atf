@@ -231,8 +231,24 @@ group "base terrain" {
       component style.light weight 1
       set style.foliage weight 9
       set style.accent weight 3
+      set minecraft:short_grass weight 4
+      set minecraft:azalea weight 2
+      set minecraft:dandelion weight 2
     }
 
     loot wild tier 1 count 60 seed 511 avoid_routes 5 avoid_reservations 8 conform ground
   }
+
+  # lily pads on the pond water surfaces
+  set 250 63 748 minecraft:lily_pad
+  set 256 63 756 minecraft:lily_pad
+  set 244 63 757 minecraft:lily_pad
+  set 580 63 218 minecraft:lily_pad
+  set 574 63 224 minecraft:lily_pad
+  set 240 63 288 minecraft:lily_pad
+  set 246 63 294 minecraft:lily_pad
+  set 252 59 752 minecraft:seagrass
+  set 248 59 753 minecraft:seagrass
+  set 577 59 221 minecraft:seagrass
+  set 243 59 291 minecraft:seagrass
 }
