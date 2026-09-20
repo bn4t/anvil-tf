@@ -189,6 +189,10 @@ group "harbor town" {
       component style.cart at -34 12 radius 3 height 3 rotate 270
       component banner-pole at -18 -32 radius 2 height 5 rotate 0
       component banner-pole at 18 -32 radius 2 height 5 rotate 0
+      component potted-tree at -40 -22 radius 3 height 5 rotate 0
+      component potted-tree at 40 -22 radius 3 height 5 rotate 0
+      component potted-tree at -40 22 radius 3 height 5 rotate 0
+      component potted-tree at 40 22 radius 3 height 5 rotate 0
     }
     cluster "quay cargo line" at reserve "harbor quay" conform ground spacing 2 {
       repeat component style.crate from -51 -10 to 51 -10 count 8 radius 4 height 4 rotate 0

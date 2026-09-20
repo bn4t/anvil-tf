@@ -1,0 +1,11 @@
+component "potted-tree" {
+  bounds -2 0 -2 to 2 5 2
+  # plaza tree in a raised stone planter
+  fill -2 0 -2 to 2 0 2 minecraft:stone_bricks
+  fill -2 1 -2 to 2 1 2 minecraft:stone_brick_wall[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 0 1 0 minecraft:dirt
+  fill 0 2 0 to 0 3 0 minecraft:oak_log[axis=y]
+  # small leaf canopy
+  fill -2 4 -2 to 2 4 2 minecraft:oak_leaves[distance=1,persistent=true,waterlogged=false]
+  fill -1 5 -1 to 1 5 1 minecraft:oak_leaves[distance=1,persistent=true,waterlogged=false]
+}
