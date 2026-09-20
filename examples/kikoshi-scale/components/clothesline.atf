@@ -1,0 +1,14 @@
+component "clothesline" {
+  bounds -4 0 -1 to 4 4 1
+  # two posts with a line between, laundry hung on it
+  fill -3 0 0 to -3 2 0 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  fill 3 0 0 to 3 2 0 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set -3 3 0 minecraft:oak_slab[type=bottom,waterlogged=false]
+  set 3 3 0 minecraft:oak_slab[type=bottom,waterlogged=false]
+  fill -2 3 0 to 2 3 0 minecraft:iron_chain[axis=x,waterlogged=false]
+  set -2 2 0 minecraft:white_carpet
+  set 0 2 0 minecraft:light_gray_carpet
+  set 2 2 0 minecraft:white_carpet
+  set -1 2 0 minecraft:cyan_carpet
+  set 1 2 0 minecraft:white_carpet
+}

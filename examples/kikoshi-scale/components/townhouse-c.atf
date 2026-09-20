@@ -104,6 +104,9 @@ component "townhouse-c" {
   set 0 8 0 minecraft:lantern[hanging=true,waterlogged=false]
   set -2 11 2 minecraft:barrel[facing=up,open=false]
   set 0 13 0 minecraft:lantern[hanging=true,waterlogged=false]
+  # ladders linking all three floors (ladder cells pierce both deck slabs)
+  fill -3 2 0 to -3 4 0 minecraft:ladder[facing=east,waterlogged=false]
+  fill -3 6 3 to -3 9 3 minecraft:ladder[facing=east,waterlogged=false]
   # chimney on the back slope
   fill 2 15 2 to 2 18 2 minecraft:bricks
   set 2 19 2 minecraft:cobblestone_wall[east=false,north=false,south=false,waterlogged=false,west=false]

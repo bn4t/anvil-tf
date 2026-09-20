@@ -78,6 +78,9 @@ component "townhouse-a" {
   set 4 2 3 minecraft:crafting_table
   set 4 2 2 minecraft:barrel[facing=up,open=false]
   fill -3 2 3 to -1 2 3 minecraft:oak_stairs[facing=north,half=bottom,waterlogged=false]
+  # ladder linking ground floor to upper floor (hole cut in y5 deck)
+  set -5 4 2 minecraft:dark_oak_log
+  fill -4 2 2 to -4 5 2 minecraft:ladder[facing=east,waterlogged=false]
   set 0 4 0 minecraft:lantern[hanging=true,waterlogged=false]
   fill -2 6 -3 to -1 7 -3 minecraft:bookshelf
   set 3 6 -2 minecraft:hay_block[axis=y]
