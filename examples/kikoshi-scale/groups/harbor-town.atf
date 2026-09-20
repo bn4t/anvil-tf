@@ -218,6 +218,7 @@ group "harbor town" {
     }
     cluster "quay shops" at reserve "harbor quay" conform ground spacing 4 {
       repeat component style.house_b from -50 -30 to -14 -30 count 3 radius 6 height 17 rotate 0
+      component townhouse-e at 0 -30 radius 2 height 18 rotate 0
       repeat component style.house_d from 14 -30 to 50 -30 count 3 radius 6 height 21 rotate 0
     }
     cluster "annex huts" at reserve "quay annex" conform ground spacing 4 {
@@ -227,7 +228,7 @@ group "harbor town" {
     cluster "east row houses" at reserve "east row" conform ground spacing 1 {
       repeat component style.house_a from -16 -58 to -16 58 count 9 radius 6 height 15 rotate 270
       # east side splits around the chapel pad (local z -43..-23)
-      component style.house_b at 16 -58 radius 6 height 17 rotate 90
+      component townhouse-e at 16 -58 radius 7 height 18 rotate 90
       repeat component style.house_b from 16 -15 to 16 58 count 6 radius 6 height 17 rotate 90
     }
     cluster "east row center" at reserve "east row" conform ground spacing 1 {
@@ -264,6 +265,9 @@ group "harbor town" {
     cluster "harbor gate" at reserve "south gate" conform ground spacing 4 {
       component style.gate_piece at -13 0 radius 5 height 15 rotate 0
       component style.gate_piece at 13 0 radius 5 height 15 rotate 0
+    }
+    cluster "gate inn" at reserve "south gate" conform ground spacing 0 {
+      component townhouse-e at 0 -10 radius 7 height 18 rotate 0
     }
     cluster "garden beds" at reserve "west garden" conform ground spacing 0 {
       repeat component style.planter from -16 -19 to 16 -19 count 4 radius 4 height 3 rotate 0
