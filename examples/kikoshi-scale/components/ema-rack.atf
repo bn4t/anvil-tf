@@ -1,0 +1,11 @@
+component "ema-rack" {
+  bounds -2 0 -1 to 2 3 1
+  # votive plaque rack: two posts, cap slab, board face hung with plaques
+  fill -2 0 0 to -2 2 0 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  fill 2 0 0 to 2 2 0 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  fill -2 3 0 to 2 3 0 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  fill -1 1 0 to 1 2 0 minecraft:spruce_planks
+  set -1 1 1 minecraft:oak_wall_sign[facing=south,waterlogged=false]
+  set 0 2 1 minecraft:oak_wall_sign[facing=south,waterlogged=false]
+  set 1 1 1 minecraft:oak_wall_sign[facing=south,waterlogged=false]
+}

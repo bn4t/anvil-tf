@@ -150,8 +150,11 @@ group "shrine isles" {
       repeat component style.light from -30 -22 to 30 -22 count 7 radius 3 height 5 rotate 0
       repeat component style.light from -30 22 to 30 22 count 7 radius 3 height 5 rotate 0
     }
+    cluster "ascent torii" at reserve "shrine crown" conform ground spacing 0 {
+      component torii-gate at -20 44 radius 6 height 12 rotate 0
+      component torii-gate at -11 20 radius 6 height 12 rotate 0
+    }
     cluster "ascent stone lanterns" at reserve "shrine crown" conform ground spacing 0 {
-      component stone-lantern at -22 46 radius 2 height 6 rotate 0
       component stone-lantern at -10 44 radius 2 height 6 rotate 0
       component stone-lantern at -28 38 radius 2 height 6 rotate 0
       component stone-lantern at -14 30 radius 2 height 6 rotate 0
@@ -167,6 +170,9 @@ group "shrine isles" {
     cluster "green beds" at reserve "village green" conform ground spacing 0 {
       repeat component style.planter from -14 -14 to 14 -14 count 4 radius 4 height 3 rotate 0
       repeat component style.planter from -14 14 to 14 14 count 4 radius 4 height 3 rotate 0
+    }
+    cluster "gate torii" at reserve "shrine gate" conform ground spacing 0 {
+      component torii-gate at 10 -13 radius 3 height 12 rotate 0
     }
     cluster "gate lanterns" at reserve "shrine gate" conform ground spacing 2 {
       component style.light at -10 0 radius 2 height 6 rotate 0
@@ -191,6 +197,11 @@ group "shrine isles" {
     }
     cluster "sand lanterns" at reserve "sand watch" conform ground spacing 1 {
       repeat component style.light from -10 0 to 10 0 count 5 radius 2 height 6 rotate 0
+    }
+    cluster "shrine court" at reserve "shrine crown" conform ground spacing 0 {
+      component ema-rack at 13 28 radius 2 height 4 rotate 180
+      component ema-rack at -13 28 radius 2 height 4 rotate 180
+      component style.crate at 0 24 radius 3 height 4 rotate 0
     }
     cluster "churchyard graves" at reserve "churchyard" conform ground spacing 0 {
       component graveyard at 0 0 radius 5 height 4 rotate 0

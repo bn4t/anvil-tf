@@ -28,6 +28,7 @@ world "kikoshi-scale" {
   include "components/quay-net.atf"
   include "components/rowboat.atf"
   include "components/stone-lantern.atf"
+  include "components/ema-rack.atf"
   include "components/notice-board.atf"
   include "components/training-dummy.atf"
   include "components/archery-butt.atf"
