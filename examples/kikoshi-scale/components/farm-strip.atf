@@ -1,0 +1,6 @@
+component "farm-strip" {
+  bounds -1 0 -8 to 1 2 8
+  # one crop row: farmland base, ripe wheat on top
+  fill -1 0 -8 to 1 0 8 minecraft:farmland[moisture=7]
+  fill -1 1 -8 to 1 1 8 minecraft:wheat[age=7]
+}

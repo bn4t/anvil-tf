@@ -130,6 +130,10 @@ group "harbor town" {
       point 497 338
       point 505 318
     }
+    route "farm lane" width 3 palette style.path conform ground seed 308 {
+      point 490 552
+      point 505 585
+    }
     route "cape road" width 4 palette style.path conform ground seed 306 {
       point 330 540
       point 280 420
@@ -148,6 +152,7 @@ group "harbor town" {
     reserve "south gate" circle 430 585 radius 26 conform ground floor minecraft:cobblestone clear_to 106 require_route 8
     reserve "north cape" circle 300 240 radius 26 conform ground floor style.plaza_floor floor_palette style.plaza_palette seed 608 edge style.plaza_edge edge_width 2 clear_to 116 require_route 8
     reserve "hall grounds" circle 505 315 radius 24 conform ground floor style.plaza_floor floor_palette style.plaza_palette seed 611 edge style.plaza_edge edge_width 2 clear_to 116 require_route 8
+    reserve "south farm" rect 478 568 540 604 conform ground floor minecraft:grass_block[snowy=false] clear_to 100 require_route 8
 
     landmark "plaza fountain" component fountain at 430 430 conform ground reserve "market plaza" radius 5 height 6 rotate 0
     landmark "harbor lighthouse" component lighthouse at 590 730 conform ground reserve "harbor quay" radius 8 height 27 rotate 0
@@ -257,6 +262,14 @@ group "harbor town" {
     }
     cluster "quay crates south" at reserve "harbor quay" conform ground spacing 2 {
       repeat component style.crate from -51 -24 to 51 -24 count 11 radius 4 height 4 rotate 0
+    }
+    cluster "south farm rows" at reserve "south farm" conform ground spacing 0 {
+      repeat component farm-strip from -24 -8 to 24 -8 count 4 radius 2 height 2 rotate 0
+      repeat component farm-strip from -24 0 to 24 0 count 4 radius 2 height 2 rotate 0
+      repeat component farm-strip from -24 8 to 24 8 count 4 radius 2 height 2 rotate 0
+      component style.cart at 20 12 radius 3 height 4 rotate 90
+      component style.light at -24 14 radius 2 height 6 rotate 0
+      component style.light at 24 -14 radius 2 height 6 rotate 0
     }
     cluster "annex racks" at reserve "quay annex" conform ground spacing 3 {
       component style.rack at -28 -12 radius 3 height 4 rotate 0

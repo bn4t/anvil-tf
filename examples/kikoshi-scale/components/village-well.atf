@@ -1,0 +1,24 @@
+component "village-well" {
+  bounds -3 0 -3 to 3 5 3
+  # mossy ring with water, corner posts, small shingled roof
+  fill -2 0 -2 to 2 0 2 minecraft:stone_bricks
+  fill -2 1 -2 to 2 1 -2 minecraft:mossy_cobblestone
+  fill -2 1 2 to 2 1 2 minecraft:mossy_cobblestone
+  fill -2 1 -2 to -2 1 2 minecraft:mossy_cobblestone
+  fill 2 1 -2 to 2 1 2 minecraft:mossy_cobblestone
+  set 0 1 0 minecraft:water[level=0]
+  set -2 1 -2 minecraft:spruce_fence[east=true,north=false,south=true,waterlogged=false,west=false]
+  set -2 2 -2 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 2 1 -2 minecraft:spruce_fence[east=false,north=false,south=true,waterlogged=false,west=true]
+  set 2 2 -2 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set -2 1 2 minecraft:spruce_fence[east=true,north=true,south=false,waterlogged=false,west=false]
+  set -2 2 2 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 2 1 2 minecraft:spruce_fence[east=false,north=true,south=false,waterlogged=false,west=true]
+  set 2 2 2 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  # roof beams + cap
+  fill -2 3 -2 to -2 3 2 minecraft:dark_oak_log[axis=z]
+  fill 2 3 -2 to 2 3 2 minecraft:dark_oak_log[axis=z]
+  fill -3 4 -3 to 3 4 3 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  fill -2 5 -2 to 2 5 2 minecraft:spruce_stairs[facing=north,half=bottom,waterlogged=false]
+  set 0 1 -2 minecraft:barrel[facing=up,open=false]
+}

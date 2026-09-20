@@ -118,6 +118,7 @@ group "shrine isles" {
     landmark "gate pavilion east" component style.pavilion at 793 400 conform ground reserve "shrine gate" radius 8 height 12 rotate 90
     landmark "village lighthouse" component lighthouse at 948 725 conform ground reserve "village quay" radius 8 height 27 rotate 0
     landmark "village chapel" component chapel at 894 610 conform ground reserve "village green" radius 8 height 18 rotate 90
+    landmark "village well" component village-well at 904 598 conform ground reserve "village green" radius 3 height 5 rotate 0
     landmark "master hut" component style.hut at 920 700 conform ground reserve "village quay" radius 6 height 18 rotate 90
     landmark "north pavilion" component style.pavilion at 830 262 conform ground reserve "shrine crown" radius 8 height 12 rotate 180
     landmark "village torii" component torii-gate at 878 664 conform ground reserve "village quay" radius 6 height 12 rotate 0
