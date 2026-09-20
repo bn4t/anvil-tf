@@ -28,6 +28,7 @@ world "kikoshi-scale" {
   include "components/training-dummy.atf"
   include "components/archery-butt.atf"
   include "components/fire-ring.atf"
+  include "components/banner-pole.atf"
   include "components/oak-tree.atf"
   include "components/birch-tree.atf"
   include "components/spruce-tree.atf"

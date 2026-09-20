@@ -187,6 +187,8 @@ group "harbor town" {
       component style.stall at 28 0 radius 3 height 4 rotate 270
       component style.cart at 34 -12 radius 3 height 3 rotate 90
       component style.cart at -34 12 radius 3 height 3 rotate 270
+      component banner-pole at -18 -32 radius 2 height 5 rotate 0
+      component banner-pole at 18 -32 radius 2 height 5 rotate 0
     }
     cluster "quay cargo line" at reserve "harbor quay" conform ground spacing 2 {
       repeat component style.crate from -51 -10 to 51 -10 count 8 radius 4 height 4 rotate 0
@@ -238,6 +240,8 @@ group "harbor town" {
       component archery-butt at 30 34 radius 3 height 3 rotate 0
       component archery-butt at 30 42 radius 3 height 3 rotate 0
       component fire-ring at 16 34 radius 3 height 2 rotate 0
+      component banner-pole at -10 42 radius 2 height 5 rotate 0
+      component banner-pole at 10 42 radius 2 height 5 rotate 0
     }
     cluster "keep walls" at reserve "keep crown" conform ground spacing 0 {
       repeat component style.wall_piece from -34 -45 to 34 -45 count 7 radius 5 height 8 rotate 0
