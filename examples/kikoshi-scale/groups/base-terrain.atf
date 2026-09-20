@@ -161,6 +161,9 @@ group "base terrain" {
     reserve "east cape" circle 620 330 radius 18 conform ground floor style.camp_floor floor_palette style.camp_palette seed 624 edge style.camp_edge edge_width 2 clear_to 110 require_route 8
     reserve "west grove" circle 230 620 radius 30 conform ground floor style.camp_floor floor_palette style.camp_palette seed 625 edge style.camp_edge edge_width 2 clear_to 110 require_route 8
     reserve "trailhead" circle 700 445 radius 16 conform ground floor minecraft:cobblestone clear_to 106 require_route 8
+    reserve "ruin north" circle 140 350 radius 10 conform ground floor minecraft:mossy_cobblestone clear_to 92
+    reserve "ruin south" circle 330 760 radius 10 conform ground floor minecraft:mossy_cobblestone clear_to 92
+    reserve "ruin far isle" circle 898 760 radius 10 conform ground floor minecraft:mossy_cobblestone clear_to 92
 
     landmark "north tower" component style.tower at 340 205 conform ground reserve "camp north" radius 4 height 13 rotate 0
     landmark "west tower" component style.tower at 180 450 conform ground reserve "camp west" radius 4 height 13 rotate 0
@@ -168,6 +171,9 @@ group "base terrain" {
     landmark "cape gate" component style.gate at 620 330 conform ground reserve "east cape" radius 5 height 15 rotate 0
     landmark "grove chapel" component style.chapel at 234 608 conform ground reserve "west grove" radius 8 height 18 rotate 90
     landmark "grove pavilion" component style.pavilion at 220 630 conform ground reserve "west grove" radius 8 height 12 rotate 0
+    landmark "ruin north tower" component ruined-tower at 140 350 conform ground reserve "ruin north" radius 5 height 9 rotate 90
+    landmark "ruin south tower" component ruined-tower at 330 760 conform ground reserve "ruin south" radius 5 height 9 rotate 0
+    landmark "ruin far isle tower" component ruined-tower at 898 760 conform ground reserve "ruin far isle" radius 5 height 9 rotate 180
 
     cluster "north camp" at reserve "camp north" conform ground spacing 0 {
       component style.stall at 0 0 radius 3 height 4 rotate 0

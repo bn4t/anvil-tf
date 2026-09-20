@@ -24,6 +24,7 @@ world "kikoshi-scale" {
   include "components/planter-box.atf"
   include "components/ridge-keep-core.atf"
   include "components/rock-cluster.atf"
+  include "components/ruined-tower.atf"
   include "components/shrine-hall.atf"
   include "components/shrine-pavilion.atf"
   include "components/stone-arch.atf"
