@@ -238,4 +238,8 @@ group "shrine isles" {
   place rowboat at 880 62 748 rotate 270
   place jetty at 900 62 738 rotate 0
   place jetty at 940 62 738 rotate 0
+
+  # seawall faces on the village quay: mossy grime band into the water
+  fill 855 59 735 to 965 65 737 minecraft:mossy_stone_bricks
+  fill 965 59 640 to 967 65 735 minecraft:mossy_stone_bricks
 }

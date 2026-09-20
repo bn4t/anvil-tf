@@ -373,4 +373,9 @@ group "harbor town" {
   place rowboat at 548 62 766 rotate 90
   place rowboat at 596 62 763 rotate 270
   place jetty at 560 62 758 rotate 0
+
+  # seawall faces: mossy grime band from the pad lip down into the bay
+  fill 470 59 760 to 620 65 762 minecraft:mossy_stone_bricks
+  fill 470 61 762 to 620 62 762 minecraft:cracked_stone_bricks
+  fill 620 59 660 to 622 65 760 minecraft:mossy_stone_bricks
 }
