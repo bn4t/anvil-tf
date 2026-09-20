@@ -1,0 +1,131 @@
+component "town-hall" {
+  bounds -12 0 -10 to 12 24 10
+  # plinth + entrance steps (front faces -z)
+  fill -11 0 -7 to 11 0 7 minecraft:stone_bricks
+  fill -4 0 -9 to 4 0 -8 minecraft:stone_brick_stairs[facing=north,half=bottom,waterlogged=false]
+  # ground floor walls: stone brick with chiseled window frames
+  fill -11 1 -7 to 11 5 -7 minecraft:stone_bricks
+  fill -11 1 7 to 11 5 7 minecraft:stone_bricks
+  fill -11 1 -7 to -11 5 7 minecraft:stone_bricks
+  fill 11 1 -7 to 11 5 7 minecraft:stone_bricks
+  # tall ground-floor windows, glass recessed one deep
+  fill -9 2 -7 to -6 4 -7 minecraft:air
+  fill -9 2 -6 to -6 4 -6 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -9 1 -6 to -6 1 -6 minecraft:stone_brick_slab[type=bottom,waterlogged=false]
+  fill 6 2 -7 to 9 4 -7 minecraft:air
+  fill 6 2 -6 to 9 4 -6 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 6 1 -6 to 9 1 -6 minecraft:stone_brick_slab[type=bottom,waterlogged=false]
+  set -9 2 -7 minecraft:chiseled_stone_bricks[axis=y]
+  set -9 4 -7 minecraft:chiseled_stone_bricks[axis=y]
+  set -6 2 -7 minecraft:chiseled_stone_bricks[axis=y]
+  set -6 4 -7 minecraft:chiseled_stone_bricks[axis=y]
+  set 6 2 -7 minecraft:chiseled_stone_bricks[axis=y]
+  set 6 4 -7 minecraft:chiseled_stone_bricks[axis=y]
+  set 9 2 -7 minecraft:chiseled_stone_bricks[axis=y]
+  set 9 4 -7 minecraft:chiseled_stone_bricks[axis=y]
+  # double doors + lintel
+  set -1 1 -7 minecraft:dark_oak_door[facing=north,half=lower,hinge=left,open=false,powered=false]
+  set -1 2 -7 minecraft:dark_oak_door[facing=north,half=upper,hinge=left,open=false,powered=false]
+  set 1 1 -7 minecraft:dark_oak_door[facing=north,half=lower,hinge=right,open=false,powered=false]
+  set 1 2 -7 minecraft:dark_oak_door[facing=north,half=upper,hinge=right,open=false,powered=false]
+  fill -1 3 -7 to 1 3 -7 minecraft:stone_brick_slab[type=top,waterlogged=false]
+  # columned porch: pillars + balcony slab above
+  set -9 1 -9 minecraft:chiseled_stone_bricks[axis=y]
+  fill -9 2 -9 to -9 5 -9 minecraft:stone_bricks
+  set -9 6 -9 minecraft:chiseled_stone_bricks[axis=y]
+  set -3 1 -9 minecraft:chiseled_stone_bricks[axis=y]
+  fill -3 2 -9 to -3 5 -9 minecraft:stone_bricks
+  set -3 6 -9 minecraft:chiseled_stone_bricks[axis=y]
+  set 3 1 -9 minecraft:chiseled_stone_bricks[axis=y]
+  fill 3 2 -9 to 3 5 -9 minecraft:stone_bricks
+  set 3 6 -9 minecraft:chiseled_stone_bricks[axis=y]
+  set 9 1 -9 minecraft:chiseled_stone_bricks[axis=y]
+  fill 9 2 -9 to 9 5 -9 minecraft:stone_bricks
+  set 9 6 -9 minecraft:chiseled_stone_bricks[axis=y]
+  # balcony deck + railing
+  fill -10 6 -9 to 10 6 -7 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  fill -10 7 -9 to 10 7 -9 minecraft:spruce_fence[east=true,north=false,south=false,waterlogged=false,west=true]
+  set -10 7 -9 minecraft:spruce_fence[east=true,north=false,south=false,waterlogged=false,west=false]
+  set 10 7 -9 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=true]
+  # upper story: whitewash walls + timber beams
+  fill -11 6 -7 to 11 11 -7 minecraft:white_wool
+  fill -11 6 7 to 11 11 7 minecraft:white_wool
+  fill -11 6 -7 to -11 11 7 minecraft:white_wool
+  fill 11 6 -7 to 11 11 7 minecraft:white_wool
+  fill -11 5 -7 to 11 5 -7 minecraft:dark_oak_log
+  fill -11 12 -7 to 11 12 -7 minecraft:dark_oak_log
+  fill -11 5 7 to 11 5 7 minecraft:dark_oak_log
+  fill -11 12 7 to 11 12 7 minecraft:dark_oak_log
+  fill -6 6 -7 to -6 11 -7 minecraft:dark_oak_log
+  fill 6 6 -7 to 6 11 -7 minecraft:dark_oak_log
+  fill -6 6 7 to -6 11 7 minecraft:dark_oak_log
+  fill 6 6 7 to 6 11 7 minecraft:dark_oak_log
+  fill -11 6 -3 to -11 11 -3 minecraft:dark_oak_log
+  fill -11 6 3 to -11 11 3 minecraft:dark_oak_log
+  fill 11 6 -3 to 11 11 -3 minecraft:dark_oak_log
+  fill 11 6 3 to 11 11 3 minecraft:dark_oak_log
+  # upper windows with recessed glass + sills
+  fill -9 8 -7 to -8 10 -7 minecraft:air
+  fill -9 8 -6 to -8 10 -6 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -9 7 -6 to -8 7 -6 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  fill -4 8 -7 to -3 10 -7 minecraft:air
+  fill -4 8 -6 to -3 10 -6 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -4 7 -6 to -3 7 -6 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  fill 3 8 -7 to 4 10 -7 minecraft:air
+  fill 3 8 -6 to 4 10 -6 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 3 7 -6 to 4 7 -6 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  fill 8 8 -7 to 9 10 -7 minecraft:air
+  fill 8 8 -6 to 9 10 -6 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 8 7 -6 to 9 7 -6 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  # balcony doors
+  set 0 7 -7 minecraft:dark_oak_door[facing=north,half=lower,hinge=left,open=false,powered=false]
+  set 0 8 -7 minecraft:dark_oak_door[facing=north,half=upper,hinge=left,open=false,powered=false]
+  # interior: two-floor hall
+  fill -10 1 -6 to 10 5 6 minecraft:air
+  fill -10 0 -6 to 10 0 6 minecraft:dark_oak_planks
+  fill -10 7 -6 to 10 11 6 minecraft:air
+  fill -10 6 -6 to 10 6 6 minecraft:dark_oak_planks
+  fill -10 1 4 to -10 3 6 minecraft:bookshelf
+  fill 10 1 4 to 10 3 6 minecraft:bookshelf
+  fill -3 1 2 to -1 1 3 minecraft:dark_oak_stairs[facing=south,half=bottom,waterlogged=false]
+  fill 1 1 2 to 3 1 3 minecraft:dark_oak_stairs[facing=south,half=bottom,waterlogged=false]
+  fill -8 7 -4 to -8 9 4 minecraft:bookshelf
+  fill 8 7 -4 to 8 9 4 minecraft:bookshelf
+  set -5 1 -3 minecraft:barrel[facing=up,open=false]
+  set 5 1 -3 minecraft:barrel[facing=up,open=false]
+  set -4 10 0 minecraft:lantern[hanging=true,waterlogged=false]
+  set 4 10 0 minecraft:lantern[hanging=true,waterlogged=false]
+  set 0 4 0 minecraft:lantern[hanging=true,waterlogged=false]
+  # balcony doorway cut through wool
+  fill -1 7 -7 to 1 8 -7 minecraft:air
+  set 0 7 -7 minecraft:dark_oak_door[facing=north,half=lower,hinge=left,open=false,powered=false]
+  set 0 8 -7 minecraft:dark_oak_door[facing=north,half=upper,hinge=left,open=false,powered=false]
+  # roof: gable ridge along x, wide eaves, gable ends
+  fill -11 12 -9 to 11 12 9 minecraft:dark_prismarine
+  fill -11 13 -6 to 11 13 6 minecraft:dark_prismarine
+  fill -11 14 -3 to 11 14 3 minecraft:dark_prismarine
+  fill -11 15 0 to 11 15 0 minecraft:prismarine_bricks
+  fill -11 12 -7 to -11 12 7 minecraft:spruce_planks
+  fill -11 13 -5 to -11 13 5 minecraft:spruce_planks
+  fill -11 14 -2 to -11 14 2 minecraft:spruce_planks
+  fill 11 12 -7 to 11 12 7 minecraft:spruce_planks
+  fill 11 13 -5 to 11 13 5 minecraft:spruce_planks
+  fill 11 14 -2 to 11 14 2 minecraft:spruce_planks
+  # attic dormers front + back
+  fill -5 13 -8 to -4 14 -6 minecraft:spruce_planks
+  set -5 14 -7 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -5 15 -8 to -4 15 -7 minecraft:dark_prismarine
+  fill 4 13 -8 to 5 14 -6 minecraft:spruce_planks
+  set 5 14 -7 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 4 15 -8 to 5 15 -7 minecraft:dark_prismarine
+  fill -5 13 6 to -4 14 8 minecraft:spruce_planks
+  set -5 14 7 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -5 15 7 to -5 15 8 minecraft:dark_prismarine
+  fill 4 13 6 to 5 14 8 minecraft:spruce_planks
+  set 5 14 7 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 4 15 7 to 4 15 8 minecraft:dark_prismarine
+  # ridge crest + finial posts
+  fill -11 16 0 to 11 16 0 minecraft:dark_oak_slab[type=bottom,waterlogged=false]
+  set -10 17 0 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 10 17 0 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+}

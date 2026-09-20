@@ -68,6 +68,7 @@ group "harbor town" {
       hut fishing-hut
       pavilion shrine-pavilion
       bench park-bench
+      hall town-hall
     }
 
     use_style port
@@ -121,6 +122,11 @@ group "harbor town" {
       point 540 460
       point 640 505
     }
+    route "hall lane" width 4 palette style.path conform ground seed 307 {
+      point 478 368
+      point 497 338
+      point 505 318
+    }
     route "cape road" width 4 palette style.path conform ground seed 306 {
       point 330 540
       point 280 420
@@ -138,6 +144,7 @@ group "harbor town" {
     reserve "west garden" circle 330 560 radius 30 conform ground floor style.garden_floor floor_palette style.garden_palette seed 606 edge style.garden_edge edge_width 2 clear_to 108 require_route 10
     reserve "south gate" circle 430 585 radius 26 conform ground floor minecraft:cobblestone clear_to 106 require_route 8
     reserve "north cape" circle 300 240 radius 26 conform ground floor style.plaza_floor floor_palette style.plaza_palette seed 608 edge style.plaza_edge edge_width 2 clear_to 116 require_route 8
+    reserve "hall grounds" circle 505 315 radius 24 conform ground floor style.plaza_floor floor_palette style.plaza_palette seed 611 edge style.plaza_edge edge_width 2 clear_to 116 require_route 8
 
     landmark "plaza fountain" component fountain at 430 430 conform ground reserve "market plaza" radius 5 height 6 rotate 0
     landmark "harbor lighthouse" component lighthouse at 590 730 conform ground reserve "harbor quay" radius 8 height 27 rotate 0
@@ -152,6 +159,7 @@ group "harbor town" {
     landmark "plaza tower se" component marker-tower at 464 464 conform ground reserve "market plaza" radius 4 height 13 rotate 0
     landmark "plaza tower sw" component marker-tower at 396 464 conform ground reserve "market plaza" radius 4 height 13 rotate 0
     landmark "quay watch" component marker-tower at 480 670 conform ground reserve "harbor quay" radius 4 height 13 rotate 0
+    landmark "town hall" component style.hall at 505 315 conform ground reserve "hall grounds" radius 14 height 24 rotate 180
 
     cluster "market stalls" at reserve "market plaza" conform ground spacing 4 {
       component style.stall at -24 -18 radius 3 height 4 rotate 90
