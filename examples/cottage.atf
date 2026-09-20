@@ -59,7 +59,10 @@ world "Cottage Demo" {
     }
   }
 
-  repeat x 5 11 {
+  repeat x 5 6 {
+    set $x 66 4 minecraft:glass_pane[east=false,north=true,south=true,waterlogged=false,west=false]
+  }
+  repeat x 9 11 {
     set $x 66 4 minecraft:glass_pane[east=false,north=true,south=true,waterlogged=false,west=false]
   }
 }

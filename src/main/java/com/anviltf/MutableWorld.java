@@ -40,6 +40,14 @@ public final class MutableWorld {
         int localX = Math.floorMod(x, 16);
         int localZ = Math.floorMod(z, 16);
         spec.chunk(dimension, new ChunkPos(chunkX, chunkZ)).set(localX, y, localZ, block);
+        String entityId = BlockEntityDefaults.forBlock(block.name());
+        if (entityId != null) {
+            if (getBlockEntity(x, y, z) == null) {
+                spec.blockEntity(dimension, new BlockEntity(x, y, z, entityId, Map.of()));
+            }
+        } else {
+            spec.removeBlockEntity(dimension, x, y, z);
+        }
     }
 
     public BlockState getBlock(int x, int y, int z) {
@@ -149,6 +157,7 @@ public final class MutableWorld {
         int maxChunkX = Math.floorDiv(bounds.maxX, 16);
         int minChunkZ = Math.floorDiv(bounds.minZ, 16);
         int maxChunkZ = Math.floorDiv(bounds.maxZ, 16);
+        String entityId = BlockEntityDefaults.forBlock(block.name());
 
         for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ++) {
             for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX++) {
@@ -158,7 +167,8 @@ public final class MutableWorld {
                 int localMaxX = Math.min(15, bounds.maxX - chunkWorldX);
                 int localMinZ = Math.max(0, bounds.minZ - chunkWorldZ);
                 int localMaxZ = Math.min(15, bounds.maxZ - chunkWorldZ);
-                ChunkBlocks chunk = spec.chunk(dimension, new ChunkPos(chunkX, chunkZ));
+                ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
+                ChunkBlocks chunk = spec.chunk(dimension, chunkPos);
 
                 for (int y = bounds.minY; y <= bounds.maxY; y++) {
                     if (localMinX == 0 && localMaxX == 15 && localMinZ == 0 && localMaxZ == 15) {
@@ -168,6 +178,34 @@ public final class MutableWorld {
                     for (int z = localMinZ; z <= localMaxZ; z++) {
                         for (int x = localMinX; x <= localMaxX; x++) {
                             chunk.set(x, y, z, block);
+                        }
+                    }
+                }
+
+                Map<WorldSpec.BlockPos, BlockEntity> chunkEntities =
+                        dimensionSpec().blockEntities().get(chunkPos);
+                if (chunkEntities != null && !chunkEntities.isEmpty()) {
+                    List<WorldSpec.BlockPos> stale = new ArrayList<>();
+                    for (WorldSpec.BlockPos pos : chunkEntities.keySet()) {
+                        if (pos.x() >= bounds.minX && pos.x() <= bounds.maxX
+                                && pos.y() >= bounds.minY && pos.y() <= bounds.maxY
+                                && pos.z() >= bounds.minZ && pos.z() <= bounds.maxZ) {
+                            stale.add(pos);
+                        }
+                    }
+                    for (WorldSpec.BlockPos pos : stale) {
+                        spec.removeBlockEntity(dimension, pos.x(), pos.y(), pos.z());
+                    }
+                }
+                if (entityId != null) {
+                    for (int y = bounds.minY; y <= bounds.maxY; y++) {
+                        for (int z = bounds.minZ; z <= bounds.maxZ; z++) {
+                            for (int x = bounds.minX; x <= bounds.maxX; x++) {
+                                if (getBlockEntity(x, y, z) == null) {
+                                    spec.blockEntity(dimension,
+                                            new BlockEntity(x, y, z, entityId, Map.of()));
+                                }
+                            }
                         }
                     }
                 }

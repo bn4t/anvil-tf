@@ -248,7 +248,7 @@ class HephaistosReferenceTest {
         assertEquals("minecraft:oak_pressure_plate", referenceBlock(tempDir, 7, 67, 8));
         assertEquals("minecraft:chest", referenceBlock(tempDir, 10, 66, 10));
         assertEquals("minecraft:flower_forest", referenceBiome(tempDir, 8, 66, 8));
-        assertEquals(2, referenceBlockEntityCount(tempDir, 10, 10));
+        assertEquals(7, referenceBlockEntityCount(tempDir, 10, 10));
         assertEquals("Welcome", referenceSignMessage(tempDir, 7, 4, "front_text", 0));
         assertEquals(1, referenceEntityCount(tempDir, 8, 8));
     }
@@ -867,10 +867,26 @@ class HephaistosReferenceTest {
         Object chunk = referenceChunk(worldDir, x, z);
         Method getTileEntities = chunk.getClass().getMethod("getTileEntities");
         Object tileEntities = getTileEntities.invoke(chunk);
+        Method size = tileEntities.getClass().getMethod("getSize");
         Method get = tileEntities.getClass().getMethod("get", int.class);
-        Object blockEntity = get.invoke(tileEntities, 0);
-        Method getCompound = blockEntity.getClass().getMethod("getCompound", String.class);
-        Object text = getCompound.invoke(blockEntity, textKey);
+        Object blockEntity = null;
+        Object text = null;
+        for (int i = 0; i < (int) size.invoke(tileEntities); i++) {
+            Object candidate = get.invoke(tileEntities, i);
+            Method getString = candidate.getClass().getMethod("getString", String.class);
+            if ("minecraft:sign".equals(getString.invoke(candidate, "id"))) {
+                Method getCompound = candidate.getClass().getMethod("getCompound", String.class);
+                Object candidateText = getCompound.invoke(candidate, textKey);
+                if (candidateText != null) {
+                    blockEntity = candidate;
+                    text = candidateText;
+                    break;
+                }
+            }
+        }
+        if (blockEntity == null) {
+            throw new AssertionError("no minecraft:sign block entity with " + textKey + " in chunk");
+        }
         Method getList = text.getClass().getMethod("getList", String.class);
         Object messages = getList.invoke(text, "messages");
         Object message = get.invoke(messages, index);
