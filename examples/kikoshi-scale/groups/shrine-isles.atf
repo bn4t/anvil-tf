@@ -40,6 +40,7 @@ group "shrine isles" {
       village_palette ground_mix
       landmark marker-tower
       torii torii-gate
+      cart market-cart
       light lantern-post
       foliage minecraft:fern
       accent minecraft:poppy
@@ -129,6 +130,10 @@ group "shrine isles" {
     }
     cluster "village posts" at reserve "village quay" conform ground spacing 2 {
       repeat component style.post from -48 30 to 48 30 count 14 radius 2 height 12 rotate 0
+    }
+    cluster "village carts" at reserve "village quay" conform ground spacing 0 {
+      component style.cart at -40 -12 radius 3 height 3 rotate 90
+      component style.cart at 20 18 radius 3 height 3 rotate 0
     }
     cluster "village crates" at reserve "village quay" conform ground spacing 2 {
       repeat component style.crate from -45 -34 to 45 -34 count 10 radius 4 height 4 rotate 0

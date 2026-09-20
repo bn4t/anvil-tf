@@ -15,6 +15,7 @@ world "kikoshi-scale" {
   include "components/lighthouse.atf"
   include "components/low-wall-segment.atf"
   include "components/marker-tower.atf"
+  include "components/market-cart.atf"
   include "components/market-stall.atf"
   include "components/oak-tree.atf"
   include "components/birch-tree.atf"

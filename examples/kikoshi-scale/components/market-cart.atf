@@ -1,0 +1,20 @@
+component "market-cart" {
+  bounds -3 0 -2 to 3 3 2
+  # wheels
+  set -2 0 -1 minecraft:dark_oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set -2 0 1 minecraft:dark_oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 2 0 -1 minecraft:dark_oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 2 0 1 minecraft:dark_oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  # bed
+  fill -2 1 -1 to 2 1 1 minecraft:oak_planks
+  fill -2 2 -1 to 2 2 -1 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
+  fill -2 2 1 to 2 2 1 minecraft:spruce_trapdoor[facing=south,half=bottom,open=false,waterlogged=false]
+  set -2 2 0 minecraft:spruce_trapdoor[facing=west,half=bottom,open=false,waterlogged=false]
+  set 2 2 0 minecraft:spruce_trapdoor[facing=east,half=bottom,open=false,waterlogged=false]
+  # cargo + pull shafts
+  set -1 2 0 minecraft:hay_block[axis=y]
+  set 0 2 0 minecraft:barrel[facing=up,open=false]
+  set 1 2 0 minecraft:hay_block[axis=y]
+  fill -3 1 0 to -4 1 0 minecraft:dark_oak_fence[east=false,north=false,south=false,waterlogged=false,west=true]
+  fill 3 1 0 to 4 1 0 minecraft:dark_oak_fence[east=true,north=false,south=false,waterlogged=false,west=false]
+}
