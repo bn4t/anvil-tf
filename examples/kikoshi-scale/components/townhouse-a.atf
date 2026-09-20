@@ -1,0 +1,74 @@
+component "townhouse-a" {
+  bounds -7 0 -7 to 7 16 7
+  # stone foundation + ground floor, weathered corners
+  fill -6 0 -5 to 6 0 5 minecraft:stone_bricks
+  fill -6 1 -5 to 6 4 -5 minecraft:cobblestone
+  fill -6 1 5 to 6 4 5 minecraft:cobblestone
+  fill -6 1 -5 to -6 4 5 minecraft:cobblestone
+  fill 6 1 -5 to 6 4 5 minecraft:cobblestone
+  fill -6 2 -5 to -5 3 -5 minecraft:mossy_cobblestone
+  fill 5 1 5 to 6 2 5 minecraft:mossy_cobblestone
+  # timber-frame upper floor: white panels + dark studs and beams
+  fill -6 5 -5 to 6 9 -5 minecraft:white_wool
+  fill -6 5 5 to 6 9 5 minecraft:white_wool
+  fill -6 5 -5 to -6 9 5 minecraft:white_wool
+  fill 6 5 -5 to 6 9 5 minecraft:white_wool
+  fill -6 5 -5 to -6 9 -5 minecraft:dark_oak_log
+  fill 6 5 -5 to 6 9 -5 minecraft:dark_oak_log
+  fill -6 5 5 to -6 9 5 minecraft:dark_oak_log
+  fill 6 5 5 to 6 9 5 minecraft:dark_oak_log
+  fill -6 5 -5 to 6 5 -5 minecraft:dark_oak_log
+  fill -6 5 5 to 6 5 5 minecraft:dark_oak_log
+  fill -6 9 -5 to 6 9 -5 minecraft:dark_oak_log
+  fill -6 9 5 to 6 9 5 minecraft:dark_oak_log
+  fill -6 5 -5 to -6 9 5 minecraft:dark_oak_log
+  fill -6 5 5 to -6 9 5 minecraft:dark_oak_log
+  fill -3 5 -5 to -3 9 -5 minecraft:dark_oak_log
+  fill 3 5 -5 to 3 9 -5 minecraft:dark_oak_log
+  fill -3 5 5 to -3 9 5 minecraft:dark_oak_log
+  fill 3 5 5 to 3 9 5 minecraft:dark_oak_log
+  fill -6 5 -3 to -6 9 -3 minecraft:dark_oak_log
+  fill -6 5 3 to -6 9 3 minecraft:dark_oak_log
+  fill 6 5 -3 to 6 9 -3 minecraft:dark_oak_log
+  fill 6 5 3 to 6 9 3 minecraft:dark_oak_log
+  # windows, shutters, door
+  fill -4 2 -5 to -2 3 -5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 2 2 -5 to 4 3 -5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -4 6 -5 to -2 8 -5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 2 6 -5 to 4 8 -5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -4 6 5 to -2 8 5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 2 6 5 to 4 8 5 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  set -5 2 -6 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
+  set -1 2 -6 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
+  set 5 2 -6 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
+  set 1 2 -6 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
+  set 0 1 -5 minecraft:oak_door[facing=north,half=lower,hinge=left,open=false,powered=false]
+  set 0 2 -5 minecraft:oak_door[facing=north,half=upper,hinge=left,open=false,powered=false]
+  set -1 1 -5 minecraft:dark_oak_log
+  set 1 1 -5 minecraft:dark_oak_log
+  set -1 2 -5 minecraft:dark_oak_log
+  set 1 2 -5 minecraft:dark_oak_log
+  set 0 0 -6 minecraft:stone_brick_stairs[facing=north,half=bottom,waterlogged=false]
+  # gabled roof: ridge along x, eaves overhang z, stepped gable ends
+  fill -6 10 -7 to 6 10 7 minecraft:dark_prismarine
+  fill -6 11 -5 to 6 11 5 minecraft:dark_prismarine
+  fill -6 12 -3 to 6 12 3 minecraft:dark_prismarine
+  fill -6 13 -1 to 6 13 1 minecraft:dark_prismarine
+  fill -6 14 0 to 6 14 0 minecraft:prismarine_bricks
+  fill -6 10 -5 to -6 10 5 minecraft:spruce_planks
+  fill -6 11 -4 to -6 11 4 minecraft:spruce_planks
+  fill -6 12 -2 to -6 12 2 minecraft:spruce_planks
+  fill -6 13 0 to -6 13 0 minecraft:spruce_planks
+  fill 6 10 -5 to 6 10 5 minecraft:spruce_planks
+  fill 6 11 -4 to 6 11 4 minecraft:spruce_planks
+  fill 6 12 -2 to 6 12 2 minecraft:spruce_planks
+  fill 6 13 0 to 6 13 0 minecraft:spruce_planks
+  # dormer on north slope
+  fill -1 12 -6 to 1 13 -5 minecraft:spruce_planks
+  set 0 12 -6 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -1 14 -6 to 1 14 -5 minecraft:dark_prismarine
+  # chimney + porch lantern
+  fill 4 11 1 to 4 14 1 minecraft:cobblestone
+  set 4 15 1 minecraft:cobblestone_wall[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 0 10 -7 minecraft:lantern[hanging=false,waterlogged=false]
+}

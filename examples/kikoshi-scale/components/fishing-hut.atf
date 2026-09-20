@@ -1,0 +1,33 @@
+component "fishing-hut" {
+  bounds -4 -8 -4 to 4 10 4
+  # stilt hut: legs reach below the deck so it stands in shallows
+  fill -2 -8 -2 to -2 4 -2 minecraft:spruce_log
+  fill 2 -8 -2 to 2 4 -2 minecraft:spruce_log
+  fill -2 -8 2 to -2 4 2 minecraft:spruce_log
+  fill 2 -8 2 to 2 4 2 minecraft:spruce_log
+  # leg cross-bracing
+  fill -2 2 -2 to 2 2 -2 minecraft:spruce_log
+  fill -2 2 2 to 2 2 2 minecraft:spruce_log
+  fill -2 3 -2 to -2 3 2 minecraft:spruce_log
+  fill 2 3 -2 to 2 3 2 minecraft:spruce_log
+  fill -3 4 -3 to 3 4 3 minecraft:spruce_planks
+  fill -2 5 -2 to 2 7 2 minecraft:oak_planks
+  set -2 6 0 minecraft:glass_pane
+  set 2 6 0 minecraft:glass_pane
+  # window shutters
+  set -3 6 -1 minecraft:spruce_trapdoor[facing=west,half=bottom,open=false,waterlogged=false]
+  set -3 6 1 minecraft:spruce_trapdoor[facing=west,half=bottom,open=false,waterlogged=false]
+  set 3 6 -1 minecraft:spruce_trapdoor[facing=east,half=bottom,open=false,waterlogged=false]
+  set 3 6 1 minecraft:spruce_trapdoor[facing=east,half=bottom,open=false,waterlogged=false]
+  # gear: barrel + net post + lantern
+  set -3 5 3 minecraft:barrel[facing=up,open=false]
+  set 3 5 3 minecraft:spruce_fence
+  set 3 6 3 minecraft:oak_fence
+  set 0 7 -2 minecraft:lantern[hanging=false,waterlogged=false]
+  # overhanging plank roof
+  fill -4 8 -4 to 4 8 4 minecraft:dark_oak_planks
+  fill -3 9 -3 to 3 9 3 minecraft:dark_oak_planks
+  fill -1 10 -1 to 1 10 1 minecraft:spruce_planks
+  set 0 5 -2 minecraft:oak_door[half=lower,facing=north,hinge=left,open=false]
+  set 0 6 -2 minecraft:oak_door[half=upper,facing=north,hinge=left,open=false]
+}

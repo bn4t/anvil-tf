@@ -1,0 +1,35 @@
+# Kikoshi-scale archipelago: 1024x1024 harbor city + shrine isles.
+# plan-expand first: groups contain plan blocks that compile to plain ATF.
+world "kikoshi-scale" {
+  include "meta.atf"
+
+  include "components/cargo-ship.atf"
+  include "components/chapel.atf"
+  include "components/dock-crate-stack.atf"
+  include "components/dock-post.atf"
+  include "components/fishing-hut.atf"
+  include "components/fountain.atf"
+  include "components/gate-tower.atf"
+  include "components/lantern-post.atf"
+  include "components/leaf-bush.atf"
+  include "components/lighthouse.atf"
+  include "components/low-wall-segment.atf"
+  include "components/marker-tower.atf"
+  include "components/market-stall.atf"
+  include "components/oak-tree.atf"
+  include "components/birch-tree.atf"
+  include "components/spruce-tree.atf"
+  include "components/planter-box.atf"
+  include "components/ridge-keep-core.atf"
+  include "components/rock-cluster.atf"
+  include "components/shrine-pavilion.atf"
+  include "components/stone-arch.atf"
+  include "components/town-wall.atf"
+  include "components/townhouse-a.atf"
+  include "components/townhouse-b.atf"
+  include "components/windmill.atf"
+
+  include "groups/base-terrain.atf"
+  include "groups/harbor-town.atf"
+  include "groups/shrine-isles.atf"
+}

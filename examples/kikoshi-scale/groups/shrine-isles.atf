@@ -1,0 +1,189 @@
+# Shrine isles: hilltop pavilion shrine, fishing village, sand islet, causeway paths.
+group "shrine isles" {
+  origin -512 0 -512
+  bounds 0 0 0 to 1024 160 1024
+
+  block_palette ground_mix {
+    block minecraft:grass_block[snowy=false] weight 8
+    block minecraft:coarse_dirt weight 2
+    block minecraft:podzol[snowy=false] weight 1
+  }
+  block_palette cobble_path_mix {
+    block minecraft:cobblestone weight 5
+    block minecraft:stone_bricks weight 3
+    block minecraft:gravel weight 2
+  }
+  block_palette shrine_mix {
+    block minecraft:smooth_stone weight 5
+    block minecraft:stone_bricks weight 3
+    block minecraft:mossy_stone_bricks weight 2
+  }
+  block_palette dock_mix {
+    block minecraft:spruce_planks weight 6
+    block minecraft:dark_oak_planks weight 3
+    block minecraft:oak_planks weight 1
+  }
+
+  plan {
+    area 640 80 1024 1024
+
+    style isles {
+      water minecraft:water[level=0]
+      path cobble_path_mix
+      shrine_floor minecraft:smooth_stone
+      shrine_palette shrine_mix
+      shrine_edge minecraft:mossy_stone_bricks
+      dock_floor minecraft:spruce_planks
+      dock_palette dock_mix
+      dock_edge minecraft:dark_oak_planks
+      village_floor minecraft:grass_block[snowy=false]
+      village_palette ground_mix
+      landmark marker-tower
+      light lantern-post
+      foliage minecraft:fern
+      accent minecraft:poppy
+      crate dock-crate-stack
+      post dock-post
+      planter planter-box
+      hut fishing-hut
+      pavilion shrine-pavilion
+      beacon marker-tower
+      tree oak-tree
+      bush leaf-bush
+      rock rock-cluster
+    }
+
+    use_style isles
+
+    mask isle_shrine = circle 830 300 radius 85
+    mask isle_far = circle 910 690 radius 75
+    mask isle_sand = circle 970 880 radius 48
+    mask isle_ab = isle_shrine + isle_far
+    mask isles = isle_ab + isle_sand
+    mask mainland_cape = circle 700 440 radius 95
+    mask travel = isles + mainland_cape
+
+    field bed = terrain travel base 58 amplitude 4 scale 64 octaves 3 seed 20
+    field lowland = terrain travel base 63 amplitude 7 scale 60 octaves 5 seed 21
+    field shrine_hill = ridge through 830 300 width 95 height 20
+    field causeway_a = ridge through 640 520 760 400 width 10 height 9
+    field causeway_b = ridge through 880 360 905 610 width 10 height 9
+    field hillmix = max lowland shrine_hill
+    field hillmix2 = max hillmix causeway_a
+    field raised = max hillmix2 causeway_b
+    field ground = max bed raised
+
+    route "shrine ascent" width 4 palette style.path conform ground seed 311 {
+      point 790 400
+      point 810 340
+      point 830 300
+    }
+    route "village loop" width 4 palette style.path conform ground seed 312 {
+      point 880 640
+      point 950 650
+      point 960 730
+      point 870 730
+      close
+    }
+    route "sand path" width 4 palette style.path conform ground seed 313 {
+      point 950 860
+      point 975 895
+    }
+    route "causeway walk a" width 4 palette style.path conform ground seed 314 {
+      point 660 510
+      crossing 700 460 radius 70
+      point 770 390
+    }
+    route "causeway walk b" width 4 palette style.path conform ground seed 315 {
+      point 870 380
+      crossing 890 500 radius 80
+      point 905 625
+    }
+
+    reserve "shrine crown" circle 830 300 radius 55 conform ground floor style.shrine_floor floor_palette style.shrine_palette seed 611 edge style.shrine_edge edge_width 2 clear_to 130 require_route 10
+    reserve "village quay" rect 855 640 965 735 conform ground floor style.dock_floor floor_palette style.dock_palette seed 612 edge style.dock_edge edge_width 2 clear_to 110 require_route 8
+    reserve "village green" circle 910 605 radius 30 conform ground floor style.village_floor floor_palette style.village_palette seed 613 edge style.shrine_edge edge_width 2 clear_to 112 require_route 8
+    reserve "sand watch" circle 970 878 radius 22 conform ground floor minecraft:sand seed 614 edge minecraft:sandstone edge_width 2 clear_to 110 require_route 8
+    reserve "shrine gate" circle 785 395 radius 20 conform ground floor style.shrine_floor floor_palette style.shrine_palette seed 615 clear_to 110 require_route 8
+
+    landmark "grand pavilion" component style.pavilion at 830 300 conform ground reserve "shrine crown" radius 8 height 12 rotate 0
+    landmark "east pavilion" component style.pavilion at 862 286 conform ground reserve "shrine crown" radius 8 height 12 rotate 90
+    landmark "west pavilion" component style.pavilion at 800 322 conform ground reserve "shrine crown" radius 8 height 12 rotate 270
+    landmark "village beacon" component style.beacon at 918 600 conform ground reserve "village green" radius 4 height 13 rotate 0
+    landmark "sand watchtower" component style.beacon at 970 878 conform ground reserve "sand watch" radius 4 height 13 rotate 0
+    landmark "gate pavilion" component style.pavilion at 785 395 conform ground reserve "shrine gate" radius 8 height 12 rotate 0
+    landmark "gate pavilion east" component style.pavilion at 793 400 conform ground reserve "shrine gate" radius 8 height 12 rotate 90
+    landmark "village lighthouse" component lighthouse at 948 725 conform ground reserve "village quay" radius 8 height 27 rotate 0
+    landmark "village chapel" component chapel at 894 610 conform ground reserve "village green" radius 8 height 18 rotate 90
+    landmark "master hut" component style.hut at 920 700 conform ground reserve "village quay" radius 6 height 18 rotate 90
+    landmark "north pavilion" component style.pavilion at 830 262 conform ground reserve "shrine crown" radius 8 height 12 rotate 180
+
+    cluster "village huts" at reserve "village quay" conform ground spacing 0 {
+      repeat component style.hut from -40 -18 to 40 -18 count 4 radius 6 height 18 rotate 0
+      repeat component style.hut from -40 18 to 40 18 count 4 radius 6 height 18 rotate 180
+      component style.hut at -45 0 radius 6 height 18 rotate 90
+      component style.hut at 45 0 radius 6 height 18 rotate 270
+      repeat component style.crate from -30 -2 to 30 -2 count 5 radius 4 height 4 rotate 0
+    }
+    cluster "village posts" at reserve "village quay" conform ground spacing 2 {
+      repeat component style.post from -48 30 to 48 30 count 14 radius 2 height 12 rotate 0
+    }
+    cluster "village crates" at reserve "village quay" conform ground spacing 2 {
+      repeat component style.crate from -45 -34 to 45 -34 count 10 radius 4 height 4 rotate 0
+    }
+    cluster "village lantern row" at reserve "village quay" conform ground spacing 0 {
+      repeat component style.light from -50 40 to 50 40 count 14 radius 2 height 6 rotate 0
+      repeat component style.light from -50 -42 to 50 -42 count 14 radius 2 height 6 rotate 0
+    }
+    cluster "shrine lanterns" at reserve "shrine crown" conform ground spacing 4 {
+      repeat component style.light from -30 -22 to 30 -22 count 7 radius 3 height 5 rotate 0
+      repeat component style.light from -30 22 to 30 22 count 7 radius 3 height 5 rotate 0
+    }
+    cluster "shrine posts ring" at reserve "shrine crown" conform ground spacing 2 {
+      repeat component style.post from -36 -30 to 36 -30 count 12 radius 2 height 12 rotate 0
+      repeat component style.post from -36 34 to 36 34 count 12 radius 2 height 12 rotate 0
+    }
+    cluster "green beds" at reserve "village green" conform ground spacing 0 {
+      repeat component style.planter from -14 -14 to 14 -14 count 4 radius 4 height 3 rotate 0
+      repeat component style.planter from -14 14 to 14 14 count 4 radius 4 height 3 rotate 0
+    }
+    cluster "gate lanterns" at reserve "shrine gate" conform ground spacing 2 {
+      component style.light at -10 0 radius 2 height 6 rotate 0
+      component style.light at 10 0 radius 2 height 6 rotate 0
+      component style.light at 0 -10 radius 2 height 6 rotate 0
+      component style.light at 0 10 radius 2 height 6 rotate 0
+    }
+    cluster "gate crates" at reserve "shrine gate" conform ground spacing 2 {
+      component style.crate at -8 -13 radius 3 height 4 rotate 0
+      component style.crate at 8 -13 radius 3 height 4 rotate 0
+      component style.crate at -8 13 radius 3 height 4 rotate 0
+      component style.crate at 8 13 radius 3 height 4 rotate 0
+      component style.crate at -14 6 radius 3 height 4 rotate 0
+      component style.crate at 14 -6 radius 3 height 4 rotate 0
+    }
+    cluster "sand posts" at reserve "sand watch" conform ground spacing 2 {
+      repeat component style.post from -12 -10 to 12 -10 count 4 radius 2 height 12 rotate 0
+      repeat component style.post from -12 10 to 12 10 count 4 radius 2 height 12 rotate 0
+    }
+    cluster "sand lanterns" at reserve "sand watch" conform ground spacing 1 {
+      repeat component style.light from -10 0 to 10 0 count 5 radius 2 height 6 rotate 0
+    }
+    cluster "green lanterns" at reserve "village green" conform ground spacing 2 {
+      repeat component style.light from -14 -10 to 14 -10 count 5 radius 2 height 6 rotate 0
+      repeat component style.light from -14 10 to 14 10 count 5 radius 2 height 6 rotate 0
+      repeat component style.light from -14 0 to 14 0 count 5 radius 2 height 6 rotate 0
+    }
+
+    scatter_in isles count 420 seed 403 avoid_routes 6 avoid_reservations 8 conform ground {
+      component style.tree weight 3
+      component style.bush weight 4
+      component style.rock weight 2
+      component style.light weight 2
+      set style.foliage weight 8
+      set style.accent weight 3
+    }
+
+    loot isles tier 1 count 40 seed 503 avoid_routes 5 avoid_reservations 8 conform ground
+    loot isles tier 2 count 15 seed 504 avoid_routes 8 avoid_reservations 3 conform ground
+  }
+}

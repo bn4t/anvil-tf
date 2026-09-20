@@ -1,0 +1,235 @@
+# Base landmass: mainland + three isles, bay, beaches, causeway ridges, wilderness.
+group "base terrain" {
+  origin -512 0 -512
+  bounds 0 0 0 to 1024 160 1024
+
+  block_palette ground_mix {
+    block minecraft:grass_block[snowy=false] weight 8
+    block minecraft:coarse_dirt weight 2
+    block minecraft:podzol[snowy=false] weight 1
+  }
+  block_palette hill_rock_mix {
+    block minecraft:stone weight 6
+    block minecraft:andesite weight 3
+    block minecraft:mossy_cobblestone weight 1
+  }
+  block_palette cobble_path_mix {
+    block minecraft:cobblestone weight 5
+    block minecraft:stone_bricks weight 3
+    block minecraft:gravel weight 2
+  }
+
+  plan {
+    area 0 0 1024 1024
+
+    style wild {
+      water minecraft:water[level=0]
+      path cobble_path_mix
+      camp_floor minecraft:grass_block[snowy=false]
+      camp_palette ground_mix
+      camp_edge minecraft:mossy_stone_bricks
+      foliage minecraft:fern
+      accent minecraft:poppy
+      tree oak-tree
+      rock rock-cluster
+      bush leaf-bush
+      light lantern-post
+      stall market-stall
+      tower marker-tower
+      hut fishing-hut
+      gate gate-tower
+      chapel chapel
+      pavilion shrine-pavilion
+      post dock-post
+      crate dock-crate-stack
+      planter planter-box
+    }
+
+    use_style wild
+
+    mask mainland = radial 460 470 radius 370 noise 0.22 seed 11
+    mask isle_shrine = circle 830 300 radius 85
+    mask isle_far = circle 910 690 radius 75
+    mask isle_sand = circle 970 880 radius 48
+    mask land_a = mainland + isle_shrine
+    mask land_b = land_a + isle_far
+    mask land_all = land_b + isle_sand
+    mask bay = circle 560 780 radius 150
+    mask land = land_all - bay
+    mask ocean = outside land
+
+    mask mainland_inner = radial 460 470 radius 348 noise 0.22 seed 11
+    mask shrine_inner = circle 830 300 radius 70
+    mask far_inner = circle 910 690 radius 60
+    mask sand_inner = circle 970 880 radius 34
+    mask beach_m = mainland - mainland_inner
+    mask beach_s = isle_shrine - shrine_inner
+    mask beach_f = isle_far - far_inner
+    mask beach_d = isle_sand - sand_inner
+    mask beach_ab = beach_m + beach_s
+    mask beach_cd = beach_f + beach_d
+    mask beach = beach_ab + beach_cd
+    mask beach_land = beach & land
+
+    mask keep_zone = circle 400 300 radius 130
+    mask keep_rock = keep_zone & land
+    mask town_zone = radial 430 420 radius 215 noise 0.2 seed 12
+    mask quay_zone = rect 460 640 680 830
+    mask cape_zone = circle 700 440 radius 100
+    mask pond_a = circle 250 750 radius 22
+    mask pond_b = circle 580 220 radius 18
+    mask pond_c = circle 240 290 radius 16
+    mask pond_ab = pond_a + pond_b
+    mask ponds = pond_ab + pond_c
+    mask land_detail = land - ponds
+    mask town_q = town_zone + quay_zone
+    mask wild_a = land_detail - town_q
+    mask wild_b = wild_a - cape_zone
+    mask wild_c = wild_b - isle_shrine
+    mask wild_d = wild_c - isle_far
+    mask wild = wild_d - isle_sand
+    mask shrine_rock = isle_shrine & land
+
+    field bed = terrain land base 58 amplitude 4 scale 64 octaves 3 seed 20
+    field lowland = terrain land base 63 amplitude 7 scale 60 octaves 5 seed 21
+    field keep_hill = ridge through 400 300 width 130 height 34
+    field shrine_hill = ridge through 830 300 width 95 height 20
+    field causeway_a = ridge through 640 520 760 400 width 10 height 9
+    field causeway_b = ridge through 880 360 905 610 width 10 height 9
+    field quay_hill = ridge through 545 710 620 780 width 80 height 8
+    field pond_dip = terrain land base 56 amplitude 1 scale 30 octaves 2 seed 23
+    field hillmix = max lowland keep_hill
+    field hillmix2 = max hillmix shrine_hill
+    field hillmix3 = max hillmix2 causeway_a
+    field hillmix4 = max hillmix3 causeway_b
+    field raised = max hillmix4 quay_hill
+    field ground = max bed raised
+
+    terrain land field ground from 1 top ground_mix under minecraft:dirt
+    terrain beach_land field ground from 1 top minecraft:sand under minecraft:sand
+    terrain keep_rock field ground from 1 top hill_rock_mix under minecraft:dirt
+    terrain shrine_rock field ground from 1 top hill_rock_mix under minecraft:dirt
+    terrain ocean field ground from 1 top minecraft:sand under minecraft:gravel
+    terrain ponds field pond_dip from 1 top minecraft:sand under minecraft:gravel
+    water ponds from 56 to 62 style.water
+    water ocean from 1 to 62 style.water
+    clear ocean from 63 to 128
+    fill_biome land 56 130 minecraft:plains
+    fill_biome beach_land 56 130 minecraft:beach
+    fill_biome ocean 56 130 minecraft:warm_ocean
+
+    route "coast trail" width 4 palette style.path conform ground seed 321 {
+      point 300 246
+      point 340 210
+      point 300 180
+      crossing 220 320 radius 60
+      point 180 450
+      point 230 620
+      point 340 745
+      point 400 745
+    }
+    route "east trail" width 4 palette style.path conform ground seed 322 {
+      point 470 372
+      point 560 340
+      point 620 330
+      crossing 660 390 radius 60
+      point 700 445
+    }
+    route "south trail" width 4 palette style.path conform ground seed 323 {
+      point 330 560
+      point 370 660
+      point 400 745
+    }
+    route "cape link" width 4 palette style.path conform ground seed 324 {
+      point 620 330
+      point 660 390
+      point 700 445
+    }
+    route "south shore trail" width 4 palette style.path conform ground seed 325 {
+      point 400 745
+      point 350 780
+      crossing 320 788 radius 50
+      point 300 790
+    }
+
+    reserve "camp north" circle 340 205 radius 18 conform ground floor style.camp_floor floor_palette style.camp_palette seed 621 edge style.camp_edge edge_width 2 clear_to 110 require_route 8
+    reserve "camp west" circle 180 450 radius 18 conform ground floor style.camp_floor floor_palette style.camp_palette seed 622 edge style.camp_edge edge_width 2 clear_to 110 require_route 8
+    reserve "camp south" circle 400 745 radius 18 conform ground floor style.camp_floor floor_palette style.camp_palette seed 623 edge style.camp_edge edge_width 2 clear_to 110 require_route 8
+    reserve "east cape" circle 620 330 radius 18 conform ground floor style.camp_floor floor_palette style.camp_palette seed 624 edge style.camp_edge edge_width 2 clear_to 110 require_route 8
+    reserve "west grove" circle 230 620 radius 30 conform ground floor style.camp_floor floor_palette style.camp_palette seed 625 edge style.camp_edge edge_width 2 clear_to 110 require_route 8
+    reserve "trailhead" circle 700 445 radius 16 conform ground floor minecraft:cobblestone clear_to 106 require_route 8
+
+    landmark "north tower" component style.tower at 340 205 conform ground reserve "camp north" radius 4 height 13 rotate 0
+    landmark "west tower" component style.tower at 180 450 conform ground reserve "camp west" radius 4 height 13 rotate 0
+    landmark "south hut" component style.hut at 400 745 conform ground reserve "camp south" radius 6 height 18 rotate 0
+    landmark "cape gate" component style.gate at 620 330 conform ground reserve "east cape" radius 5 height 15 rotate 0
+    landmark "grove chapel" component style.chapel at 234 608 conform ground reserve "west grove" radius 8 height 18 rotate 90
+    landmark "grove pavilion" component style.pavilion at 220 630 conform ground reserve "west grove" radius 8 height 12 rotate 0
+
+    cluster "north camp" at reserve "camp north" conform ground spacing 0 {
+      component style.stall at 0 0 radius 3 height 4 rotate 0
+      component style.light at -8 -8 radius 2 height 6 rotate 0
+      component style.light at 8 -8 radius 2 height 6 rotate 0
+      component style.light at -8 8 radius 2 height 6 rotate 0
+      component style.light at 8 8 radius 2 height 6 rotate 0
+      component style.crate at -6 0 radius 3 height 4 rotate 0
+      repeat component style.light from -8 12 to 8 12 count 5 radius 2 height 6 rotate 0
+    }
+    cluster "west camp" at reserve "camp west" conform ground spacing 0 {
+      component style.stall at 0 0 radius 3 height 4 rotate 90
+      component style.light at -8 -8 radius 2 height 6 rotate 0
+      component style.light at 8 -8 radius 2 height 6 rotate 0
+      component style.light at 0 9 radius 2 height 6 rotate 0
+      component style.crate at -6 -2 radius 3 height 4 rotate 0
+      repeat component style.light from -8 -12 to 8 -12 count 5 radius 2 height 6 rotate 0
+    }
+    cluster "south camp" at reserve "camp south" conform ground spacing 0 {
+      component style.stall at 0 -6 radius 3 height 4 rotate 0
+      component style.light at -8 -8 radius 2 height 6 rotate 0
+      component style.light at 8 8 radius 2 height 6 rotate 0
+      component style.crate at 6 -6 radius 3 height 4 rotate 0
+      repeat component style.light from -8 13 to 8 13 count 5 radius 2 height 6 rotate 0
+    }
+    cluster "cape watch" at reserve "east cape" conform ground spacing 0 {
+      component style.light at -8 0 radius 2 height 6 rotate 0
+      component style.light at 8 0 radius 2 height 6 rotate 0
+      component style.crate at 0 -8 radius 3 height 4 rotate 0
+      component style.light at -8 8 radius 2 height 6 rotate 0
+      component style.light at 8 8 radius 2 height 6 rotate 0
+      repeat component style.post from -9 -12 to 9 -12 count 4 radius 2 height 12 rotate 0
+    }
+    cluster "grove beds" at reserve "west grove" conform ground spacing 0 {
+      repeat component style.planter from -12 -12 to 12 -12 count 4 radius 4 height 3 rotate 0
+      repeat component style.planter from -12 12 to 12 12 count 4 radius 4 height 3 rotate 0
+      repeat component style.planter from -12 0 to 12 0 count 4 radius 4 height 3 rotate 0
+    }
+    cluster "trailhead posts" at reserve "trailhead" conform ground spacing 2 {
+      component style.post at -8 0 radius 2 height 12 rotate 0
+      component style.post at 8 0 radius 2 height 12 rotate 0
+      component style.light at 0 -8 radius 2 height 6 rotate 0
+      component style.light at 0 8 radius 2 height 6 rotate 0
+    }
+    cluster "grove lantern walk" at reserve "west grove" conform ground spacing 4 {
+      repeat component style.light from -16 0 to 16 0 count 5 radius 2 height 6 rotate 0
+    }
+    cluster "trailhead stall" at reserve "trailhead" conform ground spacing 4 {
+      component style.stall at 0 -2 radius 3 height 4 rotate 0
+      component style.crate at 6 6 radius 3 height 4 rotate 0
+      component style.crate at -6 6 radius 3 height 4 rotate 0
+      component style.crate at 8 -10 radius 3 height 4 rotate 0
+    }
+
+    scatter_in land_detail count 2600 seed 401 avoid_routes 6 avoid_reservations 8 conform ground {
+      component style.tree weight 3
+      component birch-tree weight 2
+      component spruce-tree weight 2
+      component style.bush weight 4
+      component style.rock weight 2
+      component style.light weight 1
+      set style.foliage weight 9
+      set style.accent weight 3
+    }
+
+    loot wild tier 1 count 60 seed 511 avoid_routes 5 avoid_reservations 8 conform ground
+  }
+}

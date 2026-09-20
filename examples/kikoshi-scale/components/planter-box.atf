@@ -1,0 +1,12 @@
+component "planter-box" {
+  bounds -3 0 -2 to 3 3 2
+  fill -3 0 -2 to 3 0 2 minecraft:polished_andesite
+  fill -3 1 -2 to 3 1 -2 minecraft:mossy_stone_bricks
+  fill -3 1 2 to 3 1 2 minecraft:mossy_stone_bricks
+  fill -3 1 -1 to -3 1 1 minecraft:mossy_stone_bricks
+  fill 3 1 -1 to 3 1 1 minecraft:mossy_stone_bricks
+  fill -2 1 -1 to 2 1 1 minecraft:rooted_dirt
+  set -2 2 0 minecraft:azalea
+  set 0 2 0 minecraft:flowering_azalea
+  set 2 2 0 minecraft:azalea
+}

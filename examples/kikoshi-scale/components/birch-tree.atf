@@ -1,0 +1,7 @@
+component "birch-tree" {
+  bounds -2 0 -2 to 2 9 2
+  fill 0 0 0 to 0 6 0 minecraft:birch_log[axis=y]
+  fill -2 4 -2 to 2 5 2 minecraft:birch_leaves[distance=1,persistent=true,waterlogged=false]
+  fill -1 6 -1 to 1 7 1 minecraft:birch_leaves[distance=1,persistent=true,waterlogged=false]
+  set 0 8 0 minecraft:birch_leaves[distance=1,persistent=true,waterlogged=false]
+}
