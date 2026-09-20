@@ -51,6 +51,22 @@ component "warehouse" {
   fill -6 1 -4 to -4 1 -4 minecraft:spruce_stairs[facing=south,half=bottom,waterlogged=false]
   set -3 6 0 minecraft:lantern[hanging=true,waterlogged=false]
   set 3 6 0 minecraft:lantern[hanging=true,waterlogged=false]
+  # west-wall shelving: low boards + fenced uprights + high shelf row
+  fill -8 1 -4 to -8 1 4 minecraft:spruce_planks
+  set -8 2 -4 minecraft:dark_oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set -8 2 4 minecraft:dark_oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  fill -8 3 -4 to -8 3 4 minecraft:oak_planks
+  set -8 4 -2 minecraft:barrel[facing=up,open=false]
+  set -8 4 1 minecraft:chest[facing=east,type=single,waterlogged=false]
+  # catwalk on posts along the north wall, ladder up through the deck gap
+  fill -8 1 -6 to -8 4 -6 minecraft:dark_oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  fill 0 1 -6 to 0 4 -6 minecraft:dark_oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  fill 8 1 -6 to 8 4 -6 minecraft:dark_oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  fill -8 5 -6 to 4 5 -6 minecraft:dark_oak_planks
+  fill 6 5 -6 to 8 5 -6 minecraft:dark_oak_planks
+  fill 5 1 -6 to 5 5 -6 minecraft:ladder[facing=south,waterlogged=false]
+  fill -8 6 -6 to -7 6 -6 minecraft:spruce_planks
+  set 7 6 -6 minecraft:barrel[facing=up,open=false]
   # gambrel roof: ridge along x, two-step slope, gable ends
   fill -9 8 -9 to 9 8 9 minecraft:dark_prismarine
   fill -9 9 -7 to 9 9 7 minecraft:dark_prismarine
