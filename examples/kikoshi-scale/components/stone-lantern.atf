@@ -1,0 +1,13 @@
+component "stone-lantern" {
+  bounds -1 0 -1 to 1 4 1
+  # tōrō: stacked stone base, shaft, firebox with a lantern, tiered cap
+  set 0 0 0 minecraft:stone_brick_slab[type=bottom,waterlogged=false]
+  fill 0 1 0 to 0 2 0 minecraft:cobblestone_wall[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 0 3 0 minecraft:stone_bricks
+  set 0 4 0 minecraft:lantern[hanging=false,waterlogged=false]
+  set -1 4 0 minecraft:stone_brick_slab[type=bottom,waterlogged=false]
+  set 1 4 0 minecraft:stone_brick_slab[type=bottom,waterlogged=false]
+  set 0 4 -1 minecraft:stone_brick_slab[type=bottom,waterlogged=false]
+  set 0 4 1 minecraft:stone_brick_slab[type=bottom,waterlogged=false]
+  set 0 5 0 minecraft:stone_brick_stairs[facing=south,half=top,waterlogged=false]
+}

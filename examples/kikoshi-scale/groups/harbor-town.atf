@@ -311,15 +311,8 @@ group "harbor town" {
     loot townside tier 2 count 18 seed 502 avoid_routes 8 avoid_reservations 3 conform ground
   }
 
-  # moored rowboat in the bay, east of the quay
-  fill 676 62 818 to 680 62 822 minecraft:spruce_planks
-  fill 675 63 818 to 675 63 822 minecraft:dark_oak_planks
-  fill 681 63 818 to 681 63 822 minecraft:dark_oak_planks
-  set 676 63 818 minecraft:spruce_stairs[facing=west,half=bottom,waterlogged=false]
-  set 680 63 818 minecraft:spruce_stairs[facing=east,half=bottom,waterlogged=false]
-  set 676 63 822 minecraft:spruce_stairs[facing=west,half=bottom,waterlogged=false]
-  set 680 63 822 minecraft:spruce_stairs[facing=east,half=bottom,waterlogged=false]
-  fill 677 63 818 to 679 63 818 minecraft:dark_oak_planks
-  fill 677 63 822 to 679 63 822 minecraft:dark_oak_planks
-  set 678 63 820 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  # moored rowboats in the bay and along the quay edge (hull top at water 62)
+  place rowboat at 678 62 820 rotate 0
+  place rowboat at 640 62 800 rotate 90
+  place rowboat at 660 62 768 rotate 180
 }

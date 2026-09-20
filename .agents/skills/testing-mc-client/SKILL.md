@@ -126,3 +126,6 @@ fastutil, kotlin-stdlib on the classpath).
   the gaps land inside neighboring interiors. Use `plan-expand` `place` lines
   for the exact anchor x/z + surface y, then approach along the alley or
   roofline instead of dropping straight down.
+- Waterline objects (boats, buoys): eye-level tps land submerged and aerial
+  shots lose low dark hulls — verify via chunk-scan signature plus a
+  hover-look-down shot from a few blocks above the surface.
