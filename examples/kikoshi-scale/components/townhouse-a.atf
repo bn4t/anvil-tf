@@ -51,6 +51,11 @@ component "townhouse-a" {
   fill 2 1 -5 to 4 1 -5 minecraft:stone_brick_slab[type=top,waterlogged=false]
   fill -4 5 -5 to -2 5 -5 minecraft:spruce_slab[type=bottom,waterlogged=false]
   fill 2 5 -5 to 4 5 -5 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  # flower boxes: protruding sill slabs + azalea greenery under the windows
+  fill -4 5 -6 to -2 5 -6 minecraft:spruce_slab[type=top,waterlogged=false]
+  fill 2 5 -6 to 4 5 -6 minecraft:spruce_slab[type=top,waterlogged=false]
+  fill -4 6 -6 to -2 6 -6 minecraft:flowering_azalea_leaves[persistent=true,waterlogged=false]
+  fill 2 6 -6 to 4 6 -6 minecraft:azalea_leaves[persistent=true,waterlogged=false]
   set -5 4 -6 minecraft:oak_wall_sign[facing=north,waterlogged=false]
   set 5 4 -6 minecraft:oak_wall_sign[facing=north,waterlogged=false]
   set -5 2 -6 minecraft:spruce_trapdoor[facing=north,half=bottom,open=false,waterlogged=false]
