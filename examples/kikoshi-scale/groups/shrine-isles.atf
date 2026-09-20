@@ -115,14 +115,14 @@ group "shrine isles" {
     landmark "west pavilion" component style.pavilion at 800 322 conform ground reserve "shrine crown" radius 8 height 12 rotate 270
     landmark "village beacon" component style.beacon at 918 600 conform ground reserve "village green" radius 4 height 13 rotate 0
     landmark "sand watchtower" component style.beacon at 970 878 conform ground reserve "sand watch" radius 4 height 13 rotate 0
-    landmark "gate pavilion" component style.pavilion at 785 395 conform ground reserve "shrine gate" radius 8 height 12 rotate 0
-    landmark "gate pavilion east" component style.pavilion at 793 400 conform ground reserve "shrine gate" radius 8 height 12 rotate 90
+    landmark "gate pavilion" component style.pavilion at 776 392 conform ground reserve "shrine gate" radius 8 height 12 rotate 0
+    landmark "gate pavilion east" component style.pavilion at 795 399 conform ground reserve "shrine gate" radius 8 height 12 rotate 90
     landmark "village lighthouse" component lighthouse at 948 725 conform ground reserve "village quay" radius 8 height 27 rotate 0
     landmark "village chapel" component chapel at 894 610 conform ground reserve "village green" radius 8 height 18 rotate 90
     landmark "village well" component village-well at 904 598 conform ground reserve "village green" radius 3 height 5 rotate 0
-    landmark "master hut" component style.hut at 920 700 conform ground reserve "village quay" radius 6 height 18 rotate 90
+    landmark "master hut" component style.hut at 910 688 conform ground reserve "village quay" radius 6 height 18 rotate 90
     landmark "north pavilion" component style.pavilion at 830 262 conform ground reserve "shrine crown" radius 8 height 12 rotate 180
-    landmark "village torii" component torii-gate at 878 664 conform ground reserve "village quay" radius 6 height 12 rotate 0
+    landmark "village torii" component torii-gate at 880 662 conform ground reserve "village quay" radius 6 height 12 rotate 0
     landmark "shrine hall" component style.shrinehall at 830 336 conform ground reserve "shrine crown" radius 12 height 22 rotate 180
 
     cluster "village huts" at reserve "village quay" conform ground spacing 0 {
@@ -154,13 +154,15 @@ group "shrine isles" {
       component stone-lantern at -22 46 radius 2 height 6 rotate 0
       component stone-lantern at -10 44 radius 2 height 6 rotate 0
       component stone-lantern at -28 38 radius 2 height 6 rotate 0
-      component stone-lantern at -4 34 radius 2 height 6 rotate 0
+      component stone-lantern at -14 30 radius 2 height 6 rotate 0
       component stone-lantern at -18 26 radius 2 height 6 rotate 0
       component stone-lantern at 2 20 radius 2 height 6 rotate 0
     }
     cluster "shrine posts ring" at reserve "shrine crown" conform ground spacing 2 {
       repeat component style.post from -36 -30 to 36 -30 count 12 radius 2 height 12 rotate 0
-      repeat component style.post from -36 34 to 36 34 count 12 radius 2 height 12 rotate 0
+      # south row splits around the shrine hall footprint (local x -8..8)
+      repeat component style.post from -36 34 to -11 34 count 4 radius 2 height 12 rotate 0
+      repeat component style.post from 11 34 to 36 34 count 4 radius 2 height 12 rotate 0
     }
     cluster "green beds" at reserve "village green" conform ground spacing 0 {
       repeat component style.planter from -14 -14 to 14 -14 count 4 radius 4 height 3 rotate 0
