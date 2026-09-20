@@ -275,6 +275,9 @@ group "harbor town" {
       repeat component style.light from 16 24 to -16 24 count 7 radius 2 height 6 rotate 0
       repeat component style.light from -24 16 to -24 -16 count 7 radius 2 height 6 rotate 0
     }
+    cluster "plaza festoons" at reserve "market plaza" conform ground spacing 0 {
+      repeat component festoon from -20 -24 to 20 -24 count 6 radius 4 height 6 rotate 0
+    }
     cluster "plaza signposts" at reserve "market plaza" conform ground spacing 0 {
       component signpost at -5 51 radius 3 height 5 rotate 0
       component signpost at 47 12 radius 3 height 5 rotate 0
