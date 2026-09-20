@@ -255,7 +255,8 @@ group "base terrain" {
       set minecraft:fern weight 4
       set style.foliage weight 6
       set minecraft:short_grass weight 5
-      set minecraft:mushroom weight 1
+      set minecraft:brown_mushroom weight 1
+      set minecraft:red_mushroom weight 1
     }
 
     loot wild tier 1 count 60 seed 511 avoid_routes 5 avoid_reservations 8 conform ground
