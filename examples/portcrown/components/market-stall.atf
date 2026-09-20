@@ -1,0 +1,10 @@
+component "market-stall" {
+  bounds -3 0 -3 to 3 4 3
+  fill -3 0 -3 to 3 0 3 minecraft:spruce_planks
+  fill -3 1 -3 to -3 3 -3 minecraft:spruce_fence
+  fill 3 1 -3 to 3 3 -3 minecraft:spruce_fence
+  fill -3 1 3 to -3 3 3 minecraft:spruce_fence
+  fill 3 1 3 to 3 3 3 minecraft:spruce_fence
+  fill -3 4 -3 to 3 4 3 minecraft:green_wool
+  set 0 1 0 minecraft:barrel[facing=up,open=false]
+}

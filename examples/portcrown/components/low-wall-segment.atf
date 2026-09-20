@@ -1,0 +1,8 @@
+component "low-wall-segment" {
+  bounds -4 0 -1 to 4 3 1
+  fill -4 0 -1 to 4 0 1 minecraft:mossy_stone_bricks
+  fill -4 1 0 to 4 2 0 minecraft:stone_bricks
+  fill -4 3 0 to -4 3 0 minecraft:chiseled_stone_bricks
+  fill 0 3 0 to 0 3 0 minecraft:mossy_cobblestone
+  fill 4 3 0 to 4 3 0 minecraft:chiseled_stone_bricks
+}

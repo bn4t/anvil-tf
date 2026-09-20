@@ -1,0 +1,30 @@
+component "chapel" {
+  bounds -5 0 -7 to 5 18 7
+  fill -5 0 -7 to 5 0 7 minecraft:stone_bricks
+  # nave walls
+  fill -4 1 -6 to 4 8 -6 minecraft:stone_bricks
+  fill -4 1 6 to 4 8 6 minecraft:stone_bricks
+  fill -4 1 -6 to -4 8 6 minecraft:stone_bricks
+  fill 4 1 -6 to 4 8 6 minecraft:stone_bricks
+  # gothic windows
+  fill -2 3 -6 to -2 6 -6 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 2 3 -6 to 2 6 -6 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill -4 3 -3 to -4 6 3 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  fill 4 3 -3 to 4 6 3 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  # entrance
+  set 0 1 6 minecraft:oak_door[facing=south,half=lower,hinge=left,open=false,powered=false]
+  set 0 2 6 minecraft:oak_door[facing=south,half=upper,hinge=left,open=false,powered=false]
+  # roof ridge along x
+  fill -5 9 -7 to 5 9 7 minecraft:dark_prismarine
+  fill -4 10 -5 to 4 10 5 minecraft:dark_prismarine
+  fill -3 11 -3 to 3 11 3 minecraft:prismarine_bricks
+  fill -1 12 -1 to 1 12 1 minecraft:dark_prismarine
+  # bell tower over entrance end
+  fill -2 9 4 to 2 15 6 minecraft:stone_bricks
+  fill -1 13 4 to 1 14 6 minecraft:air
+  fill -1 13 5 to 1 14 5 minecraft:air
+  set 0 14 5 minecraft:bell[attachment=floor,facing=north,powered=false]
+  fill -2 16 4 to 2 16 6 minecraft:dark_prismarine
+  fill -1 17 4 to 1 17 6 minecraft:dark_prismarine
+  set 0 18 5 minecraft:lantern[hanging=false,waterlogged=false]
+}

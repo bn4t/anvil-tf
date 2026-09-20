@@ -1,0 +1,9 @@
+component "marker-tower" {
+  bounds 0 0 0 to 4 13 4
+  fill 1 0 1 to 3 0 3 minecraft:mossy_stone_bricks
+  fill 2 1 2 to 2 9 2 minecraft:stripped_spruce_log[axis=y]
+  fill 1 10 1 to 3 10 3 minecraft:dark_oak_planks
+  fill 1 11 1 to 3 11 3 minecraft:dark_prismarine
+  set 2 12 2 minecraft:lantern[hanging=false,waterlogged=false]
+  set 2 13 2 minecraft:green_wool
+}

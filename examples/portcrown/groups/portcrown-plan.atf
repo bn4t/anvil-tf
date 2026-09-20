@@ -1,0 +1,213 @@
+# Portcrown: coastal harbor-town showcase. Run plan-expand before parsing.
+group "portcrown harbor town" {
+  origin -256 0 -224
+  bounds 0 0 0 to 512 160 512
+
+  block_palette town_ground_mix {
+    block minecraft:grass_block[snowy=false] weight 8
+    block minecraft:coarse_dirt weight 2
+    block minecraft:podzol[snowy=false] weight 1
+  }
+  block_palette cobble_path_mix {
+    block minecraft:cobblestone weight 5
+    block minecraft:stone_bricks weight 3
+    block minecraft:gravel weight 2
+  }
+  block_palette plaza_mix {
+    block minecraft:smooth_stone weight 6
+    block minecraft:polished_andesite weight 3
+    block minecraft:stone_bricks weight 2
+    block minecraft:mossy_stone_bricks weight 1
+  }
+  block_palette dock_mix {
+    block minecraft:spruce_planks weight 6
+    block minecraft:dark_oak_planks weight 3
+    block minecraft:oak_planks weight 1
+  }
+  block_palette keep_mix {
+    block minecraft:stone_bricks weight 7
+    block minecraft:mossy_stone_bricks weight 3
+    block minecraft:cracked_stone_bricks weight 1
+  }
+
+  plan {
+    area 0 0 512 512
+
+    style port {
+      water minecraft:water[level=0]
+      path cobble_path_mix
+      plaza_floor minecraft:smooth_stone
+      plaza_palette plaza_mix
+      plaza_edge minecraft:mossy_stone_bricks
+      dock_floor minecraft:spruce_planks
+      dock_palette dock_mix
+      dock_edge minecraft:dark_oak_planks
+      keep_floor minecraft:stone_bricks
+      keep_palette keep_mix
+      garden_floor minecraft:grass_block[snowy=false]
+      garden_palette town_ground_mix
+      garden_edge minecraft:mossy_stone_bricks
+      house_row_floor minecraft:grass_block[snowy=false]
+      house_row_palette town_ground_mix
+      landmark marker-tower
+      fountain fountain
+      keep ridge-keep-core
+      light lantern-post
+      foliage minecraft:fern
+      accent minecraft:poppy
+      stall market-stall
+      arch stone-arch
+      crate dock-crate-stack
+      post dock-post
+      planter planter-box
+      wall_piece town-wall
+      gate_piece gate-tower
+      house_a townhouse-a
+      house_b townhouse-b
+      tree oak-tree
+    }
+
+    use_style port
+
+    mask town = radial 256 224 radius 240 noise 0.25 seed 11
+    mask bay = circle 256 448 radius 120
+    mask shore_ring = circle 256 448 radius 154
+    mask shore_band = shore_ring - bay
+    mask playable = town - bay
+    mask beach = shore_band & playable
+    mask shoreward = circle 256 448 radius 176
+    mask surf = shoreward - bay
+    mask surf_band = surf & playable
+    mask pond_e = circle 432 115 radius 22
+    mask pond_w = circle 93 93 radius 19
+    mask fen = circle 141 314 radius 14
+
+    field bed = terrain town base 60 amplitude 4 scale 64 octaves 3 seed 20
+    field lowland = terrain playable base 63 amplitude 5 scale 70 octaves 4 seed 21
+    field crown = ridge through 256 97 width 93 height 22
+    field land = max lowland crown
+    field ground = max bed land
+
+    terrain town field ground from 1 top minecraft:dirt under minecraft:dirt
+    terrain playable field ground from 1 top town_ground_mix under minecraft:dirt
+    terrain surf_band field ground from 1 top minecraft:sand under minecraft:sand
+    water outside town from 1 to 62 style.water
+    water bay from 1 to 62 style.water
+    water pond_e from 58 to 62 style.water
+    water pond_w from 58 to 62 style.water
+    water fen from 58 to 62 style.water
+    clear outside town from 63 to 128
+    clear bay from 63 to 128
+    fill_biome playable 56 120 minecraft:plains
+    fill_biome bay 56 120 minecraft:warm_ocean
+    fill_biome beach 56 120 minecraft:beach
+
+    route "ring street" width 5 palette style.path conform ground seed 301 {
+      point 256 179
+      point 342 195
+      point 384 256
+      point 346 320
+      point 166 320
+      point 128 256
+      point 170 195
+      close
+    }
+    route "harbor road" width 6 palette style.path conform ground seed 302 {
+      point 256 272
+      crossing 256 358 radius 96
+      point 256 387
+    }
+    route "keep road" width 5 palette style.path conform ground seed 303 {
+      point 256 173
+      point 256 96
+    }
+    route "west lane" width 4 palette style.path conform ground seed 304 {
+      point 256 224
+      point 166 259
+      crossing 141 312 radius 19
+      point 141 310
+      point 102 317
+    }
+    route "east lane" width 4 palette style.path conform ground seed 305 {
+      point 256 224
+      point 320 205
+      point 362 208
+      crossing 419 134 radius 32
+      point 429 122
+    }
+    route "pond path" width 4 palette style.path conform ground seed 306 {
+      point 170 195
+      crossing 99 102 radius 22
+      point 90 86
+    }
+
+    reserve "market plaza" circle 256 224 radius 48 conform ground floor style.plaza_floor floor_palette style.plaza_palette seed 601 edge style.plaza_edge edge_width 2 clear_to 96 require_route 6
+    reserve "harbor quay" rect 176 362 336 445 conform ground floor style.dock_floor floor_palette style.dock_palette seed 602 edge style.dock_edge edge_width 2 clear_to 118 require_route 8
+    reserve "east row" rect 333 122 394 294 conform ground floor style.house_row_floor floor_palette style.house_row_palette seed 603 clear_to 106 require_route 8
+    reserve "west row" rect 125 122 179 294 conform ground floor style.house_row_floor floor_palette style.house_row_palette seed 604 clear_to 106 require_route 8
+    reserve "keep crown" circle 256 97 radius 66 conform ground floor style.keep_floor floor_palette style.keep_palette seed 605 edge minecraft:stone_bricks edge_width 2 clear_to 130 require_route 10
+    reserve "west garden" circle 90 320 radius 32 conform ground floor style.garden_floor floor_palette style.garden_palette seed 606 edge style.garden_edge edge_width 2 clear_to 108 require_route 10
+    reserve "south gate" circle 256 301 radius 26 conform ground floor minecraft:cobblestone clear_to 106 require_route 8
+
+    landmark "plaza fountain" component fountain at 256 224 conform ground reserve "market plaza" radius 5 height 6 rotate 0
+    landmark "harbor lighthouse" component lighthouse at 314 429 conform ground reserve "harbor quay" radius 8 height 27 rotate 0
+    landmark "harbor cargo ship" component cargo-ship at 237 408 conform ground reserve "harbor quay" radius 15 height 21 rotate 90
+    landmark "hill keep" component style.keep at 256 97 conform ground reserve "keep crown" radius 18 height 38 rotate 0
+    landmark "garden windmill" component windmill at 90 320 conform ground reserve "west garden" radius 8 height 17 rotate 0
+    landmark "east chapel" component chapel at 368 189 conform ground reserve "east row" radius 8 height 18 rotate 270
+
+    cluster "market stalls" at reserve "market plaza" conform ground spacing 4 {
+      component style.stall at -22 -16 radius 3 height 4 rotate 90
+      component style.stall at 22 -16 radius 3 height 4 rotate 270
+      component style.stall at -22 16 radius 3 height 4 rotate 90
+      component style.stall at 22 16 radius 3 height 4 rotate 270
+      component style.stall at 0 -24 radius 3 height 4 rotate 0
+      component style.stall at 0 24 radius 3 height 4 rotate 0
+      repeat component style.arch from -26 32 to 26 32 count 4 radius 4 height 8 rotate 0
+    }
+    cluster "quay cargo line" at reserve "harbor quay" conform ground spacing 2 {
+      repeat component style.crate from -51 -10 to 51 -10 count 8 radius 4 height 4 rotate 0
+      repeat component style.post from -64 29 to 64 29 count 10 radius 2 height 12 rotate 0
+    }
+    cluster "quay shops" at reserve "harbor quay" conform ground spacing 4 {
+      repeat component style.house_b from -54 -32 to -22 -32 count 3 radius 6 height 17 rotate 0
+      repeat component style.house_b from 22 -32 to 54 -32 count 3 radius 6 height 17 rotate 0
+    }
+    cluster "east row houses" at reserve "east row" conform ground spacing 4 {
+      repeat component style.house_a from -16 -58 to -16 58 count 5 radius 6 height 15 rotate 270
+      repeat component style.house_b from 16 -48 to 16 48 count 4 radius 6 height 17 rotate 90
+    }
+    cluster "west row houses" at reserve "west row" conform ground spacing 4 {
+      repeat component style.house_a from 16 -58 to 16 58 count 5 radius 6 height 15 rotate 90
+      repeat component style.house_b from -16 -48 to -16 48 count 4 radius 6 height 17 rotate 270
+    }
+    cluster "keep walls" at reserve "keep crown" conform ground spacing 0 {
+      repeat component style.wall_piece from -34 -45 to 34 -45 count 6 radius 5 height 8 rotate 0
+      repeat component style.wall_piece from -48 -34 to -48 34 count 6 radius 5 height 8 rotate 90
+      repeat component style.wall_piece from 48 -34 to 48 34 count 6 radius 5 height 8 rotate 90
+      repeat component style.wall_piece from -34 45 to -11 45 count 2 radius 5 height 8 rotate 0
+      repeat component style.wall_piece from 11 45 to 34 45 count 2 radius 5 height 8 rotate 0
+    }
+    cluster "harbor gate" at reserve "south gate" conform ground spacing 4 {
+      component style.gate_piece at -13 0 radius 5 height 15 rotate 0
+      component style.gate_piece at 13 0 radius 5 height 15 rotate 0
+    }
+    cluster "garden beds" at reserve "west garden" conform ground spacing 0 {
+      repeat component style.planter from -16 -19 to 16 -19 count 4 radius 4 height 3 rotate 0
+      repeat component style.planter from -16 19 to 16 19 count 4 radius 4 height 3 rotate 0
+      repeat component style.arch from -16 0 to 16 0 count 4 radius 5 height 8 rotate 90
+    }
+
+    scatter_in playable count 930 seed 401 avoid_routes 6 avoid_reservations 8 conform ground {
+      component style.tree weight 3
+      component leaf-bush weight 4
+      component rock-cluster weight 2
+      component style.light weight 4
+      set style.foliage weight 8
+      set style.accent weight 3
+    }
+
+    loot playable tier 1 count 90 seed 501 avoid_routes 5 avoid_reservations 8 conform ground
+    loot playable tier 2 count 30 seed 502 avoid_routes 8 avoid_reservations 3 conform ground
+  }
+}
