@@ -1,0 +1,9 @@
+component "quay-net" {
+  bounds -2 0 -1 to 2 4 1
+  # drying fishing net: two posts, top line, sagging center strands
+  fill -2 0 0 to -2 3 0 minecraft:dark_oak_fence
+  fill 2 0 0 to 2 3 0 minecraft:dark_oak_fence
+  fill -1 3 0 to 1 3 0 minecraft:cobweb
+  fill -1 2 0 to 1 2 0 minecraft:cobweb
+  set 0 1 0 minecraft:cobweb
+}

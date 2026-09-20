@@ -308,6 +308,7 @@ group "harbor town" {
       component low-wall-segment at -16 16 radius 2 height 4 rotate 0
       component low-wall-segment at 0 16 radius 2 height 4 rotate 0
       component low-wall-segment at 16 16 radius 2 height 4 rotate 0
+      component barn at 0 4 radius 5 height 10 rotate 0
     }
     cluster "hall approach" at reserve "hall grounds" conform ground spacing 2 {
       component style.planter at -8 16 radius 4 height 3 rotate 90
@@ -319,6 +320,7 @@ group "harbor town" {
       component style.rack at 0 -12 radius 3 height 4 rotate 0
       component style.rack at -21 4 radius 3 height 4 rotate 90
       component style.cart at 18 -8 radius 3 height 4 rotate 90
+      repeat component quay-net from -44 -18 to -44 18 count 3 radius 3 height 4 rotate 0
     }
     cluster "east row north houses" at reserve "east row north" conform ground spacing 1 {
       repeat component style.house_a from 4 -48 to 4 48 count 7 radius 6 height 15 rotate 270

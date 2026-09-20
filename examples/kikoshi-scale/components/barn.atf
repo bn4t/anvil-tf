@@ -1,0 +1,56 @@
+component "barn" {
+  bounds -6 0 -4 to 6 10 4
+  # field barn: plank walls on a cobble base, gambrel roof, hay inside
+  fill -5 0 -3 to 5 0 3 minecraft:cobblestone
+  fill -5 1 -3 to 5 4 -3 minecraft:spruce_planks
+  fill -5 1 3 to 5 4 3 minecraft:spruce_planks
+  fill -5 1 -3 to -5 4 3 minecraft:spruce_planks
+  fill 5 1 -3 to 5 4 3 minecraft:spruce_planks
+  # corner posts + plate logs
+  fill -5 1 -3 to -5 4 -3 minecraft:oak_log[axis=y]
+  fill 5 1 -3 to 5 4 -3 minecraft:oak_log[axis=y]
+  fill -5 1 3 to -5 4 3 minecraft:oak_log[axis=y]
+  fill 5 1 3 to 5 4 3 minecraft:oak_log[axis=y]
+  fill -5 4 -3 to 5 4 -3 minecraft:oak_log[axis=x]
+  fill -5 4 3 to 5 4 3 minecraft:oak_log[axis=x]
+  # wide sliding-door opening on the front
+  fill -1 1 -3 to 1 3 -3 minecraft:air
+  set -2 1 -3 minecraft:spruce_trapdoor[facing=north,half=bottom,open=true,waterlogged=false]
+  set 2 1 -3 minecraft:spruce_trapdoor[facing=north,half=bottom,open=true,waterlogged=false]
+  # hayloft gable window
+  fill -1 7 -4 to 1 8 -4 minecraft:air
+  fill -1 7 -3 to 1 8 -3 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
+  # interior: plank floor, hay bales, workbench, lantern
+  fill -4 1 -2 to 4 1 2 minecraft:oak_planks
+  fill -4 2 -2 to 4 3 2 minecraft:air
+  fill -4 5 -2 to 4 5 2 minecraft:oak_planks
+  fill -4 6 -2 to 4 8 2 minecraft:air
+  set -3 2 1 minecraft:hay_block[axis=y]
+  set -2 2 1 minecraft:hay_block[axis=y]
+  set -3 3 1 minecraft:hay_block[axis=y]
+  set 3 2 1 minecraft:fletching_table
+  set 4 2 -1 minecraft:barrel[facing=up,open=false]
+  set 0 4 0 minecraft:lantern[hanging=true,waterlogged=false]
+  set -4 2 0 minecraft:ladder[facing=east,waterlogged=false]
+  set -4 3 0 minecraft:ladder[facing=east,waterlogged=false]
+  set -4 4 0 minecraft:ladder[facing=east,waterlogged=false]
+  set -4 5 0 minecraft:ladder[facing=east,waterlogged=false]
+  # gambrel roof: two pitches per side, ridge along x
+  fill -6 5 -4 to 6 5 4 minecraft:dark_oak_slab[type=bottom,waterlogged=false]
+  fill -6 6 -4 to 6 6 -3 minecraft:spruce_stairs[facing=north,half=bottom,waterlogged=false]
+  fill -6 6 3 to 6 6 4 minecraft:spruce_stairs[facing=south,half=bottom,waterlogged=false]
+  fill -6 6 -2 to 6 6 2 minecraft:spruce_planks
+  fill -6 7 -3 to 6 7 -2 minecraft:spruce_stairs[facing=north,half=bottom,waterlogged=false]
+  fill -6 7 2 to 6 7 3 minecraft:spruce_stairs[facing=south,half=bottom,waterlogged=false]
+  fill -6 7 -1 to 6 7 1 minecraft:spruce_planks
+  fill -6 8 -1 to 6 8 1 minecraft:spruce_stairs[facing=north,half=bottom,waterlogged=false]
+  fill -6 8 0 to 6 8 0 minecraft:spruce_stairs[facing=south,half=bottom,waterlogged=false]
+  fill -6 9 -1 to 6 9 1 minecraft:spruce_slab[type=bottom,waterlogged=false]
+  # gable end infill
+  fill -4 5 -3 to 4 5 -3 minecraft:spruce_planks
+  fill -4 5 3 to 4 5 3 minecraft:spruce_planks
+  fill -3 6 -3 to 3 6 -3 minecraft:spruce_planks
+  fill -3 6 3 to 3 6 3 minecraft:spruce_planks
+  fill -2 7 -2 to 2 7 -2 minecraft:spruce_planks
+  fill -2 7 2 to 2 7 2 minecraft:spruce_planks
+}
