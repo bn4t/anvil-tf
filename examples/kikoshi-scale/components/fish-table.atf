@@ -1,0 +1,10 @@
+component "fish-table" {
+  bounds -1 0 -1 to 1 2 1
+  # gutting table: fence legs, plank top, cutting board
+  set -1 0 -1 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 1 0 -1 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set -1 0 1 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 1 0 1 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  fill -1 1 -1 to 1 1 1 minecraft:spruce_slab[type=top,waterlogged=false]
+  set 0 2 0 minecraft:heavy_weighted_pressure_plate
+}

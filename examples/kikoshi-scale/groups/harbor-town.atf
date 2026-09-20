@@ -212,6 +212,10 @@ group "harbor town" {
       repeat component style.post from -70 32 to 70 32 count 17 radius 2 height 12 rotate 0
       repeat component style.post from -70 45 to 70 45 count 17 radius 2 height 12 rotate 0
     }
+    cluster "quay promenade" at reserve "harbor quay" conform ground spacing 0 {
+      repeat component style.light from -60 35 to 60 35 count 6 radius 2 height 6 rotate 0
+      repeat component style.bench from -45 40 to 45 40 count 5 radius 2 height 2 rotate 0
+    }
     cluster "quay shops" at reserve "harbor quay" conform ground spacing 4 {
       repeat component style.house_b from -50 -30 to -14 -30 count 3 radius 6 height 17 rotate 0
       repeat component style.house_d from 14 -30 to 50 -30 count 3 radius 6 height 21 rotate 0
@@ -323,6 +327,13 @@ group "harbor town" {
       component style.cart at 18 -8 radius 3 height 4 rotate 90
       repeat component quay-net from -44 -18 to -44 18 count 3 radius 3 height 4 rotate 0
     }
+    cluster "annex fish market" at reserve "quay annex" conform ground spacing 0 {
+      component market-stall at -18 0 radius 3 height 4 rotate 90
+      component fish-table at -6 -8 radius 2 height 3 rotate 0
+      component fish-table at 10 8 radius 2 height 3 rotate 90
+      component style.crate at 16 4 radius 3 height 4 rotate 0
+      component style.light at -2 -16 radius 2 height 6 rotate 0
+    }
     cluster "east row north houses" at reserve "east row north" conform ground spacing 1 {
       repeat component style.house_a from 4 -48 to 4 48 count 7 radius 6 height 15 rotate 270
       repeat component style.light from -14 -50 to -14 50 count 8 radius 2 height 6 rotate 0
@@ -354,4 +365,7 @@ group "harbor town" {
   place rowboat at 678 62 820 rotate 0
   place rowboat at 640 62 800 rotate 90
   place rowboat at 660 62 768 rotate 180
+  place rowboat at 500 62 763 rotate 0
+  place rowboat at 548 62 766 rotate 90
+  place rowboat at 596 62 763 rotate 270
 }
