@@ -105,10 +105,13 @@ group "base terrain" {
     field raised = max hillmix4 quay_hill
     field ground = max bed raised
 
-    terrain land field ground from 1 top ground_mix under minecraft:dirt
-    terrain beach_land field ground from 1 top minecraft:sand under minecraft:sand
-    terrain keep_rock field ground from 1 top hill_rock_mix under minecraft:dirt
-    terrain shrine_rock field ground from 1 top hill_rock_mix under minecraft:dirt
+    mask beach_np = beach_land - ponds
+    mask rock_np = keep_rock - ponds
+    mask shrock_np = shrine_rock - ponds
+    terrain land_detail field ground from 1 top ground_mix under minecraft:dirt
+    terrain beach_np field ground from 1 top minecraft:sand under minecraft:sand
+    terrain rock_np field ground from 1 top hill_rock_mix under minecraft:dirt
+    terrain shrock_np field ground from 1 top hill_rock_mix under minecraft:dirt
     terrain ocean field ground from 1 top minecraft:sand under minecraft:gravel
     terrain ponds field pond_dip from 1 top minecraft:sand under minecraft:gravel
     water ponds from 56 to 62 style.water
