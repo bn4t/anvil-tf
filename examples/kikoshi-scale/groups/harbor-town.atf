@@ -386,4 +386,60 @@ group "harbor town" {
   fill 470 59 760 to 620 65 762 minecraft:mossy_stone_bricks
   fill 470 61 762 to 620 62 762 minecraft:cracked_stone_bricks
   fill 620 59 660 to 622 65 760 minecraft:mossy_stone_bricks
+
+  # populace: market villagers, gate golem, pasture herd, stray cats
+  entity 426.5 68.0 446.5 minecraft:villager {
+    byte PersistenceRequired 1
+  }
+  entity 448.5 68.0 428.5 minecraft:villager {
+    byte PersistenceRequired 1
+  }
+  entity 414.5 68.0 458.5 minecraft:villager {
+    byte PersistenceRequired 1
+  }
+  entity 512.5 68.0 670.5 minecraft:villager {
+    byte PersistenceRequired 1
+  }
+  entity 545.5 68.0 742.5 minecraft:villager {
+    byte PersistenceRequired 1
+  }
+  entity 556.5 66.0 788.5 minecraft:villager {
+    byte PersistenceRequired 1
+  }
+  entity 430.5 66.0 578.5 minecraft:iron_golem {
+    byte PersistenceRequired 1
+  }
+  entity 350.5 72.0 470.5 minecraft:sheep {
+    byte PersistenceRequired 1
+  }
+  entity 368.5 72.0 520.5 minecraft:sheep {
+    byte PersistenceRequired 1
+  }
+  entity 520.5 72.0 500.5 minecraft:sheep {
+    byte PersistenceRequired 1
+  }
+  entity 560.5 72.0 440.5 minecraft:sheep {
+    byte PersistenceRequired 1
+  }
+  entity 400.5 72.0 560.5 minecraft:cow {
+    byte PersistenceRequired 1
+  }
+  entity 545.5 72.0 560.5 minecraft:cow {
+    byte PersistenceRequired 1
+  }
+  entity 300.5 72.0 430.5 minecraft:pig {
+    byte PersistenceRequired 1
+  }
+  entity 330.5 68.0 560.5 minecraft:chicken {
+    byte PersistenceRequired 1
+  }
+  entity 336.5 68.0 563.5 minecraft:chicken {
+    byte PersistenceRequired 1
+  }
+  entity 552.5 66.0 700.5 minecraft:cat {
+    byte PersistenceRequired 1
+  }
+  entity 575.5 66.0 735.5 minecraft:cat {
+    byte PersistenceRequired 1
+  }
 }

@@ -242,4 +242,21 @@ group "shrine isles" {
   # seawall faces on the village quay: mossy grime band into the water
   fill 855 59 735 to 965 65 737 minecraft:mossy_stone_bricks
   fill 965 59 640 to 967 65 735 minecraft:mossy_stone_bricks
+
+  # populace: fisherfolk on the quay, shrine cats
+  entity 900.5 66.0 690.5 minecraft:villager {
+    byte PersistenceRequired 1
+  }
+  entity 930.5 66.0 715.5 minecraft:villager {
+    byte PersistenceRequired 1
+  }
+  entity 872.5 66.0 662.5 minecraft:villager {
+    byte PersistenceRequired 1
+  }
+  entity 910.5 66.0 640.5 minecraft:cat {
+    byte PersistenceRequired 1
+  }
+  entity 945.5 66.0 748.5 minecraft:cat {
+    byte PersistenceRequired 1
+  }
 }
