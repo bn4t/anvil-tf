@@ -1,0 +1,23 @@
+component "dock-crane" {
+  bounds -4 0 -4 to 4 12 4
+  # timber treadwheel-style quay crane: A-frame mast, jib arm, chain + crate
+  fill -2 0 -2 to 2 0 2 minecraft:stone_bricks
+  fill 0 1 0 to 0 8 0 minecraft:dark_oak_log
+  # braces
+  set -1 1 0 minecraft:spruce_stairs[facing=east,half=bottom,waterlogged=false]
+  set 1 1 0 minecraft:spruce_stairs[facing=west,half=bottom,waterlogged=false]
+  set 0 1 -1 minecraft:spruce_stairs[facing=south,half=bottom,waterlogged=false]
+  set 0 1 1 minecraft:spruce_stairs[facing=north,half=bottom,waterlogged=false]
+  # jib arm reaching -z over the dock edge
+  fill 0 9 -3 to 0 9 1 minecraft:dark_oak_log
+  set 0 9 -4 minecraft:spruce_trapdoor[facing=north,half=bottom,open=true,waterlogged=false]
+  # angled stay from mast top to jib tip
+  set 0 8 -2 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  set 0 7 -1 minecraft:spruce_fence[east=false,north=false,south=false,waterlogged=false,west=false]
+  # chain hoist + crate hanging off the jib end
+  fill 0 5 -3 to 0 8 -3 minecraft:iron_chain[axis=y,waterlogged=false]
+  set 0 4 -3 minecraft:spruce_planks
+  # counterweight + lantern
+  set 0 7 1 minecraft:cobblestone
+  set 0 9 2 minecraft:lantern[hanging=true,waterlogged=false]
+}

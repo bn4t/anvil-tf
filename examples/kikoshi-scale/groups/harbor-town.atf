@@ -202,6 +202,7 @@ group "harbor town" {
     cluster "quay yard" at reserve "harbor quay" conform ground spacing 0 {
       component style.cart at -70 6 radius 3 height 3 rotate 0
       component style.cart at 70 10 radius 3 height 3 rotate 0
+      component dock-crane at 30 22 radius 4 height 12 rotate 180
       repeat component style.crate from -40 -22 to 40 -22 count 6 radius 4 height 4 rotate 0
       repeat component style.crate from -40 -34 to 40 -34 count 6 radius 4 height 4 rotate 0
       repeat component style.crate from -40 -46 to 40 -46 count 6 radius 4 height 4 rotate 0
