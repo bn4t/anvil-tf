@@ -8,6 +8,7 @@ world "kikoshi-scale" {
   include "components/dock-crate-stack.atf"
   include "components/dock-post.atf"
   include "components/fishing-hut.atf"
+  include "components/fish-rack.atf"
   include "components/fountain.atf"
   include "components/gate-tower.atf"
   include "components/lantern-post.atf"

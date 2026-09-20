@@ -71,6 +71,7 @@ group "harbor town" {
       hall town-hall
       whouse warehouse
       cart market-cart
+      rack fish-rack
     }
 
     use_style port
@@ -256,6 +257,13 @@ group "harbor town" {
     }
     cluster "quay crates south" at reserve "harbor quay" conform ground spacing 2 {
       repeat component style.crate from -51 -24 to 51 -24 count 11 radius 4 height 4 rotate 0
+    }
+    cluster "annex racks" at reserve "quay annex" conform ground spacing 3 {
+      component style.rack at -28 -12 radius 3 height 4 rotate 0
+      component style.rack at -14 -12 radius 3 height 4 rotate 0
+      component style.rack at 0 -12 radius 3 height 4 rotate 0
+      component style.rack at -21 4 radius 3 height 4 rotate 90
+      component style.cart at 18 -8 radius 3 height 4 rotate 90
     }
     cluster "east row north houses" at reserve "east row north" conform ground spacing 1 {
       repeat component style.house_a from 4 -48 to 4 48 count 7 radius 6 height 15 rotate 270
