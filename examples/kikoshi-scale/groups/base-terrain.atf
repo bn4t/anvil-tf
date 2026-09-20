@@ -158,6 +158,24 @@ group "base terrain" {
       crossing 320 788 radius 50
       point 300 790
     }
+    # pasture boundaries: width-1 routes whose edge paints a dry-stone wall line
+    route "west pasture wall" width 1 palette ground_mix edge minecraft:mossy_cobblestone conform ground seed 330 {
+      point 212 392
+      point 212 478
+    }
+    route "west pasture wall south" width 1 palette ground_mix edge minecraft:mossy_cobblestone conform ground seed 331 {
+      point 214 526
+      point 216 566
+    }
+    route "south pasture wall" width 1 palette ground_mix edge minecraft:mossy_cobblestone conform ground seed 332 {
+      point 462 570
+      point 462 615
+      point 530 615
+    }
+    route "east pasture wall" width 1 palette ground_mix edge minecraft:mossy_cobblestone conform ground seed 333 {
+      point 615 392
+      point 612 478
+    }
 
     reserve "camp north" circle 340 205 radius 18 conform ground floor style.camp_floor floor_palette style.camp_palette seed 621 edge style.camp_edge edge_width 2 clear_to 110 require_route 8
     reserve "camp west" circle 180 450 radius 18 conform ground floor style.camp_floor floor_palette style.camp_palette seed 622 edge style.camp_edge edge_width 2 clear_to 110 require_route 8
