@@ -361,4 +361,8 @@ group "base terrain" {
   set 643 60 859 minecraft:kelp
   set 661 60 877 minecraft:kelp
   set 659 60 843 minecraft:seagrass
+
+  # jetty reaching west from the abbey islet + its rowboat
+  place jetty at 687 62 700 rotate 90
+  place rowboat at 674 62 695 rotate 0
 }
