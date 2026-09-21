@@ -329,4 +329,36 @@ group "base terrain" {
   set 248 59 753 minecraft:seagrass
   set 577 59 221 minecraft:seagrass
   set 243 59 291 minecraft:seagrass
+
+  # seagrass + kelp in the bay shallows along the seawall feet
+  set 480 60 764 minecraft:seagrass
+  set 492 60 765 minecraft:kelp
+  set 505 60 764 minecraft:seagrass
+  set 518 60 766 minecraft:seagrass
+  set 530 60 765 minecraft:kelp
+  set 545 60 764 minecraft:seagrass
+  set 558 60 766 minecraft:seagrass
+  set 572 60 765 minecraft:seagrass
+  set 585 60 764 minecraft:kelp
+  set 598 60 766 minecraft:seagrass
+  set 610 60 764 minecraft:seagrass
+  set 624 60 668 minecraft:seagrass
+  set 625 60 682 minecraft:kelp
+  set 624 60 696 minecraft:seagrass
+  set 625 60 710 minecraft:seagrass
+  set 624 60 724 minecraft:seagrass
+  set 625 60 738 minecraft:kelp
+  set 624 60 752 minecraft:seagrass
+  # shallows around the abbey islet
+  set 757 60 700 minecraft:seagrass
+  set 703 60 701 minecraft:seagrass
+  set 731 60 727 minecraft:kelp
+  set 729 60 673 minecraft:seagrass
+  set 749 60 683 minecraft:seagrass
+  set 711 60 717 minecraft:seagrass
+  # kelp stubs at the sea-stack base
+  set 677 60 860 minecraft:kelp
+  set 643 60 859 minecraft:kelp
+  set 661 60 877 minecraft:kelp
+  set 659 60 843 minecraft:seagrass
 }
