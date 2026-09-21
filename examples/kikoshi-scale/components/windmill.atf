@@ -1,14 +1,35 @@
 component "windmill" {
   bounds -3 0 -3 to 6 17 3
-  # tapering tower
-  fill -3 0 -3 to 3 4 3 minecraft:cobblestone
-  fill -2 5 -2 to 2 10 2 minecraft:spruce_planks
+  # tapering tower: hollow grinding room, plank stage above, cap room
+  fill -3 0 -3 to 3 0 3 minecraft:cobblestone
+  fill -3 1 -3 to 3 4 -3 minecraft:cobblestone
+  fill -3 1 3 to 3 4 3 minecraft:cobblestone
+  fill -3 1 -2 to -3 4 2 minecraft:cobblestone
+  fill 3 1 -2 to 3 4 2 minecraft:cobblestone
+  fill -2 5 -2 to 2 10 -2 minecraft:spruce_planks
+  fill -2 5 2 to 2 10 2 minecraft:spruce_planks
+  fill -2 5 -1 to -2 10 1 minecraft:spruce_planks
+  fill 2 5 -1 to 2 10 1 minecraft:spruce_planks
+  fill -1 5 -1 to 1 5 1 minecraft:spruce_planks
   fill -1 11 -1 to 1 14 1 minecraft:spruce_planks
   # windows
   set 0 7 -2 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
   set 0 12 -1 minecraft:glass_pane[east=true,north=false,south=false,waterlogged=false,west=true]
   set 0 1 -3 minecraft:oak_door[facing=north,half=lower,hinge=left,open=false,powered=false]
   set 0 2 -3 minecraft:oak_door[facing=north,half=upper,hinge=left,open=false,powered=false]
+  # grinding room: millstone, grain sacks, lantern from the stage underside
+  set 1 1 -2 minecraft:stonecutter
+  set -1 1 1 minecraft:barrel[facing=up,open=false]
+  set -2 1 2 minecraft:hay_block[axis=y]
+  set 0 4 0 minecraft:lantern[hanging=true,waterlogged=false]
+  # ladder up the south interior wall into the stage
+  fill 1 1 2 to 1 4 2 minecraft:ladder[facing=north,waterlogged=false]
+  set 1 5 2 minecraft:air
+  fill 1 6 1 to 1 9 1 minecraft:ladder[facing=north,waterlogged=false]
+  # stage loft: sacks + hanging lantern
+  set -1 6 -1 minecraft:hay_block[axis=y]
+  set -1 6 0 minecraft:barrel[facing=up,open=false]
+  set 0 10 0 minecraft:lantern[hanging=true,waterlogged=false]
   # cap
   fill -2 15 -2 to 2 15 2 minecraft:dark_prismarine
   fill -1 16 -1 to 1 16 1 minecraft:dark_prismarine
