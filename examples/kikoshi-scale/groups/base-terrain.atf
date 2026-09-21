@@ -51,23 +51,28 @@ group "base terrain" {
     mask isle_shrine = circle 830 300 radius 85
     mask isle_far = circle 910 690 radius 75
     mask isle_sand = circle 970 880 radius 48
+    mask isle_abbey = circle 730 700 radius 24
     mask land_a = mainland + isle_shrine
     mask land_b = land_a + isle_far
     mask land_all = land_b + isle_sand
+    mask land_full = land_all + isle_abbey
     mask bay = circle 560 780 radius 150
-    mask land = land_all - bay
+    mask land = land_full - bay
     mask ocean = outside land
 
     mask mainland_inner = radial 460 470 radius 348 noise 0.22 seed 11
     mask shrine_inner = circle 830 300 radius 70
     mask far_inner = circle 910 690 radius 60
     mask sand_inner = circle 970 880 radius 34
+    mask abbey_inner = circle 730 700 radius 10
     mask beach_m = mainland - mainland_inner
     mask beach_s = isle_shrine - shrine_inner
     mask beach_f = isle_far - far_inner
     mask beach_d = isle_sand - sand_inner
+    mask beach_e = isle_abbey - abbey_inner
     mask beach_ab = beach_m + beach_s
-    mask beach_cd = beach_f + beach_d
+    mask beach_cd0 = beach_f + beach_d
+    mask beach_cd = beach_cd0 + beach_e
     mask beach = beach_ab + beach_cd
     mask beach_land = beach & land
 
@@ -86,7 +91,8 @@ group "base terrain" {
     mask wild_a = land_detail - town_q
     mask wild_b = wild_a - cape_zone
     mask wild_c = wild_b - isle_shrine
-    mask wild_d = wild_c - isle_far
+    mask wild_d0 = wild_c - isle_far
+    mask wild_d = wild_d0 - isle_abbey
     mask wild = wild_d - isle_sand
     mask shrine_rock = isle_shrine & land
     mask woods_nw0 = circle 260 330 radius 120
@@ -186,6 +192,7 @@ group "base terrain" {
     reserve "ruin north" circle 140 350 radius 10 conform ground floor minecraft:mossy_cobblestone clear_to 92
     reserve "ruin south" circle 330 760 radius 10 conform ground floor minecraft:mossy_cobblestone clear_to 92
     reserve "ruin far isle" circle 898 760 radius 10 conform ground floor minecraft:mossy_cobblestone clear_to 92
+    reserve "ruin abbey" circle 730 700 radius 14 conform ground floor minecraft:mossy_cobblestone clear_to 92
 
     landmark "north tower" component style.tower at 340 205 conform ground reserve "camp north" radius 4 height 13 rotate 0
     landmark "west tower" component style.tower at 180 450 conform ground reserve "camp west" radius 4 height 13 rotate 0
@@ -196,6 +203,16 @@ group "base terrain" {
     landmark "ruin north tower" component ruined-tower at 140 350 conform ground reserve "ruin north" radius 5 height 9 rotate 90
     landmark "ruin south tower" component ruined-tower at 330 760 conform ground reserve "ruin south" radius 5 height 9 rotate 0
     landmark "ruin far isle tower" component ruined-tower at 898 760 conform ground reserve "ruin far isle" radius 5 height 9 rotate 180
+    landmark "ruin abbey tower" component ruined-tower at 726 696 conform ground reserve "ruin abbey" radius 5 height 9 rotate 270
+    landmark "abbey arch" component stone-arch at 735 705 conform ground reserve "ruin abbey" radius 4 height 8 rotate 0
+    cluster "abbey lanterns" at reserve "ruin abbey" conform ground spacing 0 {
+      component stone-lantern at -8 3 radius 2 height 6 rotate 0
+      component stone-lantern at 7 -6 radius 2 height 6 rotate 0
+    }
+    cluster "castaway camp" at reserve "ruin abbey" conform ground spacing 0 {
+      component fire-ring at 1 -8 radius 2 height 1 rotate 0
+      component driftwood at -11 0 radius 2 height 1 rotate 90
+    }
 
     cluster "north camp" at reserve "camp north" conform ground spacing 0 {
       component style.stall at 0 0 radius 3 height 4 rotate 0
