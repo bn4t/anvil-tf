@@ -243,6 +243,9 @@ group "shrine isles" {
   fill 855 59 735 to 965 65 737 minecraft:mossy_stone_bricks
   fill 965 59 640 to 967 65 735 minecraft:mossy_stone_bricks
 
+  # bay torii: standing in the channel mouth, feet submerged
+  place torii-gate at 770 59 790 rotate 0
+
   # populace: fisherfolk on the quay, shrine cats
   entity 900.5 66.0 690.5 minecraft:villager {
     byte PersistenceRequired 1
