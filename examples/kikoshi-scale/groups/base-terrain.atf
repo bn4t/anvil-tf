@@ -52,12 +52,15 @@ group "base terrain" {
     mask isle_far = circle 910 690 radius 75
     mask isle_sand = circle 970 880 radius 48
     mask isle_abbey = circle 730 700 radius 24
+    mask isle_stack = circle 660 860 radius 14
     mask land_a = mainland + isle_shrine
     mask land_b = land_a + isle_far
     mask land_all = land_b + isle_sand
     mask land_full = land_all + isle_abbey
+    mask land_full2 = land_full + isle_stack
     mask bay = circle 560 780 radius 150
-    mask land = land_full - bay
+    mask bay_nostack = bay - isle_stack
+    mask land = land_full2 - bay_nostack
     mask ocean = outside land
 
     mask mainland_inner = radial 460 470 radius 348 noise 0.22 seed 11
@@ -93,7 +96,8 @@ group "base terrain" {
     mask wild_c = wild_b - isle_shrine
     mask wild_d0 = wild_c - isle_far
     mask wild_d = wild_d0 - isle_abbey
-    mask wild = wild_d - isle_sand
+    mask wild_e0 = wild_d - isle_sand
+    mask wild = wild_e0 - isle_stack
     mask shrine_rock = isle_shrine & land
     mask woods_nw0 = circle 260 330 radius 120
     mask woods_e0 = circle 645 385 radius 90
@@ -112,16 +116,20 @@ group "base terrain" {
     field hillmix2 = max hillmix shrine_hill
     field hillmix3 = max hillmix2 causeway_a
     field hillmix4 = max hillmix3 causeway_b
-    field raised = max hillmix4 quay_hill
+    field raised0 = max hillmix4 quay_hill
+    field stack_crag = ridge through 660 860 width 26 height 34
+    field raised = max raised0 stack_crag
     field ground = max bed raised
 
     mask beach_np = beach_land - ponds
     mask rock_np = keep_rock - ponds
     mask shrock_np = shrine_rock - ponds
+    mask stack_np = isle_stack - ponds
     terrain land_detail field ground from 1 top ground_mix under minecraft:dirt
     terrain beach_np field ground from 1 top minecraft:sand under minecraft:sand
     terrain rock_np field ground from 1 top hill_rock_mix under minecraft:dirt
     terrain shrock_np field ground from 1 top hill_rock_mix under minecraft:dirt
+    terrain stack_np field ground from 1 top hill_rock_mix under minecraft:gravel
     terrain ocean field ground from 1 top minecraft:sand under minecraft:gravel
     terrain ponds field pond_dip from 1 top minecraft:sand under minecraft:gravel
     water ponds from 56 to 62 style.water
@@ -193,6 +201,7 @@ group "base terrain" {
     reserve "ruin south" circle 330 760 radius 10 conform ground floor minecraft:mossy_cobblestone clear_to 92
     reserve "ruin far isle" circle 898 760 radius 10 conform ground floor minecraft:mossy_cobblestone clear_to 92
     reserve "ruin abbey" circle 730 700 radius 14 conform ground floor minecraft:mossy_cobblestone clear_to 92
+    reserve "crag ruin" circle 660 860 radius 8 conform ground floor minecraft:mossy_cobblestone clear_to 92
 
     landmark "north tower" component style.tower at 340 205 conform ground reserve "camp north" radius 4 height 13 rotate 0
     landmark "west tower" component style.tower at 180 450 conform ground reserve "camp west" radius 4 height 13 rotate 0
@@ -212,6 +221,10 @@ group "base terrain" {
     cluster "castaway camp" at reserve "ruin abbey" conform ground spacing 0 {
       component fire-ring at 1 -8 radius 2 height 1 rotate 0
       component driftwood at -11 0 radius 2 height 1 rotate 90
+    }
+    landmark "crag ruin tower" component ruined-tower at 660 860 conform ground reserve "crag ruin" radius 5 height 9 rotate 90
+    cluster "crag lanterns" at reserve "crag ruin" conform ground spacing 0 {
+      component stone-lantern at 4 4 radius 2 height 6 rotate 0
     }
 
     cluster "north camp" at reserve "camp north" conform ground spacing 0 {
